@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-05 入稿ページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+
+    /* ===== Header (same as C-03/C-04) ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; color: #333; }
+    .search-bar { display: flex; align-items: center; gap: 8px; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; gap: 0; position: relative; z-index: 100; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px 20px; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+
+    /* ===== Breadcrumb ===== */
+    .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
+    .breadcrumb a { color: #666; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ===== Main ===== */
+    .main { max-width: 800px; margin: 24px auto; padding: 0 24px; }
+
+    /* ===== Step Indicator ===== */
+    .steps { display: flex; align-items: center; justify-content: center; margin-bottom: 32px; gap: 0; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #999; }
+    .step.active { color: #333; font-weight: bold; }
+    .step-number { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+    .step.active .step-number { background: #333; color: #fff; border-color: #333; }
+    .step.done .step-number { background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; }
+    .step-line { width: 40px; height: 2px; background: #ddd; margin: 0 8px; }
+
+    /* ===== Product Summary ===== */
+    .product-summary { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; }
+    .product-summary-image { width: 64px; height: 64px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; flex-shrink: 0; }
+    .product-summary-info { flex: 1; }
+    .product-summary-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-bottom: 4px; }
+    .badge-normal { background: #e8f4fd; color: #1a73e8; }
+    .badge-sample { background: #fef3e2; color: #e67e22; }
+    .product-summary-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+    .product-summary-options { font-size: 12px; color: #999; }
+    .product-summary-price { font-size: 16px; font-weight: bold; flex-shrink: 0; }
+
+    /* ===== Upload Section ===== */
+    .upload-section { background: #fff; border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+    .section-title { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+    .section-desc { font-size: 13px; color: #666; margin-bottom: 24px; line-height: 1.6; }
+
+    /* Upload Area */
+    .upload-area { border: 2px dashed #ddd; border-radius: 8px; padding: 48px 24px; text-align: center; margin-bottom: 24px; cursor: pointer; transition: all 0.2s; }
+    .upload-area:hover { border-color: #999; background: #fafafa; }
+    .upload-area-icon { width: 48px; height: 48px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; margin: 0 auto 16px; }
+    .upload-area-text { font-size: 14px; color: #666; margin-bottom: 8px; }
+    .upload-area-sub { font-size: 12px; color: #999; }
+    .upload-area-btn { display: inline-block; margin-top: 12px; padding: 8px 20px; background: #fff; border: 1px solid #333; border-radius: 6px; font-size: 13px; color: #333; cursor: pointer; }
+
+    /* Upload Error */
+    .upload-error { background: #fde8e8; border: 1px solid #f5c6c6; border-radius: 6px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: #e53e3e; }
+
+    /* Upload Specs */
+    .upload-specs { background: #f8f8f8; border-radius: 6px; padding: 16px; margin-bottom: 24px; }
+    .upload-specs-title { font-size: 13px; font-weight: bold; color: #666; margin-bottom: 8px; }
+    .upload-specs ul { list-style: none; }
+    .upload-specs li { font-size: 12px; color: #999; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
+    .upload-specs li::before { content: ""; width: 4px; height: 4px; background: #ccc; border-radius: 50%; flex-shrink: 0; }
+
+    /* Uploaded Files */
+    .uploaded-files { margin-bottom: 24px; }
+    .uploaded-file { display: flex; align-items: center; gap: 12px; padding: 12px; background: #f8f8f8; border-radius: 6px; margin-bottom: 8px; }
+    .uploaded-file-icon { width: 36px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .uploaded-file-info { flex: 1; }
+    .uploaded-file-name { font-size: 13px; font-weight: bold; }
+    .uploaded-file-size { font-size: 11px; color: #999; }
+    .uploaded-file-remove { font-size: 12px; color: #e53e3e; cursor: pointer; text-decoration: underline; }
+
+    /* Template Download */
+    .template-dl { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; color: #333; text-decoration: none; cursor: pointer; margin-bottom: 24px; }
+
+    /* ===== License Agreement ===== */
+    .license-section { background: #fff; border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+    .license-box { border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin-bottom: 16px; max-height: 160px; overflow-y: auto; font-size: 12px; color: #666; line-height: 1.8; }
+    .license-check { display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; }
+    .license-check input { width: 20px; height: 20px; cursor: pointer; }
+
+    /* ===== Actions ===== */
+    .actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-primary { background: #333; color: #fff; border: none; border-radius: 8px; padding: 16px 48px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-outline { background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 16px 32px; font-size: 14px; cursor: pointer; text-decoration: none; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="header-top-left">
+        <div class="logo">LOGO</div>
+        <div class="search-bar">
+          <input type="text" placeholder="商品を検索...">
+          <button>検索</button>
+        </div>
+      </div>
+      <div class="header-top-right">
+        <a href="#">ご利用ガイド</a>
+        <span class="divider">|</span>
+        <a href="#">FAQ</a>
+        <span class="divider">|</span>
+        <a href="#">入稿について</a>
+        <span class="divider">|</span>
+        <a href="#">ログイン（※ログイン済みなら「マイページ」に切替）</a>
+        <span class="divider">|</span>
+        <a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span><span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">3</span></a>
+      </div>
+    </div>
+    <nav class="header-categories">
+      <a href="#">缶バッジ</a>
+      <a href="#">アクリルスタンド</a>
+      <a href="#">キーホルダー</a>
+      <a href="#">ストラップ</a>
+      <a href="#">トレーディングカード</a>
+      <a href="#">タオル・布製品</a>
+      <a href="#">その他グッズ</a>
+    </nav>
+  </header>
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>
+    <a href="#">カート</a><span>></span>
+    データ入稿
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- ===== Step Indicator ===== -->
+    <div class="steps">
+      <div class="step done">
+        <div class="step-number">1</div>
+        <span>カート</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-number">2</div>
+        <span>データ入稿</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <span>注文確認</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <span>完了</span>
+      </div>
+    </div>
+
+    <!-- ===== Product Summary ===== -->
+    <div class="product-summary">
+      <div class="product-summary-image">画像</div>
+      <div class="product-summary-info">
+        <span class="product-summary-badge badge-normal">通常注文</span>
+        <div class="product-summary-name">オリジナル缶バッジ 44mm</div>
+        <div class="product-summary-options">サイズ: 44mm / 仕上げ: マット / 付属: 安全ピン / 数量: 100個</div>
+      </div>
+      <div class="product-summary-price">8,500円</div>
+    </div>
+
+    <!-- ===== Upload Section ===== -->
+    <div class="upload-section">
+      <div class="section-title">デザインデータを入稿</div>
+      <div class="section-desc">
+        この商品の入稿データをアップロードしてください。複数ファイルのアップロードが可能です。
+      </div>
+
+      <!-- Upload Slot 1: Required - Uploaded state -->
+      <div style="border:1px solid #eee;border-radius:8px;padding:20px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:bold;">表面デザイン <span style="color:#e53e3e;font-size:12px;font-weight:normal;">必須</span></div>
+        </div>
+        <!-- Uploaded state: upload area hidden, file displayed -->
+        <div class="uploaded-file">
+          <div class="uploaded-file-icon">icon</div>
+          <div class="uploaded-file-info">
+            <div class="uploaded-file-name">design_front_44mm.ai</div>
+            <div class="uploaded-file-size">12.4 MB</div>
+          </div>
+          <span class="uploaded-file-remove">変更</span>
+        </div>
+      </div>
+
+      <!-- Upload Slot 2: Optional - Empty state -->
+      <div style="border:1px solid #eee;border-radius:8px;padding:20px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:bold;">裏面デザイン <span style="color:#999;font-size:12px;font-weight:normal;">任意</span></div>
+        </div>
+        <!-- Empty state: upload area shown -->
+        <div class="upload-area">
+          <div class="upload-area-icon">icon</div>
+          <div class="upload-area-text">ここにファイルをドラッグ&ドロップ</div>
+          <div class="upload-area-sub">または</div>
+          <div class="upload-area-btn">ファイルを選択</div>
+        </div>
+      </div>
+
+      <!-- Upload Slot 3: Required - Error state example -->
+      <div style="border:1px solid #f5c6c6;border-radius:8px;padding:20px;margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:bold;">台紙デザイン <span style="color:#e53e3e;font-size:12px;font-weight:normal;">必須</span></div>
+        </div>
+        <!-- Empty state: upload area shown -->
+        <div class="upload-area">
+          <div class="upload-area-icon">icon</div>
+          <div class="upload-area-text">ここにファイルをドラッグ&ドロップ</div>
+          <div class="upload-area-sub">または</div>
+          <div class="upload-area-btn">ファイルを選択</div>
+        </div>
+        <!-- Error example -->
+        <div class="upload-error">
+          対応していないファイル形式です。AI, PSD, PDF形式でアップロードしてください。
+        </div>
+      </div>
+
+      <!-- Upload Specs -->
+      <div class="upload-specs">
+        <div class="upload-specs-title">入稿データの要件（商品ごとに異なります）</div>
+        <ul>
+          <li>対応形式: AI, PSD, PDF</li>
+          <li>カラーモード: CMYK</li>
+          <li>解像度: 350dpi以上推奨</li>
+          <li>文字にはアウトラインをかけてください</li>
+          <li>ファイルサイズ上限: 200MB / ファイル</li>
+        </ul>
+      </div>
+
+      <!-- Template Download -->
+      <a class="template-dl" href="#">入稿テンプレートをダウンロード（44mm用）</a>
+    </div>
+
+    <!-- ===== Actions ===== -->
+    <div style="text-align:center;">
+      <div class="actions">
+        <a href="#" class="btn-outline">カートに戻る</a>
+        <button class="btn-primary" id="submitBtn" disabled>入稿を完了してカートに戻る</button>
+      </div>
+      <div style="font-size:12px;color:#e53e3e;margin-top:12px;">必須の入稿データが不足しています</div>
+    </div>
+
+  </div>
+
+  <!-- ===== BREADCRUMB (BOTTOM) ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>
+    <a href="#">カート</a><span>></span>
+    データ入稿
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
