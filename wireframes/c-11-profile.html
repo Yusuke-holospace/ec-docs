@@ -41,6 +41,8 @@
     .postal-btn { padding: 12px 16px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; }
     .actions { display: flex; gap: 12px; justify-content: flex-end; }
     .btn-primary { background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px 32px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .form-error { font-size: 12px; color: #e53e3e; margin-top: 4px; }
+    .form-input.error { border-color: #e53e3e; }
     .btn-outline { background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px 32px; font-size: 14px; cursor: pointer; text-decoration: none; }
     .save-msg { display: none; text-align: center; padding: 12px; background: #e8f5e9; border-radius: 6px; margin-bottom: 16px; font-size: 14px; color: #2e7d32; }
     .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
@@ -90,62 +92,86 @@
 
         <div class="save-msg" id="saveMsg">保存しました</div>
 
-        <div class="form-section">
-          <div class="form-section-title">会社情報</div>
-          <div class="form-group">
-            <div class="form-label">会社名 <span class="required">必須</span></div>
-            <input class="form-input" type="text" value="株式会社ホロスペース">
+        <!-- ===== 表示モード ===== -->
+        <div id="viewMode">
+          <div class="form-section">
+            <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">会社情報 <a href="#" style="font-size:13px;color:#1a73e8;text-decoration:underline;font-weight:normal;" onclick="document.getElementById('viewMode').style.display='none';document.getElementById('editMode').style.display='block';return false;">編集</a></div>
+            <table style="width:100%;font-size:14px;">
+              <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:140px;">会社名</td><td style="padding:10px 0;">株式会社ホロスペース</td></tr>
+              <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">担当者名</td><td style="padding:10px 0;">鬼柳 裕介</td></tr>
+              <tr><td style="padding:10px 0;color:#666;">電話番号</td><td style="padding:10px 0;">03-1234-5678</td></tr>
+            </table>
           </div>
-          <div class="form-row">
+
+          <div class="form-section">
+            <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">住所（配送先） <a href="#" style="font-size:13px;color:#1a73e8;text-decoration:underline;font-weight:normal;" onclick="document.getElementById('viewMode').style.display='none';document.getElementById('editMode').style.display='block';return false;">編集</a></div>
+            <table style="width:100%;font-size:14px;">
+              <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:140px;">郵便番号</td><td style="padding:10px 0;">150-0001</td></tr>
+              <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">都道府県</td><td style="padding:10px 0;">東京都</td></tr>
+              <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">市区町村・番地</td><td style="padding:10px 0;">渋谷区神宮前1-2-3</td></tr>
+              <tr><td style="padding:10px 0;color:#666;">建物名</td><td style="padding:10px 0;">ABCビル 5F</td></tr>
+            </table>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">アカウント</div>
+            <table style="width:100%;font-size:14px;">
+              <tr><td style="padding:10px 0;color:#666;width:140px;">メールアドレス</td><td style="padding:10px 0;">yusuke@holospace.jp<div style="font-size:12px;color:#999;margin-top:4px;">Googleアカウントでログイン中</div></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== 編集モード ===== -->
+        <div id="editMode" style="display:none;">
+          <div class="form-section">
+            <div class="form-section-title">会社情報</div>
             <div class="form-group">
-              <div class="form-label">担当者名（姓） <span class="required">必須</span></div>
-              <input class="form-input" type="text" value="鬼柳">
+              <div class="form-label">会社名 <span class="required">必須</span></div>
+              <input class="form-input" type="text" value="株式会社ホロスペース">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-label">担当者名（姓） <span class="required">必須</span></div>
+                <input class="form-input" type="text" value="鬼柳">
+              </div>
+              <div class="form-group">
+                <div class="form-label">担当者名（名） <span class="required">必須</span></div>
+                <input class="form-input" type="text" value="裕介">
+              </div>
             </div>
             <div class="form-group">
-              <div class="form-label">担当者名（名） <span class="required">必須</span></div>
-              <input class="form-input" type="text" value="裕介">
+              <div class="form-label">電話番号 <span class="required">必須</span></div>
+              <input class="form-input" type="tel" value="03-1234-5678">
             </div>
           </div>
-          <div class="form-group">
-            <div class="form-label">電話番号 <span class="required">必須</span></div>
-            <input class="form-input" type="tel" value="03-1234-5678">
-          </div>
-        </div>
 
-        <div class="form-section">
-          <div class="form-section-title">住所（配送先）</div>
-          <div class="form-group">
-            <div class="form-label">郵便番号 <span class="required">必須</span></div>
-            <div style="display:flex;gap:8px;">
-              <input class="form-input" type="text" value="150-0001" style="max-width:90px;">
-              <button class="postal-btn">住所検索</button>
+          <div class="form-section">
+            <div class="form-section-title">住所（配送先）</div>
+            <div class="form-group">
+              <div class="form-label">郵便番号 <span class="required">必須</span></div>
+              <div style="display:flex;gap:8px;">
+                <input class="form-input" type="text" value="150-0001" style="max-width:90px;">
+                <button class="postal-btn">住所検索</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">都道府県 <span class="required">必須</span></div>
+              <select class="form-input"><option selected>東京都</option></select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">市区町村・番地 <span class="required">必須</span></div>
+              <input class="form-input" type="text" value="渋谷区神宮前1-2-3">
+            </div>
+            <div class="form-group">
+              <div class="form-label">建物名・部屋番号</div>
+              <input class="form-input" type="text" value="ABCビル 5F">
             </div>
           </div>
-          <div class="form-group">
-            <div class="form-label">都道府県 <span class="required">必須</span></div>
-            <select class="form-input"><option selected>東京都</option></select>
-          </div>
-          <div class="form-group">
-            <div class="form-label">市区町村・番地 <span class="required">必須</span></div>
-            <input class="form-input" type="text" value="渋谷区神宮前1-2-3">
-          </div>
-          <div class="form-group">
-            <div class="form-label">建物名・部屋番号</div>
-            <input class="form-input" type="text" value="ABCビル 5F">
-          </div>
-        </div>
 
-        <div class="form-section">
-          <div class="form-section-title">アカウント</div>
-          <div class="form-group">
-            <div class="form-label">メールアドレス</div>
-            <div style="font-size:14px;color:#666;">yusuke@holospace.jp</div>
-            <div style="font-size:12px;color:#999;margin-top:4px;">Googleアカウントでログイン中</div>
+          <div class="actions">
+            <a href="#" class="btn-outline" onclick="document.getElementById('editMode').style.display='none';document.getElementById('viewMode').style.display='block';return false;">キャンセル</a>
+            <button class="btn-primary" onclick="document.getElementById('editMode').style.display='none';document.getElementById('viewMode').style.display='block';document.getElementById('saveMsg').style.display='block';">変更を保存</button>
           </div>
-        </div>
-
-        <div class="actions">
-          <button class="btn-primary" onclick="document.getElementById('saveMsg').style.display='block'">変更を保存</button>
         </div>
       </div>
     </div>

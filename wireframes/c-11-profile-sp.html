@@ -29,6 +29,8 @@
     .postal-btn { padding: 10px 14px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; cursor: pointer; min-height: 44px; }
     .actions { padding: 16px; background: #fff; margin-top: 8px; }
     .btn-primary { display: block; width: 100%; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; min-height: 48px; }
+    .form-error { font-size: 11px; color: #e53e3e; margin-top: 4px; }
+    .form-input.error { border-color: #e53e3e; }
     .save-msg { text-align: center; padding: 12px; background: #e8f5e9; border-radius: 6px; margin: 0 16px 8px; font-size: 13px; color: #2e7d32; display: none; }
     .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
     .footer-section { margin-bottom: 20px; }
@@ -51,46 +53,65 @@
     <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
   </header>
 
-  <nav class="tab-nav">
-    <a href="#">マイページ</a>
-    <a href="#">注文履歴</a>
-    <a href="#" class="active">会員情報</a>
-    <a href="#">ログアウト</a>
-  </nav>
+  <div style="background:#fff;padding:12px 16px;border-bottom:1px solid #eee;"><a href="#" style="font-size:13px;color:#1a73e8;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;">マイページに戻る</a></div>
 
   <div class="page-title">会員情報</div>
   <div class="save-msg" id="saveMsg">保存しました</div>
 
-  <div class="form-section">
-    <div class="form-section-title">会社情報</div>
-    <div class="form-group"><div class="form-label">会社名 <span class="required">必須</span></div><input class="form-input" type="text" value="株式会社ホロスペース"></div>
-    <div class="form-group"><div class="form-label">担当者名（姓） <span class="required">必須</span></div><input class="form-input" type="text" value="鬼柳"></div>
-    <div class="form-group"><div class="form-label">担当者名（名） <span class="required">必須</span></div><input class="form-input" type="text" value="裕介"></div>
-    <div class="form-group"><div class="form-label">電話番号 <span class="required">必須</span></div><input class="form-input" type="tel" value="03-1234-5678"></div>
-  </div>
-
-  <div class="form-section">
-    <div class="form-section-title">住所（配送先）</div>
-    <div class="form-group">
-      <div class="form-label">郵便番号 <span class="required">必須</span></div>
-      <div style="display:flex;gap:8px;"><input class="form-input" type="text" value="150-0001" style="max-width:90px;"><button class="postal-btn">住所検索</button></div>
+  <!-- ===== 表示モード ===== -->
+  <div id="viewMode">
+    <div class="form-section">
+      <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">会社情報 <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;font-weight:normal;min-height:44px;display:flex;align-items:center;" onclick="document.getElementById('viewMode').style.display='none';document.getElementById('editMode').style.display='block';return false;">編集</a></div>
+      <table style="width:100%;font-size:13px;">
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:100px;">会社名</td><td style="padding:10px 0;">株式会社ホロスペース</td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">担当者名</td><td style="padding:10px 0;">鬼柳 裕介</td></tr>
+        <tr><td style="padding:10px 0;color:#666;">電話番号</td><td style="padding:10px 0;">03-1234-5678</td></tr>
+      </table>
     </div>
-    <div class="form-group"><div class="form-label">都道府県 <span class="required">必須</span></div><select class="form-input"><option selected>東京都</option></select></div>
-    <div class="form-group"><div class="form-label">市区町村・番地 <span class="required">必須</span></div><input class="form-input" type="text" value="渋谷区神宮前1-2-3"></div>
-    <div class="form-group"><div class="form-label">建物名・部屋番号</div><input class="form-input" type="text" value="ABCビル 5F"></div>
-  </div>
 
-  <div class="form-section">
-    <div class="form-section-title">アカウント</div>
-    <div class="form-group">
-      <div class="form-label">メールアドレス</div>
-      <div style="font-size:14px;color:#666;">yusuke@holospace.jp</div>
-      <div style="font-size:12px;color:#999;margin-top:4px;">Googleアカウントでログイン中</div>
+    <div class="form-section">
+      <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">住所（配送先） <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;font-weight:normal;min-height:44px;display:flex;align-items:center;" onclick="document.getElementById('viewMode').style.display='none';document.getElementById('editMode').style.display='block';return false;">編集</a></div>
+      <table style="width:100%;font-size:13px;">
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:100px;">郵便番号</td><td style="padding:10px 0;">150-0001</td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">都道府県</td><td style="padding:10px 0;">東京都</td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">市区町村</td><td style="padding:10px 0;">渋谷区神宮前1-2-3</td></tr>
+        <tr><td style="padding:10px 0;color:#666;">建物名</td><td style="padding:10px 0;">ABCビル 5F</td></tr>
+      </table>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">アカウント</div>
+      <table style="width:100%;font-size:13px;">
+        <tr><td style="padding:10px 0;color:#666;width:100px;">メール</td><td style="padding:10px 0;">yusuke@holospace.jp<div style="font-size:11px;color:#999;margin-top:2px;">Googleアカウントでログイン中</div></td></tr>
+      </table>
     </div>
   </div>
 
-  <div class="actions">
-    <button class="btn-primary" onclick="document.getElementById('saveMsg').style.display='block'">変更を保存</button>
+  <!-- ===== 編集モード ===== -->
+  <div id="editMode" style="display:none;">
+    <div class="form-section">
+      <div class="form-section-title">会社情報</div>
+      <div class="form-group"><div class="form-label">会社名 <span class="required">必須</span></div><input class="form-input" type="text" value="株式会社ホロスペース"></div>
+      <div class="form-group"><div class="form-label">担当者名（姓） <span class="required">必須</span></div><input class="form-input" type="text" value="鬼柳"></div>
+      <div class="form-group"><div class="form-label">担当者名（名） <span class="required">必須</span></div><input class="form-input" type="text" value="裕介"></div>
+      <div class="form-group"><div class="form-label">電話番号 <span class="required">必須</span></div><input class="form-input" type="tel" value="03-1234-5678"></div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">住所（配送先）</div>
+      <div class="form-group">
+        <div class="form-label">郵便番号 <span class="required">必須</span></div>
+        <div style="display:flex;gap:8px;"><input class="form-input" type="text" value="150-0001" style="max-width:90px;"><button class="postal-btn">住所検索</button></div>
+      </div>
+      <div class="form-group"><div class="form-label">都道府県 <span class="required">必須</span></div><select class="form-input"><option selected>東京都</option></select></div>
+      <div class="form-group"><div class="form-label">市区町村・番地 <span class="required">必須</span></div><input class="form-input" type="text" value="渋谷区神宮前1-2-3"></div>
+      <div class="form-group"><div class="form-label">建物名・部屋番号</div><input class="form-input" type="text" value="ABCビル 5F"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="document.getElementById('editMode').style.display='none';document.getElementById('viewMode').style.display='block';document.getElementById('saveMsg').style.display='block';">変更を保存</button>
+      <a href="#" style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#999;text-decoration:underline;min-height:44px;line-height:44px;" onclick="document.getElementById('editMode').style.display='none';document.getElementById('viewMode').style.display='block';return false;">キャンセル</a>
+    </div>
   </div>
 
   <footer class="footer">
