@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-20 404エラーページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px; border-bottom: 3px solid transparent; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+    .main { max-width: 640px; margin: 80px auto; padding: 0 24px; text-align: center; }
+    .error-code { font-size: 72px; font-weight: bold; color: #ddd; margin-bottom: 16px; }
+    .error-title { font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+    .error-desc { font-size: 14px; color: #666; margin-bottom: 32px; line-height: 1.7; }
+    .error-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-primary { background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px 32px; font-size: 15px; font-weight: bold; cursor: pointer; text-decoration: none; }
+    .btn-outline { background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px 32px; font-size: 14px; cursor: pointer; text-decoration: none; }
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 80px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="header-top-left"><div class="logo">LOGO</div><div class="search-bar"><input type="text" placeholder="商品を検索..."><button>検索</button></div></div>
+      <div class="header-top-right"><a href="#">ご利用ガイド</a><span class="divider">|</span><a href="#">FAQ</a><span class="divider">|</span><a href="#">入稿について</a><span class="divider">|</span><a href="#">ログイン（※ログイン済みなら「マイページ」に切替）</a><span class="divider">|</span><a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span></a></div>
+    </div>
+    <nav class="header-categories"><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">ストラップ</a><a href="#">トレーディングカード</a><a href="#">タオル・布製品</a><a href="#">その他グッズ</a></nav>
+  </header>
+
+  <div class="main">
+    <div class="error-code">404</div>
+    <div class="error-title">ページが見つかりません</div>
+    <div class="error-desc">お探しのページは存在しないか、移動した可能性があります。<br>URLをご確認いただくか、以下のリンクからお進みください。</div>
+    <div class="error-actions">
+      <a href="#" class="btn-primary">トップページへ</a>
+      <a href="#" class="btn-outline">商品一覧へ</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
