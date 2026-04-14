@@ -209,6 +209,35 @@
       <a class="address-edit" href="#">配送先を変更</a>
     </div>
 
+    <!-- ===== Payment Method ===== -->
+    <div class="section">
+      <div class="section-title">お支払い方法</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #333;border-radius:6px;cursor:pointer;background:#fafafa;">
+          <input type="radio" name="payment" checked style="width:18px;height:18px;">
+          <div>
+            <div style="font-size:14px;font-weight:bold;">クレジットカード</div>
+            <div style="font-size:12px;color:#999;">Visa, Mastercard, JCB, AMEX</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+          <input type="radio" name="payment" style="width:18px;height:18px;">
+          <div>
+            <div style="font-size:14px;font-weight:bold;">銀行振込</div>
+            <div style="font-size:12px;color:#999;">振込先情報をメールでお送りします</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:14px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+          <input type="radio" name="payment" style="width:18px;height:18px;">
+          <div>
+            <div style="font-size:14px;font-weight:bold;">請求書払い</div>
+            <div style="font-size:12px;color:#999;">月末締め翌月払い</div>
+          </div>
+        </label>
+      </div>
+      <div style="font-size:12px;color:#999;margin-top:12px;">※ この時点では決済は発生しません。入稿データの確認完了後にお支払いのご案内をお送りします。</div>
+    </div>
+
     <!-- ===== Summary ===== -->
     <div class="section">
       <div class="section-title">お支払い金額</div>
@@ -226,7 +255,7 @@
       </div>
       <div class="note">
         ※ 注文確定後、入稿データの確認を行います（数営業日）<br>
-        ※ 確認完了後に決済リンクをメールでお送りします<br>
+        ※ 確認完了後に決済のご案内をメールでお送りします<br>
         ※ この時点ではまだ決済は発生しません
       </div>
     </div>
