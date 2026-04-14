@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-07 注文完了ページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; color: #333; }
+    .search-bar { display: flex; align-items: center; gap: 8px; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; gap: 0; position: relative; z-index: 100; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px 20px; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+
+    /* ===== Breadcrumb ===== */
+    .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
+    .breadcrumb a { color: #666; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ===== Main ===== */
+    .main { max-width: 640px; margin: 48px auto; padding: 0 24px; }
+
+    /* ===== Steps ===== */
+    .steps { display: flex; align-items: center; justify-content: center; margin-bottom: 32px; gap: 0; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #999; }
+    .step.active { color: #333; font-weight: bold; }
+    .step-number { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+    .step.active .step-number { background: #333; color: #fff; border-color: #333; }
+    .step.done .step-number { background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; }
+    .step-line { width: 40px; height: 2px; background: #ddd; margin: 0 8px; }
+
+    /* ===== Complete Box ===== */
+    .complete-box { background: #fff; border-radius: 8px; padding: 48px 32px; text-align: center; }
+    .complete-icon { width: 64px; height: 64px; background: #e8f5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 10px; color: #2e7d32; }
+    .complete-title { font-size: 22px; font-weight: bold; margin-bottom: 12px; }
+    .complete-desc { font-size: 14px; color: #666; line-height: 1.8; margin-bottom: 24px; }
+    .order-number { display: inline-block; background: #f8f8f8; border: 1px solid #eee; border-radius: 6px; padding: 12px 24px; margin-bottom: 24px; }
+    .order-number-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+    .order-number-value { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
+
+    /* ===== Flow Info ===== */
+    .flow-info { background: #f8f8f8; border-radius: 6px; padding: 20px; margin: 24px 0; text-align: left; }
+    .flow-info-title { font-size: 14px; font-weight: bold; margin-bottom: 12px; }
+    .flow-steps { list-style: none; }
+    .flow-steps li { font-size: 13px; color: #666; padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
+    .flow-step-num { width: 22px; height: 22px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #666; flex-shrink: 0; }
+
+    /* ===== Actions ===== */
+    .actions { display: flex; gap: 12px; justify-content: center; margin-top: 32px; }
+    .btn-primary { background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px 32px; font-size: 15px; font-weight: bold; cursor: pointer; text-decoration: none; }
+    .btn-outline { background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px 32px; font-size: 14px; cursor: pointer; text-decoration: none; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="header-top-left">
+        <div class="logo">LOGO</div>
+        <div class="search-bar">
+          <input type="text" placeholder="商品を検索...">
+          <button>検索</button>
+        </div>
+      </div>
+      <div class="header-top-right">
+        <a href="#">ご利用ガイド</a>
+        <span class="divider">|</span>
+        <a href="#">FAQ</a>
+        <span class="divider">|</span>
+        <a href="#">入稿について</a>
+        <span class="divider">|</span>
+        <a href="#">ログイン（※ログイン済みなら「マイページ」に切替）</a>
+        <span class="divider">|</span>
+        <a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span><span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">0</span></a>
+      </div>
+    </div>
+    <nav class="header-categories">
+      <a href="#">缶バッジ</a>
+      <a href="#">アクリルスタンド</a>
+      <a href="#">キーホルダー</a>
+      <a href="#">ストラップ</a>
+      <a href="#">トレーディングカード</a>
+      <a href="#">タオル・布製品</a>
+      <a href="#">その他グッズ</a>
+    </nav>
+  </header>
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>
+    注文完了
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- ===== Steps ===== -->
+    <div class="steps">
+      <div class="step done"><div class="step-number">1</div><span>カート</span></div>
+      <div class="step-line"></div>
+      <div class="step done"><div class="step-number">2</div><span>データ入稿</span></div>
+      <div class="step-line"></div>
+      <div class="step done"><div class="step-number">3</div><span>注文確認</span></div>
+      <div class="step-line"></div>
+      <div class="step active"><div class="step-number">4</div><span>完了</span></div>
+    </div>
+
+    <!-- ===== Complete Box ===== -->
+    <div class="complete-box">
+      <div class="complete-icon">icon</div>
+      <div class="complete-title">ご注文を受け付けました</div>
+      <div class="complete-desc">
+        ご注文ありがとうございます。<br>
+        注文内容の確認メールをお送りしました。
+      </div>
+
+      <div class="order-number">
+        <div class="order-number-label">注文番号</div>
+        <div class="order-number-value">ORD-20260414-0023</div>
+      </div>
+
+      <div class="flow-info">
+        <div class="flow-info-title">今後の流れ</div>
+        <ul class="flow-steps">
+          <li><span class="flow-step-num">1</span>入稿データを確認いたします（数営業日）</li>
+          <li><span class="flow-step-num">2</span>確認完了後、決済リンクをメールでお送りします</li>
+          <li><span class="flow-step-num">3</span>お支払い確認後、製造を開始します</li>
+          <li><span class="flow-step-num">4</span>製造完了後、発送いたします</li>
+        </ul>
+      </div>
+
+      <div style="font-size:13px;color:#999;margin-top:16px;">
+        注文状況はマイページの注文履歴からご確認いただけます。
+      </div>
+
+      <div class="actions">
+        <a href="#" class="btn-outline">注文履歴を見る</a>
+        <a href="#" class="btn-primary">商品一覧に戻る</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== BREADCRUMB (BOTTOM) ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>
+    注文完了
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>

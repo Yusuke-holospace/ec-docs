@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-06 注文確認ページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; position: relative; }
+    .header-top-right .cart-badge .nav-icon::after { content: "3"; position: absolute; top: -4px; right: -6px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    /* ===== Steps ===== */
+    .steps { display: flex; align-items: center; justify-content: center; padding: 16px; background: #fff; margin-bottom: 8px; gap: 0; }
+    .step { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #999; }
+    .step.active { color: #333; font-weight: bold; }
+    .step-number { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
+    .step.active .step-number { background: #333; color: #fff; border-color: #333; }
+    .step.done .step-number { background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; }
+    .step-line { width: 20px; height: 2px; background: #ddd; margin: 0 4px; }
+
+    /* ===== Section ===== */
+    .section { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+
+    /* ===== Order Items ===== */
+    .order-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid #eee; align-items: flex-start; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-image { width: 56px; height: 56px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 3px; margin-bottom: 3px; }
+    .badge-normal { background: #e8f4fd; color: #1a73e8; }
+    .badge-sample { background: #fef3e2; color: #e67e22; }
+    .order-item-name { font-size: 13px; font-weight: bold; margin-bottom: 3px; }
+    .order-item-options { font-size: 11px; color: #999; margin-bottom: 3px; }
+    .order-item-upload { font-size: 11px; color: #2e7d32; }
+    .order-item-price { font-size: 14px; font-weight: bold; flex-shrink: 0; text-align: right; white-space: nowrap; }
+    .order-item-price-unit { font-size: 10px; color: #999; font-weight: normal; text-align: right; }
+
+    /* ===== Shipping ===== */
+    .address-box { background: #f8f8f8; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.8; }
+    .address-edit { display: inline-block; margin-top: 8px; font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+
+    /* ===== Summary ===== */
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .summary-row .label { color: #666; }
+    .summary-row .value { font-weight: bold; }
+    .summary-total { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; font-size: 18px; font-weight: bold; }
+    .note { font-size: 11px; color: #999; line-height: 1.6; margin-top: 12px; }
+
+    /* ===== License ===== */
+    .license-box { border: 1px solid #ddd; border-radius: 6px; padding: 12px; margin-bottom: 12px; max-height: 140px; overflow-y: auto; font-size: 11px; color: #666; line-height: 1.8; }
+    .license-check { display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; min-height: 44px; }
+    .license-check input { width: 20px; height: 20px; cursor: pointer; }
+
+    /* ===== Actions ===== */
+    .actions { padding: 16px; background: #fff; margin-top: 8px; }
+    .btn-primary { display: block; width: 100%; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; min-height: 48px; margin-bottom: 10px; }
+    .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-outline { display: block; width: 100%; background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px; font-size: 13px; cursor: pointer; text-align: center; text-decoration: none; min-height: 48px; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><span class="nav-icon">icon</span>ログイン</a>
+        <a href="#" class="cart-badge"><span class="nav-icon">icon</span>カート</a>
+        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="商品名・キーワード">
+      <button>検索</button>
+    </div>
+  </header>
+
+  <!-- ===== STEPS ===== -->
+  <div class="steps">
+    <div class="step done"><div class="step-number">1</div><span>カート</span></div>
+    <div class="step-line"></div>
+    <div class="step done"><div class="step-number">2</div><span>入稿</span></div>
+    <div class="step-line"></div>
+    <div class="step active"><div class="step-number">3</div><span>確認</span></div>
+    <div class="step-line"></div>
+    <div class="step"><div class="step-number">4</div><span>完了</span></div>
+  </div>
+
+  <!-- ===== ORDER ITEMS ===== -->
+  <div class="section">
+    <div class="section-title">注文商品（3点）</div>
+
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-normal">通常注文</span>
+        <div class="order-item-name">オリジナル缶バッジ 44mm</div>
+        <div class="order-item-options">44mm / マット / 安全ピン / 100個</div>
+        <div class="order-item-upload">入稿済み</div>
+      </div>
+      <div class="order-item-price">
+        8,500円
+        <div class="order-item-price-unit">@85円 x 100</div>
+      </div>
+    </div>
+
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-normal">通常注文</span>
+        <div class="order-item-name">アクリルスタンド 100mm</div>
+        <div class="order-item-options">100mm / クリア / 200個</div>
+        <div class="order-item-upload">入稿済み</div>
+      </div>
+      <div class="order-item-price">
+        27,000円
+        <div class="order-item-price-unit">@120円 x 200</div>
+        <div class="order-item-price-unit">+色校正 3,000円</div>
+      </div>
+    </div>
+
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-sample">サンプル制作</span>
+        <div class="order-item-name">オリジナル缶バッジ 56mm</div>
+        <div class="order-item-options">56mm / グロス / マグネット / 1式</div>
+        <div class="order-item-upload">入稿済み</div>
+      </div>
+      <div class="order-item-price">
+        1,900円
+        <div class="order-item-price-unit">サンプル1式</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SHIPPING ===== -->
+  <div class="section">
+    <div class="section-title">配送先</div>
+    <div class="address-box">
+      株式会社ホロスペース<br>
+      鬼柳 裕介 様<br>
+      〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F<br>
+      TEL: 03-1234-5678
+    </div>
+    <a class="address-edit" href="#">配送先を変更</a>
+  </div>
+
+  <!-- ===== SUMMARY ===== -->
+  <div class="section">
+    <div class="section-title">お支払い金額</div>
+    <div class="summary-row">
+      <span class="label">商品合計（3点）</span>
+      <span class="value">37,400円</span>
+    </div>
+    <div class="summary-row">
+      <span class="label">送料</span>
+      <span class="value">無料</span>
+    </div>
+    <div class="summary-total">
+      <span>合計（税込）</span>
+      <span>37,400円</span>
+    </div>
+    <div class="note">
+      ※ 注文確定後、入稿データの確認を行います（数営業日）<br>
+      ※ 確認完了後に決済リンクをメールでお送りします<br>
+      ※ この時点ではまだ決済は発生しません
+    </div>
+  </div>
+
+  <!-- ===== LICENSE ===== -->
+  <div class="section">
+    <div class="section-title">ライセンスに関する同意</div>
+    <div class="license-box">
+      本サービスを通じて入稿されるデザインデータに使用されるキャラクター、ロゴ、その他の知的財産権について、注文者は正当なライセンスを保有していることを確認し、保証するものとします。<br><br>
+      注文者は、入稿データに含まれるすべてのコンテンツについて、製造・販売に必要な権利を有していることを表明します。<br><br>
+      万が一、第三者の知的財産権を侵害するデータが入稿された場合、注文者がその責任を負うものとします。
+    </div>
+    <label class="license-check">
+      <input type="checkbox" id="licenseCheck" onchange="document.getElementById('orderBtn').disabled = !this.checked">
+      上記ライセンスに関する内容に同意します
+    </label>
+  </div>
+
+  <!-- ===== ACTIONS ===== -->
+  <div class="actions">
+    <button class="btn-primary" id="orderBtn" disabled>注文を確定する</button>
+    <div style="font-size:11px;color:#999;text-align:center;margin-bottom:10px;">※ この時点では決済は発生しません</div>
+    <a href="#" class="btn-outline">カートに戻る</a>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+</body>
+</html>
