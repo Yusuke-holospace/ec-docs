@@ -89,17 +89,23 @@
 
   <div class="back-bar"><a href="#">注文履歴に戻る</a></div>
 
-  <!-- Status -->
+  <!-- Status: 差し戻し状態 -->
   <div class="section">
     <div class="status-bar">
-      <span class="status-badge badge-progress">入稿確認中</span>
+      <span class="status-badge" style="background:#fde8e8;color:#e53e3e;">差し戻し</span>
       <span class="status-info">ORD-20260414-0023 / 2026/04/14</span>
     </div>
+    <div style="background:#fde8e8;border-radius:6px;padding:12px;margin-bottom:12px;font-size:12px;color:#e53e3e;">
+      <div style="margin-bottom:8px;">入稿データに不備があります。修正したデータを再入稿してください。</div>
+      <a href="#" style="display:block;background:#e53e3e;color:#fff;padding:10px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;text-align:center;min-height:44px;line-height:24px;">再入稿する</a>
+    </div>
     <div class="timeline">
-      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">注文受付</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿受付</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/14 16:00</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot active" style="background:#e53e3e;"></div><div><div class="timeline-label" style="color:#e53e3e;">差し戻し</div><div class="timeline-date">2026/04/15 10:00</div></div></div>
       <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">承認済み</div></div></div>
       <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">決済待ち</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">入金確認</div></div></div>
       <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">製造中</div></div></div>
       <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">発送済み</div></div></div>
       <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">完了</div></div></div>
@@ -153,11 +159,21 @@
     <div class="address-box">株式会社ホロスペース<br>鬼柳 裕介 様<br>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F<br>TEL: 03-1234-5678</div>
   </div>
 
-  <!-- Actions -->
+  <!-- Contact Info -->
+  <div class="section">
+    <div class="section-title">担当者からのご連絡</div>
+    <div style="font-size:12px;color:#666;line-height:1.8;">
+      注文に関する詳細な調整・確認は、担当者からメールでご連絡いたします。<br>
+      <strong>@holospace.jp</strong> からのメールをご確認ください。
+    </div>
+  </div>
+
+  <!-- Actions (完了時のみ表示) -->
+  <!--
   <div class="actions">
     <a href="#" class="btn-primary">リピート注文する</a>
-    <a href="#" class="btn-outline">再入稿する</a>
   </div>
+  -->
 
   <footer class="footer">
     <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
