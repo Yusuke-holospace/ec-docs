@@ -1,7 +1,7 @@
 # 画面設計書：C-03 商品詳細ページ
 
-> ワイヤーフレーム PC: `wireframes/c-03-product-detail.html`
-> ワイヤーフレーム SP: `wireframes/c-03-product-detail-sp.html`
+> ワイヤーフレーム PC: `wireframes/c-03-product-detail.html` — [プレビュー](https://yusuke-holospace.github.io/ec-docs/wireframes/c-03-product-detail.html)
+> ワイヤーフレーム SP: `wireframes/c-03-product-detail-sp.html` — [プレビュー](https://yusuke-holospace.github.io/ec-docs/wireframes/c-03-product-detail-sp.html)
 
 ---
 
