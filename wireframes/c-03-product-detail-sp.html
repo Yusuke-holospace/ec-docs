@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-03 商品詳細ページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; padding-bottom: 100px; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; position: relative; }
+    .header-top-right .cart-badge .nav-icon::after { content: "2"; position: absolute; top: -4px; right: -6px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    /* ===== Image Gallery ===== */
+    .image-gallery { background: #fff; position: relative; }
+    .main-image { width: 100%; aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px; }
+    .dot-indicator { display: flex; justify-content: center; gap: 6px; padding: 10px 0; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; }
+    .dot.active { background: #333; }
+
+    /* ===== Product Info ===== */
+    .product-info { background: #fff; padding: 16px; }
+    .product-category { font-size: 12px; color: #999; margin-bottom: 4px; }
+    .product-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
+    .product-price-inline { margin-bottom: 8px; }
+    .product-price-inline .total { font-size: 22px; font-weight: bold; }
+    .product-price-inline .tax { font-size: 12px; color: #666; font-weight: normal; }
+    .product-price-inline .unit { font-size: 12px; color: #999; margin-left: 8px; }
+    .product-delivery { display: flex; justify-content: space-between; font-size: 13px; color: #666; padding: 8px 0; border-top: 1px solid #eee; margin-top: 4px; }
+    .product-delivery strong { color: #333; }
+    .breakdown-toggle { font-size: 12px; color: #1a73e8; cursor: pointer; margin-top: 6px; display: inline-block; }
+    .breakdown-content { display: none; font-size: 12px; color: #999; margin-top: 8px; padding: 10px; background: #f8f8f8; border-radius: 4px; }
+    .product-description { font-size: 13px; line-height: 1.7; color: #666; margin-top: 12px; max-height: 3.4em; overflow: hidden; position: relative; }
+    .product-description.open { max-height: none; }
+    .product-description:not(.open)::after { content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 1.7em; background: linear-gradient(transparent, #fff); }
+    .description-toggle { font-size: 12px; color: #1a73e8; cursor: pointer; margin-top: 4px; display: inline-block; }
+
+    /* ===== Options ===== */
+    .options-section { background: #fff; padding: 16px; margin-top: 8px; }
+    .option-group { margin-bottom: 20px; }
+    .option-group:last-child { margin-bottom: 0; }
+    .option-label { font-size: 14px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .help-wrap { position: relative; display: inline-flex; }
+    .help-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: #ddd; color: #666; font-size: 11px; cursor: pointer; }
+    .help-bubble { display: none; position: absolute; top: 28px; left: -40px; background: #333; color: #fff; font-size: 12px; font-weight: normal; line-height: 1.6; padding: 10px 14px; border-radius: 8px; width: 260px; z-index: 50; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .help-bubble::before { content: ""; position: absolute; top: -6px; left: 48px; width: 12px; height: 12px; background: #333; transform: rotate(45deg); }
+    .help-wrap.open .help-bubble { display: block; }
+    .option-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .option-btn { padding: 8px 14px; border: 1px solid #ddd; border-radius: 4px; background: #fff; font-size: 13px; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+    .option-btn.selected { border-color: #333; background: #f0f0f0; font-weight: bold; }
+    .option-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .option-card { border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; text-align: center; overflow: hidden; position: relative; min-height: 44px; }
+    .option-card.selected { border-color: #333; border-width: 2px; }
+    .option-card-image { width: 100%; aspect-ratio: 1; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; }
+    .option-card-body { padding: 4px; }
+    .option-card-name { font-size: 11px; font-weight: bold; }
+    .option-card-price { font-size: 10px; color: #666; }
+    .option-card-badge { position: absolute; top: 3px; left: 3px; background: #333; color: #fff; font-size: 8px; padding: 1px 5px; border-radius: 3px; }
+    .quantity-input { display: flex; align-items: center; gap: 8px; }
+    .quantity-input input { width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; text-align: center; min-height: 44px; }
+    .quantity-note { font-size: 11px; color: #999; margin-top: 4px; }
+
+    /* ===== Sub Links ===== */
+    .sub-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px; background: #fff; margin-top: 8px; }
+    .sub-links a { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #333; text-decoration: none; padding: 12px 6px; border: 1px solid #ddd; border-radius: 6px; text-align: center; line-height: 1.4; min-height: 44px; }
+    .sub-icon { font-size: 12px; color: #666; width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    /* ===== Accordion ===== */
+    .section { background: #fff; margin-top: 8px; overflow: hidden; }
+    .section-padded { padding: 16px; }
+    .accordion-item { border-bottom: 1px solid #eee; }
+    .accordion-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; font-size: 14px; font-weight: bold; cursor: pointer; min-height: 44px; }
+    .accordion-header::after { content: "+"; font-size: 18px; color: #999; }
+    .accordion-item.open .accordion-header::after { content: "-"; }
+    .accordion-body { display: none; padding: 0 16px 16px; }
+    .accordion-item.open .accordion-body { display: block; }
+    .price-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .price-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 400px; }
+    .price-table th, .price-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #eee; white-space: nowrap; }
+    .price-table th { background: #f8f8f8; font-weight: bold; color: #666; }
+    .price-table-note { margin-top: 12px; font-size: 11px; color: #999; line-height: 1.6; }
+    .detail-table { width: 100%; }
+    .detail-table tr { border-bottom: 1px solid #eee; }
+    .detail-table th { text-align: left; padding: 10px 0; font-size: 13px; color: #666; font-weight: normal; width: 100px; vertical-align: top; }
+    .detail-table td { padding: 10px 0; font-size: 13px; }
+    .spec-list { list-style: none; }
+    .spec-list li { padding: 6px 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .spec-list li::before { content: ""; display: inline-block; width: 5px; height: 5px; background: #999; border-radius: 50%; }
+    .template-download { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 10px 16px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; color: #333; text-decoration: none; min-height: 44px; }
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+
+    /* ===== Related Products ===== */
+    .related-grid { display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .related-grid::-webkit-scrollbar { display: none; }
+    .related-card { background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; flex-shrink: 0; width: 140px; }
+    .related-card-image { width: 100%; aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; color: #999; font-size: 11px; }
+    .related-card-body { padding: 8px; }
+    .related-card-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .related-card-price { font-size: 12px; color: #666; }
+
+    /* ===== FAQ ===== */
+    .faq-item { border-bottom: 1px solid #eee; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; font-size: 13px; font-weight: bold; min-height: 44px; }
+    .faq-question::after { content: "+"; font-size: 16px; color: #999; flex-shrink: 0; margin-left: 12px; }
+    .faq-item.open .faq-question::after { content: "-"; }
+    .faq-answer { display: none; padding: 0 0 14px; font-size: 13px; line-height: 1.7; color: #666; }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* ===== Bottom CTA Bar (sticky) ===== */
+    .bottom-cta { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 390px; background: #fff; border-top: 1px solid #eee; padding: 10px 16px; z-index: 50; }
+    .bottom-cta-price { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .bottom-cta-price .total { font-size: 20px; font-weight: bold; }
+    .bottom-cta-price .tax { font-size: 11px; color: #666; }
+    .bottom-cta-price .unit { font-size: 12px; color: #999; }
+    .bottom-cta-buttons { display: flex; gap: 8px; }
+    .btn-primary { flex: 2; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; min-height: 48px; }
+    .btn-secondary { flex: 1; background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px 8px; font-size: 11px; cursor: pointer; text-align: center; min-height: 48px; }
+
+
+    /* ===== Cart Modal (bottom sheet) ===== */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; align-items: flex-end; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: #fff; border-radius: 16px 16px 0 0; padding: 24px 16px; width: 100%; max-width: 390px; }
+    .modal-close { position: absolute; top: 12px; right: 16px; font-size: 22px; color: #999; cursor: pointer; background: none; border: none; }
+    .modal-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+    .modal-info { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; font-size: 13px; color: #666; }
+    .modal-info strong { color: #333; }
+    .modal-buttons { display: flex; gap: 8px; }
+    .modal-buttons button { flex: 1; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; min-height: 48px; }
+    .modal-btn-outline { background: #fff; color: #333; border: 1px solid #333; }
+    .modal-btn-primary { background: #333; color: #fff; border: none; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><span class="nav-icon">icon</span>ログイン</a>
+        <a href="#" class="cart-badge"><span class="nav-icon">icon</span>カート</a>
+        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="商品名・キーワード">
+      <button>検索</button>
+    </div>
+  </header>
+
+
+  <!-- ===== IMAGE GALLERY ===== -->
+  <div class="image-gallery">
+    <div class="main-image">商品画像<br>(スワイプで切替・ピンチズーム対応)</div>
+    <div class="dot-indicator">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- ===== PRODUCT INFO + PRICE ===== -->
+  <div class="product-info">
+    <div class="product-category">缶バッジ</div>
+    <h1 class="product-name">オリジナル缶バッジ 44mm</h1>
+    <div class="product-price-inline">
+      <span class="total">8,500円</span><span class="tax">（税込）</span>
+      <span class="unit">1個あたり85円</span>
+    </div>
+    <div class="product-delivery">
+      <span>納期目安</span>
+      <strong>約7営業日</strong>
+    </div>
+    <span class="breakdown-toggle" onclick="var el=document.getElementById('spBreakdown');el.style.display=el.style.display==='none'?'block':'none';">内訳を見る</span>
+    <div class="breakdown-content" id="spBreakdown">
+      <div style="font-weight:bold;color:#666;margin-bottom:4px;">単価内訳</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span>本体単価（100〜199個）</span><span>@80円</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span>+ 付属パーツ（安全ピン）</span><span>+0円</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>+ 包装（OPP袋）</span><span>+5円</span></div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #eee;padding-top:4px;color:#333;margin-bottom:8px;"><span>単価合計</span><span>@85円</span></div>
+      <div style="font-weight:bold;color:#666;margin-bottom:4px;">固定費</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span>色校正</span><span>--</span></div>
+      <div style="display:flex;justify-content:space-between;"><span>入稿サポート</span><span>--</span></div>
+    </div>
+    <p class="product-description" id="prodDesc">高品質なオリジナル缶バッジを小ロットから製造。推し活イベントやグッズ販売に最適です。データ入稿で完全オリジナルデザインの缶バッジを製作いたします。イベント物販やファンクラブグッズなど幅広い用途に対応しています。</p>
+    <span class="description-toggle" onclick="document.getElementById('prodDesc').classList.toggle('open');this.textContent=document.getElementById('prodDesc').classList.contains('open')?'閉じる':'もっと見る';">もっと見る</span>
+  </div>
+
+  <!-- ===== OPTIONS ===== -->
+  <div class="options-section">
+    <!-- Pattern A: テキスト / 価格なし / ヘルプあり -->
+    <div class="option-group">
+      <div class="option-label">サイズ <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">缶バッジのサイズは外径の直径です。32mmは名刺サイズ、44mmは一般的、56mm以上は大きめです。</span></span></div>
+      <div class="option-buttons">
+        <button class="option-btn">32mm</button>
+        <button class="option-btn selected">44mm</button>
+        <button class="option-btn">56mm</button>
+        <button class="option-btn">76mm</button>
+      </div>
+    </div>
+
+    <!-- Pattern B: 画像 / 価格なし / ヘルプあり -->
+    <div class="option-group">
+      <div class="option-label">素材・仕上げ <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">マット: 落ち着いた質感。グロス: 光沢あり。ホログラム: 角度で光り方が変化。</span></span></div>
+      <div class="option-grid">
+        <div class="option-card selected"><div class="option-card-badge">人気</div><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">マット</div></div></div>
+        <div class="option-card"><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">グロス</div></div></div>
+        <div class="option-card"><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">ホログラム</div></div></div>
+      </div>
+    </div>
+
+    <!-- Pattern C: 画像 / 単価系 / ヘルプあり -->
+    <div class="option-group">
+      <div class="option-label">付属パーツ <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">安全ピン: 標準。クリップピン: 服を傷つけにくい。マグネット: ピン穴なし。</span></span></div>
+      <div class="option-grid">
+        <div class="option-card selected"><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">安全ピン</div><div class="option-card-price">+0円</div></div></div>
+        <div class="option-card"><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">クリップ</div><div class="option-card-price">+10円</div></div></div>
+        <div class="option-card"><div class="option-card-image">画像</div><div class="option-card-body"><div class="option-card-name">マグネット</div><div class="option-card-price">+20円</div></div></div>
+      </div>
+    </div>
+
+    <!-- Pattern D: テキスト / 単価系 / ヘルプなし -->
+    <div class="option-group">
+      <div class="option-label">包装</div>
+      <div class="option-buttons">
+        <button class="option-btn selected">バルク (+0円)</button>
+        <button class="option-btn">OPP袋 (+5円)</button>
+        <button class="option-btn">台紙付 (+15円)</button>
+      </div>
+    </div>
+
+    <!-- Pattern E: テキスト / 固定費 / ヘルプあり -->
+    <div class="option-group">
+      <div class="option-label">色校正 <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">入稿データを元に試作品を製作し、色味を確認する工程です。</span></span></div>
+      <div class="option-buttons">
+        <button class="option-btn selected">なし</button>
+        <button class="option-btn">あり (+3,000円)</button>
+      </div>
+    </div>
+
+    <!-- Pattern F: テキスト / 固定費 / ヘルプあり -->
+    <div class="option-group">
+      <div class="option-label">入稿サポート <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">弊社デザイナーがデータの調整・修正をサポートします。</span></span></div>
+      <div class="option-buttons">
+        <button class="option-btn selected">なし</button>
+        <button class="option-btn">あり (+5,000円)</button>
+      </div>
+    </div>
+
+    <!-- Quantity -->
+    <div class="option-group">
+      <div class="option-label">数量</div>
+      <div class="quantity-input">
+        <input type="number" value="100" min="100" step="1">
+        <span>個</span>
+      </div>
+      <div class="quantity-note">最小ロット: 100個</div>
+    </div>
+  </div>
+
+  <!-- ===== SUB LINKS ===== -->
+  <div class="sub-links">
+    <a href="#"><span class="sub-icon">icon</span>見積書を<br>ダウンロード</a>
+    <a href="#"><span class="sub-icon">icon</span>入稿テンプレートを<br>ダウンロード</a>
+    <a href="#"><span class="sub-icon">icon</span>この商品について<br>問い合わせる</a>
+  </div>
+
+  <!-- ===== ACCORDION ===== -->
+  <div class="section">
+    <div class="accordion-item open" onclick="this.classList.toggle('open')">
+      <div class="accordion-header">価格テーブル</div>
+      <div class="accordion-body">
+        <div class="price-table-wrap"><table class="price-table">
+          <thead><tr><th>数量</th><th>100〜</th><th>200〜</th><th>300〜</th><th>500〜</th><th>1,000〜</th></tr></thead>
+          <tbody><tr><td>単価（税込）</td><td>@88円</td><td>@75円</td><td>@65円</td><td>@55円</td><td>@45円</td></tr></tbody>
+        </table></div>
+        <div class="price-table-note">※価格は税込です<br>※数量によって納期が異なります</div>
+      </div>
+    </div>
+    <div class="accordion-item" onclick="this.classList.toggle('open')">
+      <div class="accordion-header">商品詳細</div>
+      <div class="accordion-body">
+        <table class="detail-table">
+          <tr><th>素材</th><td>ブリキ製</td></tr>
+          <tr><th>サイズ</th><td>32mm / 44mm / 56mm / 76mm</td></tr>
+          <tr><th>仕上げ</th><td>マット / グロス / ホログラム</td></tr>
+          <tr><th>最小ロット</th><td>100個〜</td></tr>
+          <tr><th>納期目安</th><td>100〜500個: 約7営業日 / 1,000個〜: 約10営業日</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="accordion-item" onclick="this.classList.toggle('open')">
+      <div class="accordion-header">入稿仕様</div>
+      <div class="accordion-body">
+        <ul class="spec-list">
+          <li>印刷方法: オフセット印刷</li>
+          <li>対応形式: AI, PSD, PDF</li>
+          <li>カラーモード: CMYK</li>
+          <li>解像度: 350dpi以上推奨</li>
+          <li>アウトライン化必須</li>
+          <li>ファイル上限: 200MB</li>
+        </ul>
+        <a class="template-download">入稿テンプレートをダウンロード</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RELATED ===== -->
+  <div class="section section-padded">
+    <h2 class="section-title">関連商品</h2>
+    <div class="related-grid">
+      <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルスタンド</div><div class="related-card-price">@120円〜</div></div></div>
+      <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルキーホルダー</div><div class="related-card-price">@95円〜</div></div></div>
+      <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">ラバーストラップ</div><div class="related-card-price">@110円〜</div></div></div>
+      <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">トレーディングカード</div><div class="related-card-price">@30円〜</div></div></div>
+    </div>
+  </div>
+
+  <!-- ===== FAQ ===== -->
+  <div class="section section-padded">
+    <h2 class="section-title">この商品に関するよくある質問</h2>
+    <div class="faq-item open" onclick="this.classList.toggle('open')"><div class="faq-question">最小ロットは何個から？</div><div class="faq-answer">最小ロットは100個からです。サンプル制作は10個でお届けします。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">対応データ形式は？</div><div class="faq-answer">AI、PSD、PDFに対応。CMYK、350dpi以上推奨。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">納期はどのくらい？</div><div class="faq-answer">100〜500個: 約7営業日、1,000個〜: 約10営業日。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">印刷範囲はどこまで対応できる？</div><div class="faq-answer">商品画像の「印刷範囲」でご確認ください。入稿テンプレートにも記載されています。</div></div>
+  </div>
+
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+  <!-- ===== BOTTOM CTA BAR (sticky, above tab bar) ===== -->
+  <div class="bottom-cta">
+    <div class="bottom-cta-price">
+      <div><span class="total">8,500円</span><span class="tax">（税込）</span></div>
+      <span class="unit">1個あたり85円</span>
+    </div>
+    <div class="bottom-cta-buttons">
+      <button class="btn-primary" onclick="openCartModal()">カートに追加</button>
+      <button class="btn-secondary" onclick="openCartModal()">サンプル<br>制作</button>
+    </div>
+  </div>
+
+
+  <!-- ===== CART MODAL (bottom sheet) ===== -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeCartModal()">&times;</button>
+      <div class="modal-title">商品をカートに入れました</div>
+      <div class="modal-info"><span>合計: <strong>2点</strong></span><span>金額: <strong>9,550円</strong></span></div>
+      <div class="modal-buttons">
+        <button class="modal-btn-outline" onclick="closeCartModal()">買い物を続ける</button>
+        <button class="modal-btn-primary">カートを見る</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
+    function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
+  </script>
+</body>
+</html>
