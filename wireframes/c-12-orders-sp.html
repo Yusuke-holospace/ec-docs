@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-12 注文履歴一覧（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .tab-nav { display: flex; background: #fff; border-bottom: 1px solid #ddd; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-nav a { flex-shrink: 0; padding: 12px 16px; font-size: 13px; font-weight: bold; color: #999; text-decoration: none; border-bottom: 2px solid transparent; min-height: 44px; display: flex; align-items: center; }
+    .tab-nav a.active { color: #333; border-bottom-color: #333; }
+    .page-title { font-size: 18px; font-weight: bold; padding: 16px 16px 8px; }
+
+    /* Filters */
+    .filters { display: flex; gap: 6px; padding: 8px 16px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { padding: 8px 14px; border: 1px solid #ddd; border-radius: 20px; background: #fff; font-size: 12px; cursor: pointer; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
+    .filter-btn.active { background: #333; color: #fff; border-color: #333; }
+
+    /* Order Cards */
+    .order-card { background: #fff; padding: 16px; margin: 0 0 8px; border-bottom: 1px solid #eee; }
+    .order-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .order-card-id { font-size: 13px; font-weight: bold; }
+    .order-card-date { font-size: 11px; color: #999; }
+    .order-card-badge { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 12px; }
+    .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .badge-waiting { background: #fff3e0; color: #e65100; }
+    .badge-complete { background: #e8f5e9; color: #2e7d32; }
+    .order-card-items { font-size: 12px; color: #666; margin-bottom: 8px; }
+    .order-card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .order-card-type { font-size: 11px; color: #999; }
+    .order-card-price { font-size: 15px; font-weight: bold; }
+
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><span class="nav-icon">icon</span>マイページ</a>
+        <a href="#"><span class="nav-icon">icon</span>カート</a>
+        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+      </div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+  </header>
+
+  <nav class="tab-nav">
+    <a href="#">マイページ</a>
+    <a href="#" class="active">注文履歴</a>
+    <a href="#">会員情報</a>
+    <a href="#">ログアウト</a>
+  </nav>
+
+  <div class="page-title">注文履歴</div>
+
+  <div class="filters">
+    <button class="filter-btn active">すべて</button>
+    <button class="filter-btn">通常注文</button>
+    <button class="filter-btn">サンプル</button>
+    <button class="filter-btn">進行中</button>
+    <button class="filter-btn">完了</button>
+  </div>
+
+  <div class="order-card">
+    <div class="order-card-header">
+      <div><span class="order-card-id">ORD-20260414-0023</span><span class="order-card-date" style="margin-left:8px;">2026/04/14</span></div>
+      <span class="order-card-badge badge-progress">入稿確認中</span>
+    </div>
+    <div class="order-card-items">缶バッジ 44mm x100 / アクスタ 100mm x200 / 他1点</div>
+    <div class="order-card-footer">
+      <span class="order-card-type">通常＋サンプル</span>
+      <span class="order-card-price">37,400円</span>
+    </div>
+  </div>
+
+  <div class="order-card">
+    <div class="order-card-header">
+      <div><span class="order-card-id">ORD-20260401-0018</span><span class="order-card-date" style="margin-left:8px;">2026/04/01</span></div>
+      <span class="order-card-badge badge-waiting">決済待ち</span>
+    </div>
+    <div class="order-card-items">ラバーストラップ 50mm x500</div>
+    <div class="order-card-footer">
+      <span class="order-card-type">通常注文</span>
+      <span class="order-card-price">15,200円</span>
+    </div>
+  </div>
+
+  <div class="order-card">
+    <div class="order-card-header">
+      <div><span class="order-card-id">ORD-20260315-0012</span><span class="order-card-date" style="margin-left:8px;">2026/03/15</span></div>
+      <span class="order-card-badge badge-complete">完了</span>
+    </div>
+    <div class="order-card-items">缶バッジ 44mm x200</div>
+    <div class="order-card-footer">
+      <span class="order-card-type">通常注文</span>
+      <span class="order-card-price">8,800円</span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+</body>
+</html>

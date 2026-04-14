@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-13 注文詳細（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    .back-bar { background: #fff; padding: 12px 16px; border-bottom: 1px solid #eee; }
+    .back-bar a { font-size: 13px; color: #1a73e8; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+
+    .section { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+
+    /* Status */
+    .status-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .status-badge { font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+    .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .status-info { font-size: 12px; color: #999; }
+
+    /* Timeline */
+    .timeline { margin-top: 12px; }
+    .timeline-item { display: flex; gap: 10px; padding-bottom: 14px; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; flex-shrink: 0; margin-top: 4px; }
+    .timeline-dot.active { background: #333; }
+    .timeline-dot.done { background: #2e7d32; }
+    .timeline-item:not(:last-child)::before { content: ""; position: absolute; left: 4px; top: 14px; width: 2px; height: calc(100% - 14px); background: #eee; }
+    .timeline-label { font-size: 12px; font-weight: bold; }
+    .timeline-date { font-size: 11px; color: #999; margin-top: 1px; }
+
+    /* Order Items */
+    .order-item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-image { width: 48px; height: 48px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 3px; margin-bottom: 2px; }
+    .badge-normal { background: #e8f4fd; color: #1a73e8; }
+    .badge-sample { background: #fef3e2; color: #e67e22; }
+    .order-item-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .order-item-options { font-size: 11px; color: #999; }
+    .order-item-price { font-size: 14px; font-weight: bold; flex-shrink: 0; align-self: flex-start; }
+    .order-item-price-unit { font-size: 10px; color: #999; font-weight: normal; text-align: right; }
+
+    /* Summary */
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .summary-row .label { color: #666; }
+    .summary-row .value { font-weight: bold; }
+    .summary-total { display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #eee; font-size: 16px; font-weight: bold; margin-top: 10px; }
+
+    /* Address */
+    .address-box { background: #f8f8f8; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.8; }
+
+    /* Actions */
+    .actions { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #fff; margin-bottom: 8px; }
+    .btn-primary { display: block; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; min-height: 48px; }
+    .btn-outline { display: block; background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px; font-size: 13px; cursor: pointer; text-align: center; text-decoration: none; min-height: 48px; }
+
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><span class="nav-icon">icon</span>マイページ</a>
+        <a href="#"><span class="nav-icon">icon</span>カート</a>
+        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+      </div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+  </header>
+
+  <div class="back-bar"><a href="#">注文履歴に戻る</a></div>
+
+  <!-- Status -->
+  <div class="section">
+    <div class="status-bar">
+      <span class="status-badge badge-progress">入稿確認中</span>
+      <span class="status-info">ORD-20260414-0023 / 2026/04/14</span>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">注文受付</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">承認済み</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">決済待ち</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">製造中</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">発送済み</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">完了</div></div></div>
+    </div>
+  </div>
+
+  <!-- Order Items -->
+  <div class="section">
+    <div class="section-title">注文商品（3点）</div>
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-normal">通常</span>
+        <div class="order-item-name">缶バッジ 44mm</div>
+        <div class="order-item-options">44mm / マット / 安全ピン / 100個</div>
+      </div>
+      <div class="order-item-price">8,500円<div class="order-item-price-unit">@85 x 100</div></div>
+    </div>
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-normal">通常</span>
+        <div class="order-item-name">アクスタ 100mm</div>
+        <div class="order-item-options">100mm / クリア / 200個</div>
+      </div>
+      <div class="order-item-price">27,000円<div class="order-item-price-unit">@120 x 200</div><div class="order-item-price-unit">+色校正 3,000</div></div>
+    </div>
+    <div class="order-item">
+      <div class="order-item-image">画像</div>
+      <div class="order-item-info">
+        <span class="order-item-badge badge-sample">サンプル</span>
+        <div class="order-item-name">缶バッジ 56mm</div>
+        <div class="order-item-options">56mm / グロス / マグネット / 1式</div>
+      </div>
+      <div class="order-item-price">1,900円<div class="order-item-price-unit">1式</div></div>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div class="section">
+    <div class="section-title">お支払い</div>
+    <div class="summary-row"><span class="label">支払い方法</span><span class="value">クレジットカード</span></div>
+    <div class="summary-row"><span class="label">商品合計</span><span class="value">37,400円</span></div>
+    <div class="summary-row"><span class="label">送料</span><span class="value">無料</span></div>
+    <div class="summary-total"><span>合計（税込）</span><span>37,400円</span></div>
+  </div>
+
+  <!-- Shipping -->
+  <div class="section">
+    <div class="section-title">配送先</div>
+    <div class="address-box">株式会社ホロスペース<br>鬼柳 裕介 様<br>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F<br>TEL: 03-1234-5678</div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <a href="#" class="btn-primary">リピート注文する</a>
+    <a href="#" class="btn-outline">再入稿する</a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+</body>
+</html>

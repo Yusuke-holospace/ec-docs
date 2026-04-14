@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-12 注文履歴一覧ページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; }
+    .search-bar { display: flex; align-items: center; gap: 8px; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px; border-bottom: 3px solid transparent; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+    .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
+    .breadcrumb a { color: #666; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+    .main { max-width: 960px; margin: 24px auto; padding: 0 24px; }
+    .mypage-layout { display: grid; grid-template-columns: 200px 1fr; gap: 24px; }
+    .side-nav { background: #fff; border-radius: 8px; padding: 16px; align-self: start; }
+    .side-nav a { display: block; padding: 12px 16px; font-size: 14px; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; }
+    .side-nav a:hover { background: #f5f5f5; }
+    .side-nav a.active { background: #333; color: #fff; }
+    .page-title { font-size: 20px; font-weight: bold; margin-bottom: 16px; }
+
+    /* Filters */
+    .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 16px; border: 1px solid #ddd; border-radius: 20px; background: #fff; font-size: 13px; cursor: pointer; }
+    .filter-btn.active { background: #333; color: #fff; border-color: #333; }
+
+    /* Order Cards */
+    .order-card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 12px; border: 1px solid #eee; cursor: pointer; transition: border-color 0.2s; }
+    .order-card:hover { border-color: #333; }
+    .order-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .order-card-id { font-size: 15px; font-weight: bold; }
+    .order-card-date { font-size: 13px; color: #999; }
+    .order-card-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+    .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .badge-waiting { background: #fff3e0; color: #e65100; }
+    .badge-complete { background: #e8f5e9; color: #2e7d32; }
+    .order-card-items { font-size: 13px; color: #666; margin-bottom: 8px; }
+    .order-card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .order-card-type { font-size: 12px; color: #999; }
+    .order-card-price { font-size: 16px; font-weight: bold; }
+
+    /* Empty */
+    .orders-empty { background: #fff; border-radius: 8px; padding: 48px; text-align: center; color: #999; }
+    .orders-empty a { display: inline-block; margin-top: 16px; padding: 12px 24px; background: #333; color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; }
+
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+    @media (max-width: 768px) {
+      .mypage-layout { grid-template-columns: 1fr; }
+      .side-nav { display: none; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="header-top-left"><div class="logo">LOGO</div><div class="search-bar"><input type="text" placeholder="商品を検索..."><button>検索</button></div></div>
+      <div class="header-top-right"><a href="#">ご利用ガイド</a><span class="divider">|</span><a href="#">FAQ</a><span class="divider">|</span><a href="#">入稿について</a><span class="divider">|</span><a href="#">マイページ</a><span class="divider">|</span><a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span></a></div>
+    </div>
+    <nav class="header-categories"><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">ストラップ</a><a href="#">トレーディングカード</a><a href="#">タオル・布製品</a><a href="#">その他グッズ</a></nav>
+  </header>
+
+  <div class="breadcrumb"><a href="#">トップ</a><span>></span><a href="#">マイページ</a><span>></span>注文履歴</div>
+
+  <div class="main">
+    <div class="mypage-layout">
+      <nav class="side-nav">
+        <a href="#">マイページ</a>
+        <a href="#" class="active">注文履歴</a>
+        <a href="#">会員情報</a>
+        <a href="#">ログアウト</a>
+      </nav>
+
+      <div>
+        <div class="page-title">注文履歴</div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <button class="filter-btn active">すべて</button>
+          <button class="filter-btn">通常注文</button>
+          <button class="filter-btn">サンプル制作</button>
+          <button class="filter-btn">進行中</button>
+          <button class="filter-btn">完了</button>
+        </div>
+
+        <!-- Order Cards -->
+        <div class="order-card">
+          <div class="order-card-header">
+            <div>
+              <span class="order-card-id">ORD-20260414-0023</span>
+              <span class="order-card-date" style="margin-left:12px;">2026/04/14</span>
+            </div>
+            <span class="order-card-badge badge-progress">入稿確認中</span>
+          </div>
+          <div class="order-card-items">オリジナル缶バッジ 44mm x100 / アクリルスタンド 100mm x200 / 他1点</div>
+          <div class="order-card-footer">
+            <span class="order-card-type">通常注文＋サンプル制作</span>
+            <span class="order-card-price">37,400円</span>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-card-header">
+            <div>
+              <span class="order-card-id">ORD-20260401-0018</span>
+              <span class="order-card-date" style="margin-left:12px;">2026/04/01</span>
+            </div>
+            <span class="order-card-badge badge-waiting">決済待ち</span>
+          </div>
+          <div class="order-card-items">ラバーストラップ 50mm x500</div>
+          <div class="order-card-footer">
+            <span class="order-card-type">通常注文</span>
+            <span class="order-card-price">15,200円</span>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-card-header">
+            <div>
+              <span class="order-card-id">ORD-20260315-0012</span>
+              <span class="order-card-date" style="margin-left:12px;">2026/03/15</span>
+            </div>
+            <span class="order-card-badge badge-complete">完了</span>
+          </div>
+          <div class="order-card-items">オリジナル缶バッジ 44mm x200</div>
+          <div class="order-card-footer">
+            <span class="order-card-type">通常注文</span>
+            <span class="order-card-price">8,800円</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="breadcrumb"><a href="#">トップ</a><span>></span><a href="#">マイページ</a><span>></span>注文履歴</div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>

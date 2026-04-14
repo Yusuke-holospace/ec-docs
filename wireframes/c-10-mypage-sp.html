@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-10 マイページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    /* ===== Tab Nav (replaces side nav) ===== */
+    .tab-nav { display: flex; background: #fff; border-bottom: 1px solid #ddd; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-nav a { flex-shrink: 0; padding: 12px 16px; font-size: 13px; font-weight: bold; color: #999; text-decoration: none; border-bottom: 2px solid transparent; min-height: 44px; display: flex; align-items: center; }
+    .tab-nav a.active { color: #333; border-bottom-color: #333; }
+
+    /* ===== Welcome ===== */
+    .welcome { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .welcome-name { font-size: 15px; font-weight: bold; margin-bottom: 2px; }
+    .welcome-company { font-size: 12px; color: #999; }
+    .welcome-warning { margin-top: 10px; padding: 10px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 12px; color: #f57f17; }
+
+    /* ===== Menu Cards ===== */
+    .menu-cards { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; margin-bottom: 8px; }
+    .menu-card { background: #fff; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px; border: 1px solid #eee; text-decoration: none; color: #333; min-height: 44px; }
+    .menu-card-icon { width: 36px; height: 36px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; flex-shrink: 0; }
+    .menu-card-body { flex: 1; }
+    .menu-card-title { font-size: 14px; font-weight: bold; }
+    .menu-card-desc { font-size: 11px; color: #999; margin-top: 2px; }
+    .menu-card-badge { background: #e53e3e; color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+    .menu-card-arrow { color: #ccc; font-size: 16px; flex-shrink: 0; }
+
+    /* ===== Recent Orders ===== */
+    .recent-orders { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .section-title a { font-size: 12px; color: #1a73e8; text-decoration: underline; font-weight: normal; }
+    .order-row { padding: 12px 0; border-bottom: 1px solid #eee; }
+    .order-row:last-child { border-bottom: none; }
+    .order-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .order-row-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .badge-complete { background: #e8f5e9; color: #2e7d32; }
+    .order-row-id { font-size: 13px; font-weight: bold; }
+    .order-row-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .order-row-date { font-size: 12px; color: #999; }
+    .order-row-price { font-size: 14px; font-weight: bold; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><span class="nav-icon">icon</span>マイページ</a>
+        <a href="#"><span class="nav-icon">icon</span>カート</a>
+        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="商品名・キーワード">
+      <button>検索</button>
+    </div>
+  </header>
+
+  <!-- ===== WELCOME ===== -->
+  <div class="welcome">
+    <div class="welcome-name">yusuke@holospace.jp</div>
+    <div class="welcome-company" style="color:#999;">会社情報未登録</div>
+    <div class="welcome-warning">会社情報が未登録です。入稿・注文確定には登録が必要です。<a href="#" style="color:#1a73e8;margin-left:8px;">登録する</a></div>
+  </div>
+
+  <!-- ===== MENU CARDS ===== -->
+  <div class="menu-cards">
+    <a class="menu-card" href="#">
+      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">注文履歴</div>
+        <div class="menu-card-desc">注文状況の確認・再入稿・リピート注文</div>
+      </div>
+      <span class="menu-card-badge">2</span>
+      <span class="menu-card-arrow">></span>
+    </a>
+    <a class="menu-card" href="#">
+      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">会員情報</div>
+        <div class="menu-card-desc">会社名・住所・電話番号の確認・変更</div>
+      </div>
+      <span class="menu-card-arrow">></span>
+    </a>
+    <a class="menu-card" href="#">
+      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">ログアウト</div>
+      </div>
+      <span class="menu-card-arrow">></span>
+    </a>
+  </div>
+
+  <!-- ===== RECENT ORDERS ===== -->
+  <div class="recent-orders">
+    <div class="section-title">最近の注文 <a href="#">すべて見る</a></div>
+    <div class="order-row">
+      <div class="order-row-top">
+        <span class="order-row-badge badge-progress">入稿確認中</span>
+        <span class="order-row-id">ORD-20260414-0023</span>
+      </div>
+      <div class="order-row-bottom">
+        <span class="order-row-date">2026/04/14</span>
+        <span class="order-row-price">37,400円</span>
+      </div>
+    </div>
+    <div class="order-row">
+      <div class="order-row-top">
+        <span class="order-row-badge badge-complete">完了</span>
+        <span class="order-row-id">ORD-20260401-0018</span>
+      </div>
+      <div class="order-row-bottom">
+        <span class="order-row-date">2026/04/01</span>
+        <span class="order-row-price">15,200円</span>
+      </div>
+    </div>
+    <div class="order-row">
+      <div class="order-row-top">
+        <span class="order-row-badge badge-complete">完了</span>
+        <span class="order-row-id">ORD-20260315-0012</span>
+      </div>
+      <div class="order-row-bottom">
+        <span class="order-row-date">2026/03/15</span>
+        <span class="order-row-price">8,800円</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+</body>
+</html>

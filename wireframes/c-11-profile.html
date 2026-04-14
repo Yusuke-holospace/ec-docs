@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-11 会員情報編集ページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; color: #333; }
+    .search-bar { display: flex; align-items: center; gap: 8px; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px; border-bottom: 3px solid transparent; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+    .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
+    .breadcrumb a { color: #666; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+    .main { max-width: 960px; margin: 24px auto; padding: 0 24px; }
+    .mypage-layout { display: grid; grid-template-columns: 200px 1fr; gap: 24px; }
+    .side-nav { background: #fff; border-radius: 8px; padding: 16px; align-self: start; }
+    .side-nav a { display: block; padding: 12px 16px; font-size: 14px; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; }
+    .side-nav a:hover { background: #f5f5f5; }
+    .side-nav a.active { background: #333; color: #fff; }
+    .content { }
+    .page-title { font-size: 20px; font-weight: bold; margin-bottom: 24px; }
+    .form-section { background: #fff; border-radius: 8px; padding: 32px; margin-bottom: 16px; }
+    .form-section-title { font-size: 16px; font-weight: bold; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .form-label .required { color: #e53e3e; font-size: 11px; font-weight: normal; }
+    .form-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { flex: 1; }
+    .postal-btn { padding: 12px 16px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .actions { display: flex; gap: 12px; justify-content: flex-end; }
+    .btn-primary { background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px 32px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .btn-outline { background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px 32px; font-size: 14px; cursor: pointer; text-decoration: none; }
+    .save-msg { display: none; text-align: center; padding: 12px; background: #e8f5e9; border-radius: 6px; margin-bottom: 16px; font-size: 14px; color: #2e7d32; }
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+    @media (max-width: 768px) {
+      .mypage-layout { grid-template-columns: 1fr; }
+      .side-nav { display: none; }
+      .form-row { flex-direction: column; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <div class="header-top-left">
+        <div class="logo">LOGO</div>
+        <div class="search-bar"><input type="text" placeholder="商品を検索..."><button>検索</button></div>
+      </div>
+      <div class="header-top-right">
+        <a href="#">ご利用ガイド</a><span class="divider">|</span><a href="#">FAQ</a><span class="divider">|</span><a href="#">入稿について</a><span class="divider">|</span><a href="#">マイページ</a><span class="divider">|</span>
+        <a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span></a>
+      </div>
+    </div>
+    <nav class="header-categories">
+      <a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">ストラップ</a><a href="#">トレーディングカード</a><a href="#">タオル・布製品</a><a href="#">その他グッズ</a>
+    </nav>
+  </header>
+
+  <div class="breadcrumb"><a href="#">トップ</a><span>></span><a href="#">マイページ</a><span>></span>会員情報</div>
+
+  <div class="main">
+    <div class="mypage-layout">
+      <nav class="side-nav">
+        <a href="#">マイページ</a>
+        <a href="#">注文履歴</a>
+        <a href="#" class="active">会員情報</a>
+        <a href="#">ログアウト</a>
+      </nav>
+
+      <div class="content">
+        <div class="page-title">会員情報</div>
+
+        <div class="save-msg" id="saveMsg">保存しました</div>
+
+        <div class="form-section">
+          <div class="form-section-title">会社情報</div>
+          <div class="form-group">
+            <div class="form-label">会社名 <span class="required">必須</span></div>
+            <input class="form-input" type="text" value="株式会社ホロスペース">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <div class="form-label">担当者名（姓） <span class="required">必須</span></div>
+              <input class="form-input" type="text" value="鬼柳">
+            </div>
+            <div class="form-group">
+              <div class="form-label">担当者名（名） <span class="required">必須</span></div>
+              <input class="form-input" type="text" value="裕介">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">電話番号 <span class="required">必須</span></div>
+            <input class="form-input" type="tel" value="03-1234-5678">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">住所（配送先）</div>
+          <div class="form-group">
+            <div class="form-label">郵便番号 <span class="required">必須</span></div>
+            <div style="display:flex;gap:8px;">
+              <input class="form-input" type="text" value="150-0001" style="max-width:90px;">
+              <button class="postal-btn">住所検索</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">都道府県 <span class="required">必須</span></div>
+            <select class="form-input"><option selected>東京都</option></select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">市区町村・番地 <span class="required">必須</span></div>
+            <input class="form-input" type="text" value="渋谷区神宮前1-2-3">
+          </div>
+          <div class="form-group">
+            <div class="form-label">建物名・部屋番号</div>
+            <input class="form-input" type="text" value="ABCビル 5F">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">アカウント</div>
+          <div class="form-group">
+            <div class="form-label">メールアドレス</div>
+            <div style="font-size:14px;color:#666;">yusuke@holospace.jp</div>
+            <div style="font-size:12px;color:#999;margin-top:4px;">Googleアカウントでログイン中</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" onclick="document.getElementById('saveMsg').style.display='block'">変更を保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="breadcrumb"><a href="#">トップ</a><span>></span><a href="#">マイページ</a><span>></span>会員情報</div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
