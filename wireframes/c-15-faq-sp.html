@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-15 FAQページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .page-title { font-size: 18px; font-weight: bold; padding: 16px 16px 4px; }
+    .page-desc { font-size: 12px; color: #666; padding: 0 16px 16px; }
+    .faq-section { background: #fff; padding: 16px; margin-bottom: 8px; }
+    .faq-section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .faq-item { border-bottom: 1px solid #eee; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; font-size: 13px; font-weight: bold; min-height: 44px; }
+    .faq-question::after { content: "+"; font-size: 16px; color: #999; }
+    .faq-item.open .faq-question::after { content: "-"; }
+    .faq-answer { display: none; padding: 0 0 14px; font-size: 13px; line-height: 1.7; color: #666; }
+    .faq-item.open .faq-answer { display: block; }
+    .contact-link { text-align: center; padding: 16px; font-size: 13px; color: #666; }
+    .contact-link a { color: #1a73e8; text-decoration: underline; }
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top"><div class="logo">LOGO</div><div class="header-top-right"><a href="#"><span class="nav-icon">icon</span>ログイン</a><a href="#"><span class="nav-icon">icon</span>カート</a><a href="#"><span class="nav-icon">icon</span>メニュー</a></div></div>
+    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+  </header>
+  <div class="page-title">よくある質問</div>
+  <div class="page-desc">お客様からよくいただくご質問をまとめました。</div>
+  <div class="faq-section">
+    <div class="faq-section-title">注文について</div>
+    <div class="faq-item open" onclick="this.classList.toggle('open')"><div class="faq-question">最小ロットは何個から？</div><div class="faq-answer">商品によって異なります。各商品ページでご確認ください。サンプル制作は1式（10個）から。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">注文後のキャンセルは？</div><div class="faq-answer">原則としてキャンセルはお受けできません。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">支払い方法は？</div><div class="faq-answer">クレジットカード、銀行振込、請求書払いに対応。</div></div>
+  </div>
+  <div class="faq-section">
+    <div class="faq-section-title">入稿について</div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">対応データ形式は？</div><div class="faq-answer">AI、PSD、PDF。詳しくは各商品の入稿仕様をご確認ください。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">ファイルサイズ上限は？</div><div class="faq-answer">1ファイルあたり200MBまで。</div></div>
+  </div>
+  <div class="faq-section">
+    <div class="faq-section-title">配送について</div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">納期は？</div><div class="faq-answer">商品や数量によって異なります。各商品ページでご確認ください。</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-question">送料は？</div><div class="faq-answer">商品ごとに設定。カート合計が一定以上で送料無料。</div></div>
+  </div>
+  <div class="contact-link">お探しの回答が見つからない場合は<a href="#">お問い合わせ</a>ください。</div>
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+</body>
+</html>

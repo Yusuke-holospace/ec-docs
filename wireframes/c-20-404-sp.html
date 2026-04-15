@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-20 404エラーページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .main { padding: 48px 16px; text-align: center; }
+    .error-code { font-size: 56px; font-weight: bold; color: #ddd; margin-bottom: 12px; }
+    .error-title { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+    .error-desc { font-size: 13px; color: #666; margin-bottom: 24px; line-height: 1.7; }
+    .error-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-primary { display: block; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; min-height: 48px; }
+    .btn-outline { display: block; background: #fff; color: #333; border: 1px solid #333; border-radius: 8px; padding: 14px; font-size: 13px; cursor: pointer; text-decoration: none; text-align: center; min-height: 48px; }
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 48px; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top"><div class="logo">LOGO</div><div class="header-top-right"><a href="#"><span class="nav-icon">icon</span>ログイン</a><a href="#"><span class="nav-icon">icon</span>カート</a><a href="#"><span class="nav-icon">icon</span>メニュー</a></div></div>
+    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+  </header>
+  <div class="main">
+    <div class="error-code">404</div>
+    <div class="error-title">ページが見つかりません</div>
+    <div class="error-desc">お探しのページは存在しないか、<br>移動した可能性があります。</div>
+    <div class="error-actions">
+      <a href="#" class="btn-primary">トップページへ</a>
+      <a href="#" class="btn-outline">商品一覧へ</a>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+</body>
+</html>

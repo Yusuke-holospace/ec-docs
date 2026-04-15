@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-14 問い合わせフォーム（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .page-title { font-size: 18px; font-weight: bold; padding: 16px 16px 4px; }
+    .page-desc { font-size: 12px; color: #666; padding: 0 16px 16px; }
+    .form-box { background: #fff; padding: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .form-label .required { color: #e53e3e; font-size: 11px; font-weight: normal; }
+    .form-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-height: 44px; }
+    .form-textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-height: 140px; resize: vertical; font-family: inherit; }
+    .form-select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #fff; min-height: 44px; }
+    .product-info { background: #f8f8f8; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .product-info-image { width: 40px; height: 40px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #999; flex-shrink: 0; }
+    .product-info-name { font-size: 13px; font-weight: bold; flex: 1; }
+    .product-info-clear { font-size: 11px; color: #999; text-decoration: underline; min-height: 44px; display: flex; align-items: center; }
+    .recaptcha { background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; padding: 12px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #666; }
+    .recaptcha-box { width: 24px; height: 24px; border: 2px solid #ddd; border-radius: 4px; flex-shrink: 0; }
+    .btn-primary { display: block; width: 100%; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; min-height: 48px; }
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top"><div class="logo">LOGO</div><div class="header-top-right"><a href="#"><span class="nav-icon">icon</span>ログイン</a><a href="#"><span class="nav-icon">icon</span>カート</a><a href="#"><span class="nav-icon">icon</span>メニュー</a></div></div>
+    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+  </header>
+  <div class="page-title">お問い合わせ</div>
+  <div class="page-desc">商品やサービスに関するご質問・ご相談を承ります。</div>
+  <div class="form-box">
+    <div class="product-info"><div class="product-info-image">画像</div><div class="product-info-name">オリジナル缶バッジ 44mm</div><span class="product-info-clear">解除</span></div>
+    <div class="form-group"><div class="form-label">お名前 <span class="required">必須</span></div><input class="form-input" type="text" placeholder="例: 鬼柳 裕介"></div>
+    <div class="form-group"><div class="form-label">会社名</div><input class="form-input" type="text" placeholder="例: 株式会社ホロスペース"></div>
+    <div class="form-group"><div class="form-label">メールアドレス <span class="required">必須</span></div><input class="form-input" type="email" placeholder="例: yusuke@holospace.jp"></div>
+    <div class="form-group"><div class="form-label">お問い合わせ種別 <span class="required">必須</span></div><select class="form-select"><option value="">選択してください</option><option selected>商品について</option><option>注文について</option><option>入稿について</option><option>配送について</option><option>その他</option></select></div>
+    <div class="form-group"><div class="form-label">お問い合わせ内容 <span class="required">必須</span></div><textarea class="form-textarea" placeholder="お問い合わせ内容をご記入ください"></textarea></div>
+    <div class="recaptcha"><div class="recaptcha-box"></div>reCAPTCHA（スパム対策）</div>
+    <button class="btn-primary">送信する</button>
+  </div>
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+</body>
+</html>
