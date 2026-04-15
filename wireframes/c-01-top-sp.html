@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-01 トップページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; position: relative; }
+    .header-top-right .cart-badge .nav-icon::after { content: "2"; position: absolute; top: -4px; right: -6px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    /* ===== Hero Slider ===== */
+    .hero { position: relative; background: #fff; overflow: hidden; }
+    .hero-slides { display: flex; transition: transform 0.5s ease; }
+    .hero-slide { min-width: 100%; height: 240px; background: #e8e8e8; display: flex; align-items: center; justify-content: center; position: relative; }
+    .hero-slide-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; }
+    .hero-slide-content { text-align: center; z-index: 2; padding: 0 24px; }
+    .hero-slide-content h1 { font-size: 22px; font-weight: bold; margin-bottom: 8px; color: #333; }
+    .hero-slide-content p { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.5; }
+    .hero-slide-content .btn-hero { display: inline-block; background: #333; color: #fff; border: none; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: none; }
+    .hero-slide-content .btn-hero-outline { display: inline-block; background: #fff; color: #333; border: 2px solid #333; border-radius: 8px; padding: 10px 20px; font-size: 13px; cursor: pointer; text-decoration: none; margin-top: 8px; }
+    .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 3; }
+    .hero-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; cursor: pointer; }
+    .hero-dot.active { background: #333; }
+
+    /* ===== Section Common ===== */
+    .section { padding: 32px 16px; }
+    .section-title { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
+    .section-subtitle { font-size: 12px; color: #666; margin-bottom: 20px; }
+    .section-more { display: inline-block; margin-top: 16px; font-size: 13px; color: #333; text-decoration: none; font-weight: bold; }
+
+    /* ===== Category Grid ===== */
+    .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .category-card { background: #f5f5f5; border: none; border-radius: 8px; overflow: hidden; text-decoration: none; color: #333; text-align: center; }
+    .category-card-image { aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
+    .category-card-body { padding: 6px 4px; background: #f5f5f5; }
+    .category-card-name { font-size: 11px; font-weight: bold; }
+
+    /* ===== Ranking Scroll ===== */
+    .ranking-scroll { display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .ranking-scroll::-webkit-scrollbar { display: none; }
+    .ranking-card { flex-shrink: 0; width: 150px; background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; position: relative; text-decoration: none; color: #333; }
+    .ranking-badge { position: absolute; top: 6px; left: 6px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: #fff; z-index: 2; }
+    .ranking-badge.rank-1 { background: #d4a017; }
+    .ranking-badge.rank-2 { background: #a0a0a0; }
+    .ranking-badge.rank-3 { background: #b87333; }
+    .ranking-badge.rank-4 { background: #666; }
+    .ranking-card-image { aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; }
+    .ranking-card-body { padding: 8px; }
+    .ranking-card-category { font-size: 10px; color: #999; }
+    .ranking-card-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .ranking-card-price { font-size: 12px; color: #666; }
+    .new-badge { position: absolute; top: 6px; left: 6px; background: #e53e3e; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; z-index: 2; }
+
+    /* ===== Price Tabs ===== */
+    .price-tabs { display: flex; gap: 0; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .price-tabs::-webkit-scrollbar { display: none; }
+    .price-tab { padding: 8px 14px; font-size: 12px; font-weight: bold; border: 1px solid #ddd; background: #fff; cursor: pointer; color: #666; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
+    .price-tab:first-child { border-radius: 4px 0 0 4px; }
+    .price-tab:last-child { border-radius: 0 4px 4px 0; }
+    .price-tab.active { background: #333; color: #fff; border-color: #333; }
+    .price-tab-content { display: none; }
+    .price-tab-content.active { display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .price-tab-content::-webkit-scrollbar { display: none; }
+    .price-card { flex-shrink: 0; width: 150px; background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; text-decoration: none; color: #333; }
+    .price-card-image { aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; }
+    .price-card-body { padding: 8px; }
+    .price-card-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .price-card-price { font-size: 12px; color: #666; }
+
+    /* ===== Steps ===== */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 16px; padding: 16px 0; align-items: flex-start; }
+    .step-number { width: 36px; height: 36px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; flex-shrink: 0; }
+    .step-body { flex: 1; }
+    .step-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .step-desc { font-size: 12px; color: #666; line-height: 1.5; }
+    .step-arrow { text-align: center; font-size: 18px; color: #ccc; padding: 4px 0; padding-left: 10px; }
+
+    /* ===== Reasons ===== */
+    .reasons-list { display: flex; flex-direction: column; gap: 12px; }
+    .reason-card { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px 16px; display: flex; gap: 16px; align-items: flex-start; }
+    .reason-icon { width: 48px; height: 48px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; flex-shrink: 0; }
+    .reason-body { flex: 1; }
+    .reason-title { font-size: 15px; font-weight: bold; margin-bottom: 4px; }
+    .reason-desc { font-size: 12px; color: #666; line-height: 1.5; }
+
+    /* ===== Cases ===== */
+    .cases-scroll { display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .cases-scroll::-webkit-scrollbar { display: none; }
+    .case-card { flex-shrink: 0; width: 220px; background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+    .case-card-image { aspect-ratio: 4/3; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; }
+    .case-card-body { padding: 10px; }
+    .case-card-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .case-card-meta { font-size: 11px; color: #666; }
+
+    /* ===== CTA Section ===== */
+    .cta-section { background: #f0f0f0; padding: 32px 16px; text-align: center; }
+    .cta-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
+    .cta-desc { font-size: 12px; color: #666; margin-bottom: 20px; }
+    .cta-buttons { display: flex; flex-direction: column; gap: 10px; }
+    .btn-primary { display: block; background: #333; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; min-height: 44px; }
+    .btn-secondary { display: block; background: #fff; color: #333; border: 2px solid #333; border-radius: 8px; padding: 12px; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; min-height: 44px; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><div class="nav-icon">icon</div><span>ログイン</span></a>
+        <a href="#" class="cart-badge"><div class="nav-icon">icon</div><span>カート</span></a>
+        <a href="#"><div class="nav-icon">icon</div><span>メニュー</span></a>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="商品を検索...">
+      <button>検索</button>
+    </div>
+  </header>
+
+  <!-- ===== HERO SLIDER ===== -->
+  <div class="hero">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide">
+        <div class="hero-slide-bg">バナー画像 1</div>
+        <div class="hero-slide-content">
+          <h1>推し活グッズを、<br>もっと手軽に。</h1>
+          <p>デザインデータを入稿するだけ。<br>小ロット制作から大量生産まで対応。</p>
+          <a href="#" class="btn-hero">商品を探す</a>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-slide-bg">バナー画像 2</div>
+        <div class="hero-slide-content">
+          <h1>サンプル10個から<br>制作OK</h1>
+          <p>まずは少量から試せる。<br>色味やサイズ感を実物で確認。</p>
+          <a href="#" class="btn-hero">サンプル制作について</a>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-slide-bg">バナー画像 3</div>
+        <div class="hero-slide-content">
+          <h1>テンプレートで<br>簡単入稿</h1>
+          <p>テンプレートをダウンロードして<br>デザインを当てはめるだけ。</p>
+          <a href="#" class="btn-hero">ご利用ガイドを見る</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots">
+      <div class="hero-dot active" onclick="goSlide(0)"></div>
+      <div class="hero-dot" onclick="goSlide(1)"></div>
+      <div class="hero-dot" onclick="goSlide(2)"></div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORY SECTION ===== -->
+  <div class="section">
+    <div class="category-grid">
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">缶バッジ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">アクスタ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">キーホルダー</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">ストラップ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">トレカ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">クリアファイル</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">ステッカー</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">タオル</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">Tシャツ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">トートバッグ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">うちわ</div></div></a>
+      <a class="category-card" href="#"><div class="category-card-image">画像</div><div class="category-card-body"><div class="category-card-name">その他</div></div></a>
+    </div>
+  </div>
+
+  <!-- ===== RANKING SECTION ===== -->
+  <div style="background: #fff;">
+    <div class="section">
+      <div class="section-title">人気ランキング</div>
+      <div class="section-subtitle">よく注文されている商品</div>
+      <div class="ranking-scroll">
+        <a class="ranking-card" href="#">
+          <div class="ranking-badge rank-1">1</div>
+          <div class="ranking-card-image">商品画像</div>
+          <div class="ranking-card-body">
+            <div class="ranking-card-category">缶バッジ</div>
+            <div class="ranking-card-name">缶バッジ 44mm</div>
+            <div class="ranking-card-price">@88円〜</div>
+          </div>
+        </a>
+        <a class="ranking-card" href="#">
+          <div class="ranking-badge rank-2">2</div>
+          <div class="ranking-card-image">商品画像</div>
+          <div class="ranking-card-body">
+            <div class="ranking-card-category">アクスタ</div>
+            <div class="ranking-card-name">アクスタ A5</div>
+            <div class="ranking-card-price">@150円〜</div>
+          </div>
+        </a>
+        <a class="ranking-card" href="#">
+          <div class="ranking-badge rank-3">3</div>
+          <div class="ranking-card-image">商品画像</div>
+          <div class="ranking-card-body">
+            <div class="ranking-card-category">キーホルダー</div>
+            <div class="ranking-card-name">アクキー</div>
+            <div class="ranking-card-price">@120円〜</div>
+          </div>
+        </a>
+        <a class="ranking-card" href="#">
+          <div class="ranking-badge rank-4">4</div>
+          <div class="ranking-card-image">商品画像</div>
+          <div class="ranking-card-body">
+            <div class="ranking-card-category">缶バッジ</div>
+            <div class="ranking-card-name">缶バッジ 56mm</div>
+            <div class="ranking-card-price">@95円〜</div>
+          </div>
+        </a>
+      </div>
+      <a class="section-more" href="#">ランキングをもっと見る ></a>
+    </div>
+  </div>
+
+  <!-- ===== NEW PRODUCTS SECTION ===== -->
+  <div class="section">
+    <div class="section-title">新商品</div>
+    <div class="section-subtitle">最近追加された商品</div>
+    <div class="ranking-scroll">
+      <a class="ranking-card" href="#">
+        <div class="new-badge">NEW</div>
+        <div class="ranking-card-image">商品画像</div>
+        <div class="ranking-card-body">
+          <div class="ranking-card-category">缶バッジ</div>
+          <div class="ranking-card-name">ホログラム缶バッジ</div>
+          <div class="ranking-card-price">@110円〜</div>
+        </div>
+      </a>
+      <a class="ranking-card" href="#">
+        <div class="new-badge">NEW</div>
+        <div class="ranking-card-image">商品画像</div>
+        <div class="ranking-card-body">
+          <div class="ranking-card-category">アクスタ</div>
+          <div class="ranking-card-name">アクスタ ミニ</div>
+          <div class="ranking-card-price">@130円〜</div>
+        </div>
+      </a>
+      <a class="ranking-card" href="#">
+        <div class="new-badge">NEW</div>
+        <div class="ranking-card-image">商品画像</div>
+        <div class="ranking-card-body">
+          <div class="ranking-card-category">ステッカー</div>
+          <div class="ranking-card-name">ダイカットステッカー</div>
+          <div class="ranking-card-price">@40円〜</div>
+        </div>
+      </a>
+      <a class="ranking-card" href="#">
+        <div class="new-badge">NEW</div>
+        <div class="ranking-card-image">商品画像</div>
+        <div class="ranking-card-body">
+          <div class="ranking-card-category">クリアファイル</div>
+          <div class="ranking-card-name">A4 3ポケット</div>
+          <div class="ranking-card-price">@75円〜</div>
+        </div>
+      </a>
+    </div>
+    <a class="section-more" href="#">新商品をもっと見る ></a>
+  </div>
+
+  <!-- ===== PRICE TABS SECTION ===== -->
+  <div class="section">
+    <div class="section-title">価格帯から探す</div>
+    <div class="section-subtitle">ご予算に合わせて商品を選べます</div>
+    <div class="price-tabs">
+      <div class="price-tab active" onclick="switchPriceTab(0)">〜99円</div>
+      <div class="price-tab" onclick="switchPriceTab(1)">100〜199円</div>
+      <div class="price-tab" onclick="switchPriceTab(2)">200〜499円</div>
+      <div class="price-tab" onclick="switchPriceTab(3)">500円〜</div>
+    </div>
+    <div class="price-tab-content active" id="priceTab0">
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">缶バッジ 44mm</div><div class="price-card-price">@88円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">缶バッジ 56mm</div><div class="price-card-price">@95円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">トレカ</div><div class="price-card-price">@50円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">缶バッジ 76mm</div><div class="price-card-price">@120円〜</div></div></a>
+    </div>
+    <div class="price-tab-content" id="priceTab1">
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">アクキー</div><div class="price-card-price">@120円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">アクスタ A5</div><div class="price-card-price">@150円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">ストラップ</div><div class="price-card-price">@100円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">メタルキーホルダー</div><div class="price-card-price">@180円〜</div></div></a>
+    </div>
+    <div class="price-tab-content" id="priceTab2">
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">タオル・布製品</div><div class="price-card-price">@300円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">アクスタ A4</div><div class="price-card-price">@250円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">ポーチ</div><div class="price-card-price">@350円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">マフラータオル</div><div class="price-card-price">@400円〜</div></div></a>
+    </div>
+    <div class="price-tab-content" id="priceTab3">
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">Tシャツ</div><div class="price-card-price">@500円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">パーカー</div><div class="price-card-price">@800円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">トートバッグ 大</div><div class="price-card-price">@600円〜</div></div></a>
+      <a class="price-card" href="#"><div class="price-card-image">画像</div><div class="price-card-body"><div class="price-card-name">ブランケット</div><div class="price-card-price">@1,200円〜</div></div></a>
+    </div>
+    <a class="section-more" href="#">この価格帯の商品をもっと見る ></a>
+  </div>
+
+  <!-- ===== STEPS SECTION ===== -->
+  <div style="background: #fff;">
+    <div class="section">
+      <div class="section-title">ご利用の流れ</div>
+      <div class="section-subtitle">ご注文から納品まで4ステップ</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-body">
+            <div class="step-title">商品を選ぶ</div>
+            <div class="step-desc">カテゴリや検索から商品を選択。オプション・数量を指定してカートに追加。</div>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-body">
+            <div class="step-title">デザインデータを入稿</div>
+            <div class="step-desc">テンプレートをダウンロードし、デザインを当てはめてアップロード。</div>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-body">
+            <div class="step-title">スタッフが確認・決済案内</div>
+            <div class="step-desc">入稿データを専門スタッフが確認。問題なければ決済のご案内をお送りします。</div>
+          </div>
+        </div>
+        <div class="step-arrow">↓</div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-body">
+            <div class="step-title">製造・お届け</div>
+            <div class="step-desc">お支払い確認後に製造を開始。完了次第、発送いたします。</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 16px;">
+        <a class="section-more" href="#">詳しくはご利用ガイドへ ></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== REASONS SECTION ===== -->
+  <div class="section">
+    <div class="section-title">選ばれる理由</div>
+    <div class="section-subtitle">推し活グッズ制作で選ばれる3つの理由</div>
+    <div class="reasons-list">
+      <div class="reason-card">
+        <div class="reason-icon">icon</div>
+        <div class="reason-body">
+          <div class="reason-title">小ロットOK</div>
+          <div class="reason-desc">サンプル制作は10個から対応。まずは少量で試して、納得してから量産できます。</div>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">icon</div>
+        <div class="reason-body">
+          <div class="reason-title">かんたん入稿</div>
+          <div class="reason-desc">商品ごとにテンプレートをご用意。ダウンロードしてデザインを当てはめるだけ。</div>
+        </div>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">icon</div>
+        <div class="reason-body">
+          <div class="reason-title">安心のデータ確認</div>
+          <div class="reason-desc">入稿データは専門スタッフが1点ずつ確認。不備があれば製造前にご連絡します。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CASES SECTION ===== -->
+  <div style="background: #fff;">
+    <div class="section">
+      <div class="section-title">制作事例</div>
+      <div class="section-subtitle">実際にご注文いただいた事例</div>
+      <div class="cases-scroll">
+        <div class="case-card">
+          <div class="case-card-image">事例画像</div>
+          <div class="case-card-body">
+            <div class="case-card-name">アイドルグループ 缶バッジセット</div>
+            <div class="case-card-meta">缶バッジ 44mm / 5,000個</div>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-card-image">事例画像</div>
+          <div class="case-card-body">
+            <div class="case-card-name">アニメコラボ アクスタ</div>
+            <div class="case-card-meta">アクスタ A5 / 3,000個</div>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-card-image">事例画像</div>
+          <div class="case-card-body">
+            <div class="case-card-name">キャラクター キーホルダー</div>
+            <div class="case-card-meta">アクキー / 2,000個</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CTA SECTION ===== -->
+  <div class="cta-section">
+    <div class="cta-title">ご不明点はお気軽に<br>お問い合わせください</div>
+    <div class="cta-desc">商品の選び方や入稿方法など、<br>お気軽にご相談いただけます。</div>
+    <div class="cta-buttons">
+      <a href="#" class="btn-primary">お問い合わせ</a>
+      <a href="#" class="btn-secondary">FAQを見る</a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+  <script>
+    /* Hero Slider */
+    let currentSlide = 0;
+    function goSlide(n) {
+      currentSlide = n;
+      document.getElementById('heroSlides').style.transform = 'translateX(-' + (n * 100) + '%)';
+      document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+    }
+    setInterval(() => { goSlide((currentSlide + 1) % 3); }, 5000);
+
+    /* Price Tabs */
+    function switchPriceTab(n) {
+      document.querySelectorAll('.price-tab').forEach((t, i) => t.classList.toggle('active', i === n));
+      document.querySelectorAll('.price-tab-content').forEach((c, i) => c.classList.toggle('active', i === n));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-02 商品一覧ページ - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .header-top-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 20px; font-weight: bold; color: #333; }
+    .search-bar { display: flex; align-items: center; gap: 8px; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
+    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+    .header-top-right { display: flex; align-items: center; gap: 16px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top-right .divider { color: #ddd; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; gap: 0; position: relative; z-index: 100; overflow: visible; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px 20px; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; }
+    .header-categories a:hover { border-bottom-color: #333; }
+    .category-item { position: relative; }
+    .category-dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #ddd; border-top: none; padding: 24px; min-width: 700px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .category-item:hover .category-dropdown { display: block; }
+    .category-dropdown-title { font-size: 14px; font-weight: bold; margin-bottom: 16px; }
+    .category-dropdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .category-dropdown-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 6px; cursor: pointer; text-decoration: none; color: #333; }
+    .category-dropdown-item:hover { background: #f5f5f5; }
+    .category-dropdown-img { width: 56px; height: 56px; background: #e8e8e8; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; }
+    .category-dropdown-name { font-size: 13px; font-weight: bold; }
+    .category-dropdown-desc { font-size: 11px; color: #999; margin-top: 2px; }
+
+    /* ===== Breadcrumb ===== */
+    .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; position: relative; z-index: 1; }
+    .breadcrumb a { color: #666; text-decoration: none; }
+    .breadcrumb span { margin: 0 4px; }
+
+    /* ===== Main ===== */
+    .main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+    /* ===== Page Title ===== */
+    .page-header { margin-bottom: 24px; }
+    .page-title { font-size: 24px; font-weight: bold; margin-bottom: 4px; }
+    .page-count { font-size: 14px; color: #666; }
+
+    /* ===== Filter Bar ===== */
+    .filter-bar { margin-bottom: 24px; padding: 16px 20px; background: #fff; border-radius: 8px; border: 1px solid #eee; }
+    .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-row + .filter-row { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
+    .filter-label { font-size: 13px; color: #666; margin-right: 4px; flex-shrink: 0; }
+    .filter-pill { padding: 6px 16px; border: 1px solid #ddd; border-radius: 20px; font-size: 13px; background: #fff; cursor: pointer; color: #333; text-decoration: none; }
+    .filter-pill:hover { border-color: #333; }
+    .filter-pill.active { background: #333; color: #fff; border-color: #333; }
+    .filter-meta { display: flex; justify-content: space-between; align-items: center; }
+    .filter-count { font-size: 13px; color: #666; }
+    .sort-select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; background: #fff; cursor: pointer; }
+
+    /* ===== Product Grid ===== */
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .product-card { background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; cursor: pointer; transition: border-color 0.2s; text-decoration: none; color: #333; }
+    .product-card:hover { border-color: #333; }
+    .product-card-image { aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #999; position: relative; }
+    .product-card-badge { position: absolute; top: 8px; left: 8px; background: #e53e3e; color: #fff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+    .product-card-body { padding: 14px; }
+    .product-card-category { font-size: 11px; color: #999; margin-bottom: 4px; }
+    .product-card-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; line-height: 1.4; }
+    .product-card-price { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .product-card-delivery { font-size: 12px; color: #666; }
+
+    /* ===== Pagination ===== */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 4px; margin-bottom: 32px; }
+    .pagination a, .pagination span { display: flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; text-decoration: none; color: #333; background: #fff; cursor: pointer; }
+    .pagination a:hover { border-color: #333; }
+    .pagination .current { background: #333; color: #fff; border-color: #333; }
+    .pagination .dots { border: none; background: none; cursor: default; min-width: 24px; }
+    .pagination .disabled { color: #ccc; cursor: default; border-color: #eee; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="header-top-left">
+        <div class="logo">LOGO</div>
+        <div class="search-bar">
+          <input type="text" placeholder="商品を検索...">
+          <button>検索</button>
+        </div>
+      </div>
+      <div class="header-top-right">
+        <a href="#">ご利用ガイド</a>
+        <span class="divider">|</span>
+        <a href="#">FAQ</a>
+        <span class="divider">|</span>
+        <a href="#">入稿について</a>
+        <span class="divider">|</span>
+        <a href="#">ログイン</a>
+        <span class="divider">|</span>
+        <a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span><span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">2</span></a>
+      </div>
+    </div>
+    <nav class="header-categories">
+      <div class="category-item">
+        <a href="#">缶バッジ</a>
+        <div class="category-dropdown">
+          <div class="category-dropdown-title"><a href="#" style="color:#333;text-decoration:none;">すべての缶バッジを見る ></a></div>
+          <div class="category-dropdown-grid">
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img">画像</div><div><div class="category-dropdown-name">オリジナル缶バッジ 44mm</div><div class="category-dropdown-desc">@88円〜</div></div></a>
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img">画像</div><div><div class="category-dropdown-name">オリジナル缶バッジ 56mm</div><div class="category-dropdown-desc">@95円〜</div></div></a>
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img">画像</div><div><div class="category-dropdown-name">オリジナル缶バッジ 76mm</div><div class="category-dropdown-desc">@120円〜</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div class="category-item"><a href="#">アクリルスタンド</a></div>
+      <div class="category-item"><a href="#">キーホルダー</a></div>
+      <div class="category-item"><a href="#">ストラップ</a></div>
+      <div class="category-item"><a href="#">トレーディングカード</a></div>
+      <div class="category-item"><a href="#">タオル・布製品</a></div>
+      <div class="category-item"><a href="#">その他グッズ</a></div>
+    </nav>
+  </header>
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>缶バッジ
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-title">缶バッジ</div>
+    </div>
+
+    <!-- Filter & Sort Bar -->
+    <div class="filter-bar">
+      <div class="filter-row">
+        <span class="filter-label">カテゴリ:</span>
+        <select class="sort-select">
+          <option>すべてのカテゴリ</option>
+          <option selected>缶バッジ</option>
+          <option>アクリルスタンド</option>
+          <option>キーホルダー</option>
+          <option>ストラップ</option>
+          <option>トレーディングカード</option>
+          <option>クリアファイル</option>
+          <option>ステッカー・シール</option>
+          <option>タオル・布製品</option>
+          <option>Tシャツ</option>
+          <option>トートバッグ</option>
+          <option>うちわ</option>
+          <option>その他</option>
+        </select>
+        <span class="filter-label" style="margin-left:16px;">価格帯:</span>
+        <a class="filter-pill active" href="#">すべて</a>
+        <a class="filter-pill" href="#">〜99円</a>
+        <a class="filter-pill" href="#">100〜199円</a>
+        <a class="filter-pill" href="#">200〜499円</a>
+        <a class="filter-pill" href="#">500円〜</a>
+      </div>
+      <div class="filter-row filter-meta">
+        <div class="filter-count">24件の商品</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="filter-label">並び替え:</span>
+          <select class="sort-select">
+            <option>人気順</option>
+            <option>新着順</option>
+            <option>価格が安い順</option>
+            <option>価格が高い順</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+      <a class="product-card" href="#">
+        <div class="product-card-image"><div class="product-card-badge">NEW</div>商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">オリジナル缶バッジ 44mm</div>
+          <div class="product-card-price">@88円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">オリジナル缶バッジ 56mm</div>
+          <div class="product-card-price">@95円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">オリジナル缶バッジ 76mm</div>
+          <div class="product-card-price">@120円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image"><div class="product-card-badge">NEW</div>商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">ホログラム缶バッジ 56mm</div>
+          <div class="product-card-price">@110円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約3週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 44mm マット仕上げ</div>
+          <div class="product-card-price">@95円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 56mm マット仕上げ</div>
+          <div class="product-card-price">@105円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 32mm</div>
+          <div class="product-card-price">@80円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 76mm マット仕上げ</div>
+          <div class="product-card-price">@130円〜（税込）</div>
+          <div class="product-card-delivery">納期目安: 約2週間</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <span class="disabled">&lt; 前へ</span>
+      <span class="current">1</span>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <span class="dots">...</span>
+      <a href="#">10</a>
+      <a href="#">次へ &gt;</a>
+    </div>
+
+  </div>
+
+  <!-- ===== BREADCRUMB (FOOTER) ===== -->
+  <div class="breadcrumb">
+    <a href="#">トップ</a><span>></span>缶バッジ
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>

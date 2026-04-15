@@ -17,6 +17,8 @@ ec-docs/
 ├── requirements.md          # 要件定義書
 ├── screen-flow.md            # 画面遷移図
 ├── screen-design/            # 画面設計書
+│   ├── c-01-top.md
+│   ├── c-02-product-list.md
 │   ├── c-03-product-detail.md
 │   ├── c-04-cart.md
 │   ├── c-05-upload.md
@@ -34,6 +36,8 @@ ec-docs/
 │   ├── c-17-19-legal.md
 │   └── c-20-404.md
 └── wireframes/               # ワイヤーフレーム（HTML）
+    ├── c-01-top.html / -sp.html
+    ├── c-02-product-list.html / -sp.html
     ├── c-03-product-detail.html / -sp.html
     ├── c-04-cart.html / -sp.html
     ├── c-05-upload.html / -sp.html
@@ -60,8 +64,8 @@ ec-docs/
 
 | 画面 | PC | SP | 設計書 | 状態 |
 |------|----|----|--------|------|
-| C-01 トップページ | - | - | - | **未着手** |
-| C-02 商品一覧ページ | - | - | - | **未着手** |
+| C-01 トップページ | done | done | done | 完了 |
+| C-02 商品一覧ページ | done | done | done | 完了 |
 | C-03 商品詳細 | done | done | done | 完了 |
 | C-04 カート | done | done | done | 完了 |
 | C-05 入稿 | done | done | done | 完了 |

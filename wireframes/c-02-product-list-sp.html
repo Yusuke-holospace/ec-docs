@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-02 商品一覧ページ（SP） - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
+
+    /* ===== Header ===== */
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 18px; font-weight: bold; }
+    .header-top-right { display: flex; align-items: center; gap: 4px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
+    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; position: relative; }
+    .header-top-right .cart-badge .nav-icon::after { content: "2"; position: absolute; top: -4px; right: -6px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
+    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
+    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+
+    /* ===== Main ===== */
+    .main { padding: 16px; }
+
+    /* ===== Page Title ===== */
+    .page-header { margin-bottom: 12px; }
+    .page-title { font-size: 20px; font-weight: bold; margin-bottom: 2px; }
+    .page-count { font-size: 12px; color: #666; }
+
+    /* ===== Filter Bar ===== */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .filter-select { flex: 1; min-width: calc(50% - 4px); padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; background: #fff; cursor: pointer; min-height: 44px; }
+    .filter-count { font-size: 12px; color: #666; margin-bottom: 12px; }
+
+    /* ===== Product Grid ===== */
+    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+    .product-card { background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden; text-decoration: none; color: #333; }
+    .product-card-image { aspect-ratio: 1; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; position: relative; }
+    .product-card-badge { position: absolute; top: 6px; left: 6px; background: #e53e3e; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+    .product-card-body { padding: 10px; }
+    .product-card-category { font-size: 10px; color: #999; margin-bottom: 2px; }
+    .product-card-name { font-size: 13px; font-weight: bold; margin-bottom: 4px; line-height: 1.4; }
+    .product-card-price { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+    .product-card-delivery { font-size: 11px; color: #666; }
+
+    /* ===== Pagination ===== */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 4px; margin-bottom: 24px; }
+    .pagination a, .pagination span { display: flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-decoration: none; color: #333; background: #fff; cursor: pointer; min-height: 44px; }
+    .pagination .current { background: #333; color: #fff; border-color: #333; }
+    .pagination .dots { border: none; background: none; cursor: default; min-width: 20px; }
+    .pagination .disabled { color: #ccc; cursor: default; border-color: #eee; }
+
+    /* ===== Footer ===== */
+    .footer { background: #333; color: #fff; padding: 24px 16px; margin-top: 0; }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h4 { font-size: 13px; margin-bottom: 8px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 12px; margin-bottom: 6px; }
+    .footer-bottom { padding-top: 16px; border-top: 1px solid #555; text-align: center; font-size: 11px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-top">
+      <div class="logo">LOGO</div>
+      <div class="header-top-right">
+        <a href="#"><div class="nav-icon">icon</div><span>ログイン</span></a>
+        <a href="#" class="cart-badge"><div class="nav-icon">icon</div><span>カート</span></a>
+        <a href="#"><div class="nav-icon">icon</div><span>メニュー</span></a>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="商品を検索...">
+      <button>検索</button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-title">缶バッジ</div>
+    </div>
+
+    <!-- Filter & Sort -->
+    <div class="filter-bar">
+      <select class="filter-select">
+        <option>すべてのカテゴリ</option>
+        <option selected>缶バッジ</option>
+        <option>アクリルスタンド</option>
+        <option>キーホルダー</option>
+        <option>ストラップ</option>
+        <option>トレーディングカード</option>
+        <option>クリアファイル</option>
+        <option>ステッカー・シール</option>
+        <option>タオル・布製品</option>
+        <option>Tシャツ</option>
+        <option>トートバッグ</option>
+        <option>うちわ</option>
+        <option>その他</option>
+      </select>
+      <select class="filter-select">
+        <option>すべての価格帯</option>
+        <option>〜99円</option>
+        <option>100〜199円</option>
+        <option>200〜499円</option>
+        <option>500円〜</option>
+      </select>
+      <select class="filter-select">
+        <option>人気順</option>
+        <option>新着順</option>
+        <option>価格が安い順</option>
+        <option>価格が高い順</option>
+      </select>
+    </div>
+    <div class="filter-count">24件の商品</div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+      <a class="product-card" href="#">
+        <div class="product-card-image"><div class="product-card-badge">NEW</div>商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 44mm</div>
+          <div class="product-card-price">@88円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 56mm</div>
+          <div class="product-card-price">@95円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 76mm</div>
+          <div class="product-card-price">@120円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image"><div class="product-card-badge">NEW</div>商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">ホログラム缶バッジ 56mm</div>
+          <div class="product-card-price">@110円〜</div>
+          <div class="product-card-delivery">納期: 約3週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 44mm マット</div>
+          <div class="product-card-price">@95円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 56mm マット</div>
+          <div class="product-card-price">@105円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 32mm</div>
+          <div class="product-card-price">@80円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+      <a class="product-card" href="#">
+        <div class="product-card-image">商品画像</div>
+        <div class="product-card-body">
+          <div class="product-card-category">缶バッジ</div>
+          <div class="product-card-name">缶バッジ 76mm マット</div>
+          <div class="product-card-price">@130円〜</div>
+          <div class="product-card-delivery">納期: 約2週間</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <span class="disabled">&lt;</span>
+      <span class="current">1</span>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <span class="dots">...</span>
+      <a href="#">10</a>
+      <a href="#">&gt;</a>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+  </footer>
+
+</body>
+</html>
