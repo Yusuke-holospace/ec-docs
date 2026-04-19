@@ -4,20 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C-04 カートページ（SP） - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
 
     /* ===== Header ===== */
     .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 18px; font-weight: bold; }
+    .logo { width: 90px; height: 28px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; }
     .header-top-right { display: flex; align-items: center; gap: 4px; }
     .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
-    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; position: relative; }
-    .header-top-right .cart-badge .nav-icon::after { content: "3"; position: absolute; top: -4px; right: -6px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
-    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
-    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
-    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .header-top-right .cart-link { position: relative; }
+    .cart-badge-sp { position: absolute; top: 2px; right: 2px; background: #e53e3e; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 50%; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; position: relative; }
+    .header-search input { width: 100%; border: 1px solid #ddd; border-radius: 20px; padding: 10px 40px 10px 16px; font-size: 14px; height: 40px; }
+    .header-search button { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #999; }
+
+    /* ===== Drawer Menu ===== */
+    .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 200; }
+    .drawer-overlay.open { display: block; }
+    .drawer { position: fixed; top: 0; right: -80vw; width: 80vw; height: 100%; background: #fff; z-index: 201; transition: right 0.3s; overflow-y: auto; }
+    .drawer.open { right: 0; }
+    .drawer-header { display: flex; justify-content: flex-end; padding: 12px 16px; border-bottom: 1px solid #eee; }
+    .drawer-close { background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .drawer-accordion { border-bottom: 1px solid #eee; }
+    .drawer-accordion-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; font-size: 14px; font-weight: bold; cursor: pointer; min-height: 44px; }
+    .drawer-accordion-body { display: none; padding: 0 16px 12px; }
+    .drawer-accordion.open .drawer-accordion-body { display: block; }
+    .drawer-accordion-body a { display: block; padding: 10px 0; font-size: 13px; color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0; min-height: 44px; line-height: 24px; }
+    .drawer-accordion-body a:last-child { border-bottom: none; }
+    .drawer-link { display: block; padding: 14px 16px; font-size: 14px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; min-height: 44px; }
 
     /* ===== Page Title ===== */
     .page-title { font-size: 18px; font-weight: bold; padding: 16px 16px 8px; }
@@ -88,16 +104,16 @@
   <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
-      <div class="logo">LOGO</div>
+      <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><span class="nav-icon">icon</span>ログイン</a>
-        <a href="#" class="cart-badge"><span class="nav-icon">icon</span>カート</a>
-        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+        <a href="#"><i data-lucide="log-in" style="width:20px;height:20px;"></i><span>ログイン</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:20px;height:20px;"></i><span>カート</span><span class="cart-badge-sp">3</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:20px;height:20px;"></i><span>メニュー</span></a>
       </div>
     </div>
     <div class="header-search">
-      <input type="text" placeholder="商品名・キーワード">
-      <button>検索</button>
+      <input type="text" placeholder="商品を検索...">
+      <button><i data-lucide="search" style="width:16px;height:16px;"></i></button>
     </div>
   </header>
 
@@ -237,12 +253,58 @@
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><div style="width:180px;height:54px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;">ロゴ画像</div></div>
     <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
-    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
-    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+    <div class="footer-section"><h4>サイト情報</h4><a href="#">運営会社</a><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
   </footer>
 
+  <!-- ===== DRAWER MENU ===== -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <button class="drawer-close" onclick="closeDrawer()"><i data-lucide="x" style="width:24px;height:24px;color:#333;"></i></button>
+    </div>
+    <div class="drawer-accordion" id="categoryAccordion">
+      <div class="drawer-accordion-header" onclick="toggleAccordion()">
+        <span style="display:flex;align-items:center;gap:10px;"><i data-lucide="grid-2x2" style="width:18px;height:18px;color:#666;"></i>カテゴリ一覧</span>
+        <i data-lucide="chevron-down" style="width:18px;height:18px;color:#999;"></i>
+      </div>
+      <div class="drawer-accordion-body">
+        <a href="#">缶バッジ</a>
+        <a href="#">アクリルスタンド</a>
+        <a href="#">キーホルダー</a>
+        <a href="#">ストラップ</a>
+        <a href="#">トレーディングカード</a>
+        <a href="#">クリアファイル</a>
+        <a href="#">ステッカー・シール</a>
+        <a href="#">タオル・布製品</a>
+        <a href="#">Tシャツ</a>
+        <a href="#">トートバッグ</a>
+        <a href="#">うちわ</a>
+        <a href="#">その他グッズ</a>
+      </div>
+    </div>
+    <a class="drawer-link" href="#" style="display:flex;align-items:center;gap:10px;"><i data-lucide="book-open" style="width:18px;height:18px;color:#666;"></i>ご利用ガイド</a>
+    <a class="drawer-link" href="#" style="display:flex;align-items:center;gap:10px;"><i data-lucide="help-circle" style="width:18px;height:18px;color:#666;"></i>FAQ</a>
+    <a class="drawer-link" href="#" style="display:flex;align-items:center;gap:10px;"><i data-lucide="file-text" style="width:18px;height:18px;color:#666;"></i>入稿について</a>
+    <a class="drawer-link" href="#" style="display:flex;align-items:center;gap:10px;"><i data-lucide="log-in" style="width:18px;height:18px;color:#666;"></i>ログイン</a>
+  </div>
+
+  <script>
+    function openDrawer() {
+      document.getElementById('drawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('open');
+    }
+    function closeDrawer() {
+      document.getElementById('drawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('open');
+    }
+    function toggleAccordion() {
+      document.getElementById('categoryAccordion').classList.toggle('open');
+    }
+    lucide.createIcons();
+  </script>
 
 </body>
 </html>

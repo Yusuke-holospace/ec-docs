@@ -4,20 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C-15 FAQページ - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
-    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .header-top-left { display: flex; align-items: center; gap: 24px; }
-    .logo { font-size: 20px; font-weight: bold; }
-    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
-    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
-    .header-top-right { display: flex; align-items: center; gap: 16px; }
-    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
-    .header-top-right .divider { color: #ddd; }
-    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; }
-    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px; border-bottom: 3px solid transparent; display: flex; align-items: center; }
-    .header-categories a:hover { border-bottom-color: #333; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+    .header-top-left { display: flex; align-items: center; }
+    .logo { width: 120px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
+    .search-bar { position: absolute; left: 50%; transform: translateX(-50%); width: 35vw; }
+    .search-bar-inner { position: relative; width: 100%; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 20px; padding: 10px 40px 10px 16px; width: 100%; font-size: 14px; height: 40px; }
+    .search-bar button { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #999; }
+    .header-top-right { display: flex; align-items: center; gap: 20px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 11px; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; gap: 0; position: relative; z-index: 100; }
+    .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px 20px; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; }
+    .header-categories a:hover { color: #666; }
+    .category-item { position: static; }
+    .category-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd; border-top: none; padding: 24px 24px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .category-item:hover .category-dropdown { display: block; }
+    .category-dropdown-title { font-size: 14px; font-weight: bold; margin-bottom: 16px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    .category-dropdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1200px; margin: 0 auto; }
+    .category-dropdown-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 6px; cursor: pointer; text-decoration: none; color: #333; }
+    .category-dropdown-item:hover { background: #f5f5f5; }
+    .category-dropdown-img { width: 56px; height: 56px; border-radius: 4px; flex-shrink: 0; position: relative; }
+    .category-dropdown-img .img-default, .category-dropdown-img .img-hover { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; border-radius: 4px; transition: opacity 0.3s; }
+    .category-dropdown-img .img-default { background: #e8e8e8; opacity: 1; }
+    .category-dropdown-img .img-hover { background: #d0d0d0; opacity: 0; }
+    .category-dropdown-item:hover .img-default { opacity: 0; }
+    .category-dropdown-item:hover .img-hover { opacity: 1; }
+    .category-dropdown-name { font-size: 13px; font-weight: bold; }
+    .category-dropdown-desc { font-size: 11px; color: #999; margin-top: 2px; }
     .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
     .breadcrumb a { color: #666; text-decoration: none; }
     .breadcrumb span { margin: 0 4px; }
@@ -44,12 +61,50 @@
 </head>
 <body>
 
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div style="background:#333;color:#fff;text-align:center;padding:8px 24px;font-size:13px;letter-spacing:0.5px;">
+    <i data-lucide="pencil-line" style="width:14px;height:14px;vertical-align:middle;margin-right:6px;"></i>デザインデータをそのまま送るだけ。入稿データの編集はスタッフが無料でサポートします。
+  </div>
+
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
-      <div class="header-top-left"><div class="logo">LOGO</div><div class="search-bar"><input type="text" placeholder="商品を検索..."><button>検索</button></div></div>
-      <div class="header-top-right"><a href="#">ご利用ガイド</a><span class="divider">|</span><a href="#">FAQ</a><span class="divider">|</span><a href="#">入稿について</a><span class="divider">|</span><a href="#">ログイン（※ログイン済みなら「マイページ」に切替）</a><span class="divider">|</span><a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span></a></div>
+      <div class="header-top-left">
+        <div class="logo">ロゴ画像</div>
+        <div class="search-bar">
+          <div class="search-bar-inner">
+            <input type="text" placeholder="商品を検索...">
+            <button><i data-lucide="search" style="width:18px;height:18px;"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="header-top-right">
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="book-open" style="width:18px;height:18px;"></i>ご利用ガイド</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="help-circle" style="width:18px;height:18px;"></i>FAQ</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="file-text" style="width:18px;height:18px;"></i>入稿について</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="log-in" style="width:18px;height:18px;"></i>ログイン</a>
+        <a href="#" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>カート<span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">2</span></a>
+      </div>
     </div>
-    <nav class="header-categories"><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">ストラップ</a><a href="#">トレーディングカード</a><a href="#">タオル・布製品</a><a href="#">その他グッズ</a></nav>
+    <nav class="header-categories">
+      <div class="category-item">
+        <a href="#">缶バッジ</a>
+        <div class="category-dropdown">
+          <div class="category-dropdown-title"><a href="#" style="color:#333;text-decoration:none;">すべての缶バッジを見る ></a></div>
+          <div class="category-dropdown-grid">
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img"><span class="img-default">カテゴリ画像①</span><span class="img-hover">カテゴリ画像②</span></div><div><div class="category-dropdown-name">オリジナル缶バッジ 44mm</div><div class="category-dropdown-desc">@88円（税込）〜</div></div></a>
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img"><span class="img-default">カテゴリ画像①</span><span class="img-hover">カテゴリ画像②</span></div><div><div class="category-dropdown-name">オリジナル缶バッジ 56mm</div><div class="category-dropdown-desc">@95円（税込）〜</div></div></a>
+            <a class="category-dropdown-item" href="#"><div class="category-dropdown-img"><span class="img-default">カテゴリ画像①</span><span class="img-hover">カテゴリ画像②</span></div><div><div class="category-dropdown-name">オリジナル缶バッジ 76mm</div><div class="category-dropdown-desc">@120円（税込）〜</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div class="category-item"><a href="#">アクリルスタンド</a></div>
+      <div class="category-item"><a href="#">キーホルダー</a></div>
+      <div class="category-item"><a href="#">ストラップ</a></div>
+      <div class="category-item"><a href="#">トレーディングカード</a></div>
+      <div class="category-item"><a href="#">タオル・布製品</a></div>
+      <div class="category-item"><a href="#">その他グッズ</a></div>
+    </nav>
   </header>
 
   <div class="breadcrumb"><a href="#">トップ</a><span>></span>FAQ</div>
@@ -87,12 +142,13 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><div style="width:240px;height:72px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">ロゴ画像</div></div>
       <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
-      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+      <div class="footer-section"><h4>サイト情報</h4><a href="#">運営会社</a><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div>
     </div>
     <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
   </footer>
 
+<script>lucide.createIcons();</script>
 </body>
 </html>
