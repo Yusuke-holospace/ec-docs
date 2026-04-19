@@ -4,19 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C-01 トップページ - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
 
     /* ===== Header ===== */
-    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .header-top-left { display: flex; align-items: center; gap: 24px; }
-    .logo { font-size: 20px; font-weight: bold; color: #333; }
-    .search-bar { display: flex; align-items: center; gap: 8px; }
-    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
-    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
-    .header-top-right { display: flex; align-items: center; gap: 16px; }
-    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+    .header-top-left { display: flex; align-items: center; }
+    .logo { width: 120px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
+    .search-bar { position: absolute; left: 50%; transform: translateX(-50%); width: 35vw; }
+    .search-bar-inner { position: relative; width: 100%; }
+    .search-bar input { border: 1px solid #ddd; border-radius: 20px; padding: 10px 40px 10px 16px; width: 100%; font-size: 14px; height: 40px; }
+    .search-bar button { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #999; }
+    .header-top-right { display: flex; align-items: center; gap: 20px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 11px; }
     .header-top-right .divider { color: #ddd; }
     .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; gap: 0; position: relative; z-index: 100; overflow: visible; }
     .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px 20px; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; }
@@ -135,26 +137,29 @@
 </head>
 <body>
 
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div style="background:#333;color:#fff;text-align:center;padding:8px 24px;font-size:13px;letter-spacing:0.5px;">
+    <i data-lucide="pencil-line" style="width:14px;height:14px;vertical-align:middle;margin-right:6px;"></i>デザインデータをそのまま送るだけ。入稿データの編集はスタッフが無料でサポートします。
+  </div>
+
   <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="header-top-left">
-        <div class="logo">LOGO</div>
+        <div class="logo">ロゴ画像</div>
         <div class="search-bar">
-          <input type="text" placeholder="商品を検索...">
-          <button>検索</button>
+          <div class="search-bar-inner">
+            <input type="text" placeholder="商品を検索...">
+            <button><i data-lucide="search" style="width:18px;height:18px;"></i></button>
+          </div>
         </div>
       </div>
       <div class="header-top-right">
-        <a href="#">ご利用ガイド</a>
-        <span class="divider">|</span>
-        <a href="#">FAQ</a>
-        <span class="divider">|</span>
-        <a href="#">入稿について</a>
-        <span class="divider">|</span>
-        <a href="#">ログイン</a>
-        <span class="divider">|</span>
-        <a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span><span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">2</span></a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="book-open" style="width:18px;height:18px;"></i>ご利用ガイド</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="help-circle" style="width:18px;height:18px;"></i>FAQ</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="file-text" style="width:18px;height:18px;"></i>入稿について</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="log-in" style="width:18px;height:18px;"></i>ログイン</a>
+        <a href="#" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>カート<span style="background:#e53e3e;color:#fff;font-size:10px;padding:1px 5px;border-radius:50%;position:absolute;top:-6px;right:-10px;">2</span></a>
       </div>
     </div>
     <nav class="header-categories">
@@ -429,28 +434,28 @@
       <div class="steps">
         <div class="step">
           <div class="step-number">1</div>
-          <div class="step-icon">icon</div>
+          <div class="step-icon"><i data-lucide="package-search" style="width:28px;height:28px;color:#666;"></i></div>
           <div class="step-title">商品を選ぶ</div>
           <div class="step-desc">カテゴリや検索から商品を選択。オプション・数量を指定してカートに追加。</div>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-number">2</div>
-          <div class="step-icon">icon</div>
+          <div class="step-icon"><i data-lucide="upload" style="width:28px;height:28px;color:#666;"></i></div>
           <div class="step-title">デザインデータを入稿</div>
           <div class="step-desc">テンプレートをダウンロードし、デザインを当てはめてアップロード。</div>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-number">3</div>
-          <div class="step-icon">icon</div>
+          <div class="step-icon"><i data-lucide="user-check" style="width:28px;height:28px;color:#666;"></i></div>
           <div class="step-title">スタッフが確認・決済案内</div>
           <div class="step-desc">入稿データを専門スタッフが確認。問題なければ決済のご案内をお送りします。</div>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-number">4</div>
-          <div class="step-icon">icon</div>
+          <div class="step-icon"><i data-lucide="truck" style="width:28px;height:28px;color:#666;"></i></div>
           <div class="step-title">製造・お届け</div>
           <div class="step-desc">お支払い確認後に製造を開始。完了次第、発送いたします。</div>
         </div>
@@ -467,17 +472,17 @@
     <div class="section-subtitle">推し活グッズ制作でお選びいただいている3つの理由</div>
     <div class="reasons-grid">
       <div class="reason-card">
-        <div class="reason-icon">icon</div>
+        <div class="reason-icon"><i data-lucide="boxes" style="width:28px;height:28px;color:#666;"></i></div>
         <div class="reason-title">小ロットOK</div>
         <div class="reason-desc">サンプル制作は10個から対応。まずは少量で試して、納得してから量産できます。</div>
       </div>
       <div class="reason-card">
-        <div class="reason-icon">icon</div>
+        <div class="reason-icon"><i data-lucide="file-up" style="width:28px;height:28px;color:#666;"></i></div>
         <div class="reason-title">かんたん入稿</div>
         <div class="reason-desc">商品ごとにテンプレートをご用意。ダウンロードしてデザインを当てはめるだけ。</div>
       </div>
       <div class="reason-card">
-        <div class="reason-icon">icon</div>
+        <div class="reason-icon"><i data-lucide="shield-check" style="width:28px;height:28px;color:#666;"></i></div>
         <div class="reason-title">安心のデータ確認</div>
         <div class="reason-desc">入稿データは専門スタッフが1点ずつ確認。不備があれば製造前にご連絡します。</div>
       </div>
@@ -552,6 +557,9 @@
       document.querySelectorAll('.price-tab').forEach((t, i) => t.classList.toggle('active', i === n));
       document.querySelectorAll('.price-tab-content').forEach((c, i) => c.classList.toggle('active', i === n));
     }
+
+    /* Lucide Icons */
+    lucide.createIcons();
   </script>
 </body>
 </html>
