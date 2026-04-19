@@ -119,7 +119,10 @@
 
       <div>
         <div class="page-header">
-          <div class="page-title">注文詳細</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="page-title">注文詳細</div>
+            <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:12px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;" title="共有URLをコピー"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#ddd;border-radius:3px;font-size:8px;">icon</span>共有</button>
+          </div>
           <a class="back-link" href="#">注文履歴に戻る</a>
         </div>
 
@@ -131,9 +134,8 @@
             <span class="status-date">注文番号: ORD-20260414-0023</span>
           </div>
 
-          <div style="background:#fde8e8;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#e53e3e;display:flex;justify-content:space-between;align-items:center;">
-            <span>入稿データに不備があります。修正したデータを再入稿してください。</span>
-            <a href="#" style="background:#e53e3e;color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;white-space:nowrap;margin-left:16px;">再入稿する</a>
+          <div style="background:#fde8e8;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#e53e3e;">
+            入稿データに不備があります。該当商品の「再入稿する」ボタンから修正データをアップロードしてください。
           </div>
 
           <div class="timeline">
@@ -165,13 +167,14 @@
               <div class="order-item-price-unit">@85円 x 100</div>
             </div>
           </div>
-          <div class="order-item">
+          <div class="order-item" style="background:#fff8f8;">
             <div class="order-item-image">画像</div>
             <div class="order-item-info">
               <span class="order-item-badge badge-normal">通常注文</span>
               <div class="order-item-name">アクリルスタンド 100mm</div>
               <div class="order-item-options">100mm / クリア / 200個</div>
-              <div class="order-item-upload">入稿済み</div>
+              <div class="order-item-upload" style="color:#e53e3e;">差し戻し</div>
+              <a href="#" style="display:inline-block;margin-top:6px;background:#e53e3e;color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:bold;text-decoration:none;">再入稿する</a>
             </div>
             <div class="order-item-price">
               <div class="order-item-price-value">27,000円</div>
@@ -194,6 +197,18 @@
           </div>
         </div>
 
+        <!-- Mockup Images (条件表示: アップロード済みの場合のみ) -->
+        <div class="section">
+          <div class="section-title">仕上がりイメージ</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 1</div>
+            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 2</div>
+            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 3</div>
+          </div>
+          <div style="font-size:12px;color:#666;margin-bottom:12px;">販促用素材としてご利用いただけます（背景透過PNG含む）</div>
+          <button style="background:#333;color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer;">一括ダウンロード（ZIP）</button>
+        </div>
+
         <!-- Payment & Summary -->
         <div class="section">
           <div class="section-title">お支払い</div>
@@ -214,33 +229,15 @@
           </div>
         </div>
 
-        <!-- Contact Info -->
+        <!-- Staff -->
         <div class="section">
-          <div class="section-title">担当者からのご連絡</div>
-          <div style="font-size:13px;color:#666;line-height:1.8;">
-            注文に関する詳細な調整・確認は、担当者からメールでご連絡いたします。<br>
-            <strong>@holospace.jp</strong> からのメールをご確認ください。
-          </div>
-        </div>
-
-        <!-- Mockup Images (条件表示: アップロード済みの場合のみ) -->
-        <div class="section">
-          <div class="section-title">仕上がりイメージ</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
-            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 1</div>
-            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 2</div>
-            <div style="aspect-ratio:1;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">画像 3</div>
-          </div>
-          <div style="font-size:12px;color:#666;margin-bottom:12px;">販促用素材としてご利用いただけます（背景透過PNG含む）</div>
-          <button style="background:#333;color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer;">一括ダウンロード（ZIP）</button>
-        </div>
-
-        <!-- Share URL -->
-        <div class="section">
-          <div class="section-title">注文ステータスを共有</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f8f8f8;border-radius:8px;">
-            <div style="font-size:13px;color:#666;">社内の他の担当者にステータス確認ページを共有できます</div>
-            <button style="background:#333;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;white-space:nowrap;">共有URLをコピー</button>
+          <div class="section-title">担当スタッフ</div>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f8f8f8;border-radius:8px;">
+            <div style="width:40px;height:40px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;flex-shrink:0;">icon</div>
+            <div>
+              <div style="font-size:14px;font-weight:bold;">田中 太郎</div>
+              <div style="font-size:12px;color:#666;">ご不明点がございましたらお気軽にお問い合わせください</div>
+            </div>
           </div>
         </div>
 
