@@ -238,6 +238,23 @@
       <a class="address-edit" href="#">配送先を変更</a>
     </div>
 
+    <!-- ===== Contact for Data Review ===== -->
+    <div class="section">
+      <div class="section-title">データ確認後のご連絡先</div>
+      <div style="font-size:12px;color:#666;margin-bottom:16px;">入稿データの確認結果やお支払いのご案内をお送りします。</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <label style="font-size:13px;font-weight:bold;display:block;margin-bottom:4px;">メールアドレス</label>
+          <input type="email" value="onyanagi@holospace.jp" style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:bold;display:block;margin-bottom:4px;">電話番号</label>
+          <input type="tel" value="03-1234-5678" style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;">
+        </div>
+      </div>
+      <div style="font-size:11px;color:#999;margin-top:8px;">※ 会員登録情報から自動入力されています。変更した場合、この注文のみに適用されます。</div>
+    </div>
+
     <!-- ===== Payment Method ===== -->
     <div class="section">
       <div class="section-title">お支払い方法</div>
@@ -264,7 +281,7 @@
           </div>
         </label>
       </div>
-      <div style="font-size:12px;color:#999;margin-top:12px;">※ この時点では決済は発生しません。入稿データの確認完了後にお支払いのご案内をお送りします。</div>
+      <div style="font-size:12px;color:#999;margin-top:12px;line-height:1.8;">※ 入稿データの確認後に、ご登録のメールアドレスにお支払いのご案内をお送りします。<br>※ お支払い完了後に製造開始となります。</div>
     </div>
 
     <!-- ===== Summary ===== -->
@@ -278,6 +295,11 @@
         <span class="label">送料</span>
         <span class="value">無料</span>
       </div>
+      <div class="summary-row">
+        <span class="label">納期目安</span>
+        <span class="value">約14営業日</span>
+      </div>
+      <div style="font-size:11px;color:#999;text-align:right;margin-top:-8px;margin-bottom:8px;">※ 入金確認完了後から起算</div>
       <div class="summary-total">
         <span>合計（税込）</span>
         <span>37,400円</span>
@@ -301,6 +323,22 @@
         <input type="checkbox" id="licenseCheck" onchange="document.getElementById('orderBtn').disabled = !this.checked">
         上記ライセンスに関する内容に同意します
       </label>
+    </div>
+
+    <!-- ===== Order Flow Accordion ===== -->
+    <div style="margin-bottom:24px;">
+      <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'; this.querySelector('.chevron').textContent=this.nextElementSibling.style.display==='none'?'▼':'▲'" style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#f0f7ff;border:1px solid #d0e3f7;border-radius:8px;cursor:pointer;font-size:14px;font-weight:bold;color:#333;">
+        注文後の流れを確認
+        <span class="chevron" style="font-size:12px;color:#999;">▼</span>
+      </div>
+      <div style="display:none;background:#f0f7ff;border:1px solid #d0e3f7;border-top:none;border-radius:0 0 8px 8px;padding:20px;">
+        <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#666;"><span style="width:22px;height:22px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">1</span>入稿データを確認いたします（数営業日）</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#666;"><span style="width:22px;height:22px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">2</span>確認完了後、決済のご案内をメールでお送りします</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#666;"><span style="width:22px;height:22px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">3</span>お支払い確認後、製造を開始します</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#666;"><span style="width:22px;height:22px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;">4</span>製造完了後、発送いたします</li>
+        </ol>
+      </div>
     </div>
 
     <!-- ===== Actions ===== -->
