@@ -62,9 +62,9 @@
     <div class="header-top">
       <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><i data-lucide="log-in" style="width:20px;height:20px;"></i><span>ログイン</span></a>
-        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:20px;height:20px;"></i><span>カート</span></a>
-        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:20px;height:20px;"></i><span>メニュー</span></a>
+        <a href="#"><i data-lucide="user" style="width:22px;height:22px;"></i><span>マイページ</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:22px;height:22px;"></i><span>カート</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:22px;height:22px;"></i><span>メニュー</span></a>
       </div>
     </div>
     <div class="header-search">
@@ -80,17 +80,17 @@
 
   <!-- ===== 会社情報（表示モード例） ===== -->
   <div class="form-section">
-    <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">会社情報 <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;font-weight:normal;min-height:44px;display:flex;align-items:center;">編集</a></div>
+    <div class="form-section-title" style="display:flex;justify-content:space-between;align-items:center;">お客様情報 <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;font-weight:normal;min-height:44px;display:flex;align-items:center;">編集</a></div>
     <table style="width:100%;font-size:13px;">
-      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:100px;">会社名</td><td style="padding:10px 0;">株式会社ホロスペース</td></tr>
-      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">担当者名</td><td style="padding:10px 0;">鬼柳 裕介</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;width:100px;">会社名・屋号</td><td style="padding:10px 0;">株式会社ホロスペース</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 0;color:#666;">お名前</td><td style="padding:10px 0;">鬼柳 裕介</td></tr>
       <tr><td style="padding:10px 0;color:#666;">電話番号</td><td style="padding:10px 0;">03-1234-5678</td></tr>
     </table>
   </div>
 
   <!-- ===== 住所（編集モード例） ===== -->
   <div class="form-section">
-    <div class="form-section-title">住所（配送先）</div>
+    <div class="form-section-title">住所</div>
     <div class="form-group">
       <div class="form-label">郵便番号 <span class="required">必須</span></div>
       <div style="display:flex;gap:8px;"><input class="form-input" type="text" value="150-0001" style="max-width:90px;"><button class="postal-btn">住所検索</button></div>
@@ -98,6 +98,24 @@
     <div class="form-group"><div class="form-label">都道府県 <span class="required">必須</span></div><select class="form-input"><option selected>東京都</option></select></div>
     <div class="form-group"><div class="form-label">市区町村・番地 <span class="required">必須</span></div><input class="form-input" type="text" value="渋谷区神宮前1-2-3"></div>
     <div class="form-group"><div class="form-label">建物名・部屋番号</div><input class="form-input" type="text" value="ABCビル 5F"></div>
+  </div>
+
+  <!-- ===== 配送先住所（編集モード例） ===== -->
+  <div class="form-section">
+    <div class="form-section-title">配送先住所</div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:16px;min-height:44px;">
+      <input type="checkbox" checked style="width:18px;height:18px;" onchange="document.getElementById('shippingFieldsSp').style.display=this.checked?'none':'block'">
+      上記住所と同じ
+    </label>
+    <div id="shippingFieldsSp" style="display:none;">
+      <div class="form-group">
+        <div class="form-label">郵便番号 <span class="required">必須</span></div>
+        <div style="display:flex;gap:8px;"><input class="form-input" type="text" placeholder="150-0001" style="max-width:90px;"><button class="postal-btn">住所検索</button></div>
+      </div>
+      <div class="form-group"><div class="form-label">都道府県 <span class="required">必須</span></div><select class="form-input"><option value="">選択してください</option><option>東京都</option></select></div>
+      <div class="form-group"><div class="form-label">市区町村・番地 <span class="required">必須</span></div><input class="form-input" type="text" placeholder="例: 渋谷区神宮前1-2-3"></div>
+      <div class="form-group"><div class="form-label">建物名・部屋番号</div><input class="form-input" type="text" placeholder="例: ABCビル 5F"></div>
+    </div>
     <div class="actions" style="margin-top:16px;">
       <button class="btn-primary">変更を保存</button>
       <a href="#" style="display:block;text-align:center;margin-top:10px;font-size:13px;color:#999;text-decoration:underline;min-height:44px;line-height:44px;">キャンセル</a>
