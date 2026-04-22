@@ -35,40 +35,56 @@
     .drawer-accordion-body a:last-child { border-bottom: none; }
     .drawer-link { display: block; padding: 14px 16px; font-size: 14px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; min-height: 44px; }
 
+    /* ===== Step Indicator ===== */
+    .steps { display: flex; align-items: center; justify-content: center; padding: 16px 16px 0; gap: 0; }
+    .step { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #999; }
+    .step.active { color: #333; font-weight: bold; }
+    .step-number { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
+    .step.active .step-number { background: #333; color: #fff; border-color: #333; }
+    .step-line { width: 20px; height: 2px; background: #ddd; margin: 0 4px; }
+
     /* ===== Page Title ===== */
     .page-title { font-size: 18px; font-weight: bold; padding: 16px 16px 8px; }
 
+    /* ===== Cart Item Bar ===== */
+    .cart-item-bar { background: #333; color: #fff; padding: 6px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .cart-item-bar-name { font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+    .cart-item-bar-name a { color: #fff; text-decoration: none; }
+    .cart-item-bar-actions { display: flex; align-items: center; gap: 8px; }
+    .bar-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 3px; min-height: 44px; }
+
     /* ===== Cart Items ===== */
     .cart-items { background: #fff; }
-    .cart-item { padding: 16px; border-bottom: 1px solid #eee; }
-    .cart-item:last-child { border-bottom: none; }
-    .cart-item-top { display: flex; gap: 12px; margin-bottom: 12px; }
+    .cart-item { padding: 12px 16px; border-bottom: 1px solid #eee; }
+    .cart-item-top { display: flex; gap: 12px; margin-bottom: 10px; }
     .cart-item-image { width: 72px; height: 72px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; flex-shrink: 0; }
     .cart-item-info { flex: 1; }
     .cart-item-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-bottom: 4px; }
     .badge-normal { background: #e8f4fd; color: #1a73e8; }
     .badge-sample { background: #fef3e2; color: #e67e22; }
-    .cart-item-name { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
-    .cart-item-name a { color: #333; text-decoration: none; }
-    .cart-item-options { font-size: 11px; color: #999; line-height: 1.5; }
+    .cart-item-options { font-size: 12px; color: #333; font-weight: 500; }
 
-    .cart-item-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-    .cart-item-left { }
-    .cart-item-upload { margin-bottom: 8px; }
+    .cart-item-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: start; }
+    .cart-item-detail-label { font-size: 10px; color: #999; margin-bottom: 2px; }
+
+    .cart-item-upload { }
     .upload-status { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 4px 10px; border-radius: 4px; }
     .upload-done { background: #e8f5e9; color: #2e7d32; }
     .upload-pending { background: #fff3e0; color: #e65100; }
-    .upload-btn { display: inline-block; margin-left: 8px; font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
-    .cart-item-qty-row { display: flex; align-items: center; gap: 8px; }
-    .cart-item-qty-row input { width: 60px; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-align: center; min-height: 44px; }
-    .cart-item-qty-row span { font-size: 12px; color: #666; }
-    .cart-item-qty-row .qty-label { font-size: 12px; color: #666; }
+    .upload-btn { display: block; margin-top: 4px; font-size: 11px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
 
-    .cart-item-right { text-align: right; }
-    .cart-item-price { font-size: 16px; font-weight: bold; }
-    .cart-item-unit { font-size: 11px; color: #999; }
-    .cart-item-delete { margin-top: 8px; }
-    .delete-btn { background: none; border: none; color: #999; font-size: 12px; cursor: pointer; text-decoration: underline; min-height: 44px; }
+    .cart-item-unit-price { font-size: 14px; font-weight: bold; }
+    .cart-item-unit-original { font-size: 11px; color: #999; text-decoration: line-through; }
+    .cart-item-fixed-cost { font-size: 10px; color: #666; margin-top: 2px; }
+
+    .cart-item-qty-row { display: flex; align-items: center; gap: 6px; }
+    .cart-item-qty-row input { width: 56px; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-align: center; min-height: 44px; }
+    .cart-item-qty-row span { font-size: 12px; color: #666; }
+
+    .cart-item-subtotal-row { display: flex; justify-content: flex-end; align-items: baseline; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0; }
+    .cart-item-subtotal-price { font-size: 16px; font-weight: bold; }
+    .cart-item-subtotal-original { font-size: 12px; color: #999; text-decoration: line-through; }
+    .cart-item-subtotal-discount { font-size: 11px; color: #e53e3e; }
 
     /* ===== Upload Warning ===== */
     .upload-warning { background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; padding: 12px 16px; margin: 8px 16px; font-size: 12px; color: #f57f17; line-height: 1.5; }
@@ -106,9 +122,9 @@
     <div class="header-top">
       <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><i data-lucide="log-in" style="width:20px;height:20px;"></i><span>ログイン</span></a>
-        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:20px;height:20px;"></i><span>カート</span><span class="cart-badge-sp">3</span></a>
-        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:20px;height:20px;"></i><span>メニュー</span></a>
+        <a href="#"><i data-lucide="log-in" style="width:22px;height:22px;"></i><span>ログイン</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:22px;height:22px;"></i><span>カート</span><span class="cart-badge-sp">3</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:22px;height:22px;"></i><span>メニュー</span></a>
       </div>
     </div>
     <div class="header-search">
@@ -117,6 +133,29 @@
     </div>
   </header>
 
+  <!-- ===== STEP INDICATOR ===== -->
+  <div class="steps">
+    <div class="step active">
+      <div class="step-number">1</div>
+      <span>カート</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <span>データ入稿</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <span>注文確認</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-number">4</div>
+      <span>完了</span>
+    </div>
+  </div>
+
   <!-- ===== PAGE TITLE ===== -->
   <div class="page-title">カート（3点）</div>
 
@@ -124,99 +163,147 @@
   <div class="cart-items">
 
     <!-- Item 1: Normal order, uploaded -->
+    <div class="cart-item-bar">
+      <div class="cart-item-bar-name">
+        <span class="cart-item-badge badge-normal">通常注文</span>
+        <a href="#">オリジナル缶バッジ 44mm</a>
+      </div>
+      <div class="cart-item-bar-actions">
+        <button class="bar-btn"><i data-lucide="copy" style="width:12px;height:12px;"></i>複製</button>
+        <button class="bar-btn"><i data-lucide="trash-2" style="width:12px;height:12px;"></i>削除</button>
+      </div>
+    </div>
     <div class="cart-item">
       <div class="cart-item-top">
         <div class="cart-item-image">画像</div>
         <div class="cart-item-info">
-          <span class="cart-item-badge badge-normal">通常注文</span>
-          <div class="cart-item-name"><a href="#">オリジナル缶バッジ 44mm</a></div>
           <div class="cart-item-options">サイズ: 44mm / 仕上げ: マット / 付属: 安全ピン</div>
         </div>
       </div>
-      <div class="cart-item-bottom">
-        <div class="cart-item-left">
-          <div class="cart-item-upload">
-            <span class="upload-status upload-done">入稿済み</span>
-            <span class="upload-btn">変更</span>
-          </div>
+      <div class="cart-item-details">
+        <div class="cart-item-upload">
+          <div class="cart-item-detail-label">入稿状態</div>
+          <span class="upload-status upload-done">入稿済み</span>
+          <span class="upload-btn">データを変更</span>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">単価</div>
+          <div class="cart-item-unit-price">¥85</div>
+          <div class="cart-item-unit-original">¥100</div>
+          <div class="cart-item-fixed-cost">固定費: なし</div>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">数量</div>
           <div class="cart-item-qty-row">
-            <span class="qty-label">数量</span>
             <input type="number" value="100" min="100">
             <span>個</span>
           </div>
         </div>
-        <div class="cart-item-right">
-          <div class="cart-item-price">8,500円</div>
-          <div class="cart-item-unit">@85円 x 100個</div>
-          <div class="cart-item-unit">固定費: なし</div>
-          <div class="cart-item-delete"><button class="delete-btn">削除</button></div>
-        </div>
+      </div>
+      <div class="cart-item-subtotal-row">
+        <span class="cart-item-subtotal-discount">数量割引</span>
+        <span class="cart-item-subtotal-original">¥10,000</span>
+        <span class="cart-item-subtotal-price">¥8,500</span>
       </div>
     </div>
 
     <!-- Item 2: Normal order, not uploaded -->
+    <div class="cart-item-bar">
+      <div class="cart-item-bar-name">
+        <span class="cart-item-badge badge-normal">通常注文</span>
+        <a href="#">アクリルスタンド 100mm</a>
+      </div>
+      <div class="cart-item-bar-actions">
+        <button class="bar-btn"><i data-lucide="copy" style="width:12px;height:12px;"></i>複製</button>
+        <button class="bar-btn"><i data-lucide="trash-2" style="width:12px;height:12px;"></i>削除</button>
+      </div>
+    </div>
     <div class="cart-item">
       <div class="cart-item-top">
         <div class="cart-item-image">画像</div>
         <div class="cart-item-info">
-          <span class="cart-item-badge badge-normal">通常注文</span>
-          <div class="cart-item-name"><a href="#">アクリルスタンド 100mm</a></div>
           <div class="cart-item-options">サイズ: 100mm / 仕上げ: クリア</div>
         </div>
       </div>
-      <div class="cart-item-bottom">
-        <div class="cart-item-left">
-          <div class="cart-item-upload">
-            <span class="upload-status upload-pending">未入稿</span>
-            <span class="upload-btn">入稿する</span>
-          </div>
+      <div class="cart-item-details">
+        <div class="cart-item-upload">
+          <div class="cart-item-detail-label">入稿状態</div>
+          <span class="upload-status upload-pending">未入稿</span>
+          <span class="upload-btn">入稿する</span>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">単価</div>
+          <div class="cart-item-unit-price">¥120</div>
+          <div class="cart-item-unit-original">¥150</div>
+          <div class="cart-item-fixed-cost">固定費: +¥3,000</div>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">数量</div>
           <div class="cart-item-qty-row">
-            <span class="qty-label">数量</span>
             <input type="number" value="200" min="100">
             <span>個</span>
           </div>
         </div>
-        <div class="cart-item-right">
-          <div class="cart-item-price">27,000円</div>
-          <div class="cart-item-unit">@120円 x 200個</div>
-          <div class="cart-item-unit">固定費: +3,000円（色校正）</div>
-          <div class="cart-item-delete"><button class="delete-btn">削除</button></div>
-        </div>
+      </div>
+      <div class="cart-item-subtotal-row">
+        <span class="cart-item-subtotal-discount">数量割引</span>
+        <span class="cart-item-subtotal-original">¥33,000</span>
+        <span class="cart-item-subtotal-price">¥27,000</span>
       </div>
     </div>
 
     <!-- Item 3: Sample order, not uploaded -->
+    <div class="cart-item-bar">
+      <div class="cart-item-bar-name">
+        <span class="cart-item-badge badge-sample">サンプル制作</span>
+        <a href="#">オリジナル缶バッジ 56mm</a>
+      </div>
+      <div class="cart-item-bar-actions">
+        <button class="bar-btn"><i data-lucide="copy" style="width:12px;height:12px;"></i>複製</button>
+        <button class="bar-btn"><i data-lucide="trash-2" style="width:12px;height:12px;"></i>削除</button>
+      </div>
+    </div>
     <div class="cart-item">
       <div class="cart-item-top">
         <div class="cart-item-image">画像</div>
         <div class="cart-item-info">
-          <span class="cart-item-badge badge-sample">サンプル制作</span>
-          <div class="cart-item-name"><a href="#">オリジナル缶バッジ 56mm</a></div>
           <div class="cart-item-options">サイズ: 56mm / 仕上げ: グロス / 付属: マグネット</div>
         </div>
       </div>
-      <div class="cart-item-bottom">
-        <div class="cart-item-left">
-          <div class="cart-item-upload">
-            <span class="upload-status upload-pending">未入稿</span>
-            <span class="upload-btn">入稿する</span>
-          </div>
+      <div class="cart-item-details">
+        <div class="cart-item-upload">
+          <div class="cart-item-detail-label">入稿状態</div>
+          <span class="upload-status upload-pending">未入稿</span>
+          <span class="upload-btn">入稿する</span>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">単価</div>
+          <div class="cart-item-unit-price">¥1,900</div>
+          <div class="cart-item-fixed-cost">固定費: なし</div>
+        </div>
+        <div>
+          <div class="cart-item-detail-label">数量</div>
           <div class="cart-item-qty-row">
-            <span class="qty-label">数量</span>
-            <input type="number" value="1" min="1" style="width:40px;">
-            <span>式（1式=10個）</span>
+            <input type="number" value="1" min="1">
+            <span>個</span>
           </div>
         </div>
-        <div class="cart-item-right">
-          <div class="cart-item-price">1,900円</div>
-          <div class="cart-item-unit">サンプル1式</div>
-          <div class="cart-item-unit">固定費: なし</div>
-          <div class="cart-item-delete"><button class="delete-btn">削除</button></div>
-        </div>
+      </div>
+      <div class="cart-item-subtotal-row">
+        <span class="cart-item-subtotal-price">¥1,900</span>
       </div>
     </div>
   </div>
 
+
+  <!-- ===== EMPTY CART (商品が0件の場合に表示) ===== -->
+  <!--
+  <div style="background:#fff;padding:48px 16px;text-align:center;">
+    <div style="font-size:40px;margin-bottom:12px;color:#ddd;">[ icon ]</div>
+    <div style="font-size:15px;color:#999;margin-bottom:20px;">カートに商品がありません</div>
+    <a href="#" style="display:inline-block;padding:12px 24px;background:#333;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;">商品を探す</a>
+  </div>
+  -->
 
   <!-- ===== CART SUMMARY ===== -->
   <div class="cart-summary">
@@ -228,6 +315,10 @@
     <div class="summary-row">
       <span class="label">送料</span>
       <span class="value">無料</span>
+    </div>
+    <div class="summary-row">
+      <span class="label">納期目安</span>
+      <span class="value">約14営業日</span>
     </div>
     <div class="summary-total">
       <span>合計（税込）</span>
