@@ -22,7 +22,7 @@
 | C-03 商品詳細 | done | done | done | **完了** | 未 |
 | C-04 カート | done | done | done | **完了** | 未 |
 | C-05 入稿 | done | done | done | **完了** | 未 |
-| C-06 注文確認 | done | done | done | 未 | — |
+| C-06 注文確認 | done | done | done | **完了** | 未 |
 | C-07 注文完了 | done | done | done | 未 | — |
 | C-08 ログイン | done | 共通 | done | 未 | — |
 | C-09 会員登録 | done | 共通 | done | 未 | — |
