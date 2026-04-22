@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C-13 注文詳細（SP） - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; max-width: 390px; margin: 0 auto; }
     .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 18px; font-weight: bold; }
+    .logo { width: 90px; height: 28px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; }
     .header-top-right { display: flex; align-items: center; gap: 4px; }
     .header-top-right a { color: #666; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 44px; min-height: 44px; justify-content: center; }
-    .header-top-right .nav-icon { width: 22px; height: 22px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
-    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; display: flex; gap: 8px; }
-    .header-search input { flex: 1; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; font-size: 14px; }
-    .header-search button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .header-search { background: #fff; padding: 8px 16px; border-bottom: 1px solid #ddd; position: relative; }
+    .header-search input { width: 100%; border: 1px solid #ddd; border-radius: 20px; padding: 10px 40px 10px 16px; font-size: 14px; height: 40px; }
+    .header-search button { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #999; }
 
     .back-bar { background: #fff; padding: 12px 16px; border-bottom: 1px solid #eee; }
     .back-bar a { font-size: 13px; color: #1a73e8; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
@@ -75,21 +75,25 @@
 </head>
 <body>
 
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
-      <div class="logo">LOGO</div>
+      <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><span class="nav-icon">icon</span>マイページ</a>
-        <a href="#"><span class="nav-icon">icon</span>カート</a>
-        <a href="#"><span class="nav-icon">icon</span>メニュー</a>
+        <a href="#"><i data-lucide="user" style="width:22px;height:22px;"></i><span>マイページ</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:22px;height:22px;"></i><span>カート</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:22px;height:22px;"></i><span>メニュー</span></a>
       </div>
     </div>
-    <div class="header-search"><input type="text" placeholder="商品名・キーワード"><button>検索</button></div>
+    <div class="header-search">
+      <input type="text" placeholder="商品を検索...">
+      <button><i data-lucide="search" style="width:16px;height:16px;"></i></button>
+    </div>
   </header>
 
   <div class="back-bar" style="display:flex;justify-content:space-between;align-items:center;">
     <a href="#">注文履歴に戻る</a>
-    <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:11px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;min-height:44px;" title="共有URLをコピー"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#ddd;border-radius:3px;font-size:8px;">icon</span>共有</button>
+    <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:11px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;min-height:44px;" title="共有URLをコピー"><i data-lucide="share-2" style="width:14px;height:14px;"></i>共有</button>
   </div>
 
   <!-- Status: 差し戻し状態 -->
@@ -197,11 +201,58 @@
   -->
 
   <footer class="footer">
-    <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a></div>
+    <div class="footer-section"><div style="width:180px;height:54px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;">ロゴ画像</div></div>
     <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
-    <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特商法表記</a></div>
-    <div class="footer-bottom">&copy; 2026 Company Name.</div>
+    <div class="footer-section"><h4>サイト情報</h4><a href="#">運営会社</a><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
   </footer>
 
+  <!-- ===== DRAWER MENU ===== -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:200;"></div>
+  <div id="drawer" style="position:fixed;top:0;right:-80vw;width:80vw;height:100%;background:#fff;z-index:201;transition:right 0.3s;overflow-y:auto;">
+    <div style="display:flex;justify-content:flex-end;padding:12px 16px;border-bottom:1px solid #eee;">
+      <button onclick="closeDrawer()" style="background:none;border:none;cursor:pointer;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;"><i data-lucide="x" style="width:24px;height:24px;color:#333;"></i></button>
+    </div>
+    <div id="categoryAccordion" style="border-bottom:1px solid #eee;">
+      <div onclick="toggleAccordion()" style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;font-size:14px;font-weight:bold;cursor:pointer;min-height:44px;">
+        <span style="display:flex;align-items:center;gap:10px;"><i data-lucide="grid-2x2" style="width:18px;height:18px;color:#666;"></i>カテゴリ一覧</span>
+        <i data-lucide="chevron-down" style="width:18px;height:18px;color:#999;"></i>
+      </div>
+      <div id="accordionBody" style="display:none;padding:0 16px 12px;">
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">缶バッジ</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">アクリルスタンド</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">キーホルダー</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">ストラップ</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">トレーディングカード</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">クリアファイル</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">ステッカー・シール</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">タオル・布製品</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">Tシャツ</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">トートバッグ</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;border-bottom:1px solid #f0f0f0;min-height:44px;line-height:24px;">うちわ</a>
+        <a href="#" style="display:block;padding:10px 0;font-size:13px;color:#333;text-decoration:none;min-height:44px;line-height:24px;">その他グッズ</a>
+      </div>
+    </div>
+    <a href="#" style="display:flex;align-items:center;gap:10px;padding:14px 16px;font-size:14px;color:#333;text-decoration:none;border-bottom:1px solid #eee;min-height:44px;"><i data-lucide="book-open" style="width:18px;height:18px;color:#666;"></i>ご利用ガイド</a>
+    <a href="#" style="display:flex;align-items:center;gap:10px;padding:14px 16px;font-size:14px;color:#333;text-decoration:none;border-bottom:1px solid #eee;min-height:44px;"><i data-lucide="help-circle" style="width:18px;height:18px;color:#666;"></i>FAQ</a>
+    <a href="#" style="display:flex;align-items:center;gap:10px;padding:14px 16px;font-size:14px;color:#333;text-decoration:none;border-bottom:1px solid #eee;min-height:44px;"><i data-lucide="file-text" style="width:18px;height:18px;color:#666;"></i>入稿について</a>
+    <a href="#" style="display:flex;align-items:center;gap:10px;padding:14px 16px;font-size:14px;color:#333;text-decoration:none;border-bottom:1px solid #eee;min-height:44px;"><i data-lucide="user" style="width:18px;height:18px;color:#666;"></i>マイページ</a>
+  </div>
+
+  <script>
+    function openDrawer() {
+      document.getElementById('drawer').style.right = '0';
+      document.getElementById('drawerOverlay').style.display = 'block';
+    }
+    function closeDrawer() {
+      document.getElementById('drawer').style.right = '-80vw';
+      document.getElementById('drawerOverlay').style.display = 'none';
+    }
+    function toggleAccordion() {
+      var body = document.getElementById('accordionBody');
+      body.style.display = body.style.display === 'none' ? 'block' : 'none';
+    }
+    lucide.createIcons();
+  </script>
 </body>
 </html>

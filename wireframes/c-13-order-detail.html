@@ -4,21 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C-13 注文詳細ページ - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
-    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .header-top-left { display: flex; align-items: center; gap: 24px; }
-    .logo { font-size: 20px; font-weight: bold; }
-    .search-bar { display: flex; align-items: center; gap: 8px; }
-    .search-bar input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; width: 280px; font-size: 14px; }
-    .search-bar button { background: #333; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
-    .header-top-right { display: flex; align-items: center; gap: 16px; }
-    .header-top-right a { color: #666; text-decoration: none; font-size: 13px; }
-    .header-top-right .divider { color: #ddd; }
-    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; }
+    .header-top { background: #fff; border-bottom: 1px solid #eee; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+    .header-top-left { display: flex; align-items: center; }
+    .logo { width: 120px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
+    .header-top-right { display: flex; align-items: center; gap: 20px; }
+    .header-top-right a { color: #666; text-decoration: none; font-size: 11px; }
+    .header-categories { background: #fff; border-bottom: 1px solid #ddd; padding: 0 24px; display: flex; align-items: stretch; position: relative; z-index: 100; }
     .header-categories a { color: #333; text-decoration: none; font-size: 14px; font-weight: bold; padding: 20px; border-bottom: 3px solid transparent; display: flex; align-items: center; }
-    .header-categories a:hover { border-bottom-color: #333; }
+    .header-categories a:hover { color: #666; }
+    .category-item { position: static; }
     .breadcrumb { padding: 12px 24px; font-size: 13px; color: #999; background: #f5f5f5; border-bottom: 1px solid #eee; }
     .breadcrumb a { color: #666; text-decoration: none; }
     .breadcrumb span { margin: 0 4px; }
@@ -98,12 +96,40 @@
 </head>
 <body>
 
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div style="background:#333;color:#fff;text-align:center;padding:8px 24px;font-size:13px;letter-spacing:0.5px;">
+    <i data-lucide="pencil-line" style="width:14px;height:14px;vertical-align:middle;margin-right:6px;"></i>デザインデータをそのまま送るだけ。入稿データの編集はスタッフが無料でサポートします。
+  </div>
+
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
-      <div class="header-top-left"><div class="logo">LOGO</div><div class="search-bar"><input type="text" placeholder="商品を検索..."><button>検索</button></div></div>
-      <div class="header-top-right"><a href="#">ご利用ガイド</a><span class="divider">|</span><a href="#">FAQ</a><span class="divider">|</span><a href="#">入稿について</a><span class="divider">|</span><a href="#">マイページ</a><span class="divider">|</span><a href="#" style="position:relative;display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#ddd;border-radius:4px;font-size:8px;">icon</span></a></div>
+      <div class="header-top-left">
+        <div class="logo">ロゴ画像</div>
+        <div style="position:absolute;left:50%;transform:translateX(-50%);width:35vw;">
+          <div style="position:relative;width:100%;">
+            <input type="text" placeholder="商品を検索..." style="border:1px solid #ddd;border-radius:20px;padding:10px 40px 10px 16px;width:100%;font-size:14px;height:40px;">
+            <button style="position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#999;"><i data-lucide="search" style="width:18px;height:18px;"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="header-top-right">
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="book-open" style="width:18px;height:18px;"></i>ご利用ガイド</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="help-circle" style="width:18px;height:18px;"></i>FAQ</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="file-text" style="width:18px;height:18px;"></i>入稿について</a>
+        <a href="#" style="display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="user" style="width:18px;height:18px;"></i>マイページ</a>
+        <a href="#" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;"><i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>カート</a>
+      </div>
     </div>
-    <nav class="header-categories"><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">ストラップ</a><a href="#">トレーディングカード</a><a href="#">タオル・布製品</a><a href="#">その他グッズ</a></nav>
+    <nav class="header-categories">
+      <div class="category-item"><a href="#">缶バッジ</a></div>
+      <div class="category-item"><a href="#">アクリルスタンド</a></div>
+      <div class="category-item"><a href="#">キーホルダー</a></div>
+      <div class="category-item"><a href="#">ストラップ</a></div>
+      <div class="category-item"><a href="#">トレーディングカード</a></div>
+      <div class="category-item"><a href="#">タオル・布製品</a></div>
+      <div class="category-item"><a href="#">その他グッズ</a></div>
+    </nav>
   </header>
 
   <div class="breadcrumb"><a href="#">トップ</a><span>></span><a href="#">マイページ</a><span>></span><a href="#">注文履歴</a><span>></span>ORD-20260414-0023</div>
@@ -121,7 +147,7 @@
         <div class="page-header">
           <div style="display:flex;align-items:center;gap:12px;">
             <div class="page-title">注文詳細</div>
-            <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:12px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;" title="共有URLをコピー"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#ddd;border-radius:3px;font-size:8px;">icon</span>共有</button>
+            <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:12px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;" title="共有URLをコピー"><i data-lucide="share-2" style="width:14px;height:14px;"></i>共有</button>
           </div>
           <a class="back-link" href="#">注文履歴に戻る</a>
         </div>
@@ -258,12 +284,13 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-section"><h4>商品カテゴリ</h4><a href="#">缶バッジ</a><a href="#">アクリルスタンド</a><a href="#">キーホルダー</a><a href="#">その他グッズ</a></div>
+      <div class="footer-section"><div style="width:240px;height:72px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">ロゴ画像</div></div>
       <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
-      <div class="footer-section"><h4>法的情報</h4><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a><a href="#">コーポレートサイト</a></div>
+      <div class="footer-section"><h4>サイト情報</h4><a href="#">運営会社</a><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div>
     </div>
     <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
   </footer>
 
+<script>lucide.createIcons();</script>
 </body>
 </html>
