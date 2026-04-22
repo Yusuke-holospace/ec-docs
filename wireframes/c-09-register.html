@@ -10,7 +10,7 @@
 
     /* ===== Header (minimal) ===== */
     .header { background: #fff; border-bottom: 1px solid #eee; padding: 16px 24px; display: flex; align-items: center; justify-content: center; }
-    .logo { font-size: 24px; font-weight: bold; color: #333; }
+    .logo { width: 120px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
 
     /* ===== Main ===== */
     .main { max-width: 520px; margin: 48px auto; padding: 0 24px; }
@@ -54,14 +54,14 @@
 
   <!-- ===== HEADER (minimal) ===== -->
   <header class="header">
-    <a href="#" style="text-decoration:none;"><div class="logo">LOGO</div></a>
+    <a href="#" style="text-decoration:none;"><div class="logo">ロゴ画像</div></a>
   </header>
 
   <!-- ===== MAIN ===== -->
   <div class="main">
     <div class="register-box">
-      <div class="register-title">会社情報の登録</div>
-      <div class="register-desc">ご注文に必要な会社情報を入力してください。<br>初回のみの登録です。</div>
+      <div class="register-title">お客様情報の登録</div>
+      <div class="register-desc">ご注文に必要な情報を入力してください。<br>初回のみの登録です。あとから入力することも可能です。</div>
 
       <!-- Form -->
       <div class="form-group">
@@ -71,17 +71,17 @@
       </div>
 
       <div class="form-group">
-        <div class="form-label">会社名 <span class="required">必須</span></div>
+        <div class="form-label">会社名・屋号</div>
         <input class="form-input" type="text" placeholder="例: 株式会社ホロスペース">
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <div class="form-label">担当者名（姓） <span class="required">必須</span></div>
+          <div class="form-label">お名前（姓） <span class="required">必須</span></div>
           <input class="form-input" type="text" placeholder="例: 鬼柳">
         </div>
         <div class="form-group">
-          <div class="form-label">担当者名（名） <span class="required">必須</span></div>
+          <div class="form-label">お名前（名） <span class="required">必須</span></div>
           <input class="form-input" type="text" placeholder="例: 裕介">
         </div>
       </div>
@@ -90,6 +90,9 @@
         <div class="form-label">電話番号 <span class="required">必須</span></div>
         <input class="form-input" type="tel" placeholder="例: 03-1234-5678">
       </div>
+
+      <!-- Company Address -->
+      <div style="font-size:14px;font-weight:bold;margin-bottom:12px;padding-top:8px;border-top:1px solid #eee;">住所</div>
 
       <div class="form-group">
         <div class="form-label">郵便番号 <span class="required">必須</span></div>
@@ -118,6 +121,43 @@
         <input class="form-input" type="text" placeholder="例: ABCビル 5F">
       </div>
 
+      <!-- Shipping Address -->
+      <div style="font-size:14px;font-weight:bold;margin-bottom:12px;padding-top:8px;border-top:1px solid #eee;">配送先住所</div>
+
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:16px;" id="sameAddressLabel">
+        <input type="checkbox" checked style="width:18px;height:18px;" onchange="document.getElementById('shippingFields').style.display=this.checked?'none':'block'">
+        上記住所と同じ
+      </label>
+
+      <div id="shippingFields" style="display:none;">
+        <div class="form-group">
+          <div class="form-label">郵便番号 <span class="required">必須</span></div>
+          <div style="display:flex;gap:8px;">
+            <input class="form-input" type="text" placeholder="150-0001" style="max-width:90px;">
+            <button class="postal-btn">住所検索</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">都道府県 <span class="required">必須</span></div>
+          <select class="form-input">
+            <option value="">選択してください</option>
+            <option>東京都</option>
+            <option>大阪府</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">市区町村・番地 <span class="required">必須</span></div>
+          <input class="form-input" type="text" placeholder="例: 渋谷区神宮前1-2-3">
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">建物名・部屋番号</div>
+          <input class="form-input" type="text" placeholder="例: ABCビル 5F">
+        </div>
+      </div>
+
       <!-- Actions -->
       <div class="actions">
         <button class="btn-primary">登録を完了する</button>
@@ -125,7 +165,7 @@
           <a href="#" style="font-size:13px;color:#999;text-decoration:underline;">あとで入力する</a>
         </div>
         <div style="text-align:center;margin-top:8px;font-size:11px;color:#999;">
-          ※ 入稿・注文確定には会社情報の登録が必要です
+          ※ 入稿・注文確定にはお客様情報の登録が必要です
         </div>
       </div>
     </div>
@@ -134,9 +174,9 @@
   <!-- ===== FOOTER ===== -->
   <footer style="background:#333;color:#fff;padding:40px 24px;margin-top:0;">
     <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;">
-      <div><h4 style="font-size:14px;margin-bottom:12px;">商品カテゴリ</h4><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">缶バッジ</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">アクリルスタンド</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">キーホルダー</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;">その他グッズ</a></div>
+      <div><div style="width:240px;height:72px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">ロゴ画像</div></div>
       <div><h4 style="font-size:14px;margin-bottom:12px;">サポート</h4><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">FAQ</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">ご利用ガイド</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;">お問い合わせ</a></div>
-      <div><h4 style="font-size:14px;margin-bottom:12px;">法的情報</h4><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">利用規約</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">プライバシーポリシー</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">特定商取引法に基づく表記</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;">コーポレートサイト</a></div>
+      <div><h4 style="font-size:14px;margin-bottom:12px;">サイト情報</h4><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">運営会社</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">特定商取引法に基づく表記</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;">利用規約</a><a href="#" style="display:block;color:#ccc;text-decoration:none;font-size:13px;">プライバシーポリシー</a></div>
     </div>
     <div style="max-width:1200px;margin:24px auto 0;padding-top:24px;border-top:1px solid #555;text-align:center;font-size:12px;color:#999;">&copy; 2026 Company Name. All rights reserved.</div>
   </footer>

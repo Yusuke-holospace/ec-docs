@@ -25,7 +25,7 @@
 | C-06 注文確認 | done | done | done | **完了** | 未 |
 | C-07 注文完了 | done | done | done | **完了** | 未 |
 | C-08 ログイン | done | 共通 | done | **完了** | 未 |
-| C-09 会員登録 | done | 共通 | done | 未 | — |
+| C-09 会員登録 | done | 共通 | done | **完了** | 未 |
 | C-10 マイページ | done | done | done | 未 | — |
 | C-11 会員情報 | done | done | done | 未 | — |
 | C-12 注文履歴 | done | done | done | 未 | — |
