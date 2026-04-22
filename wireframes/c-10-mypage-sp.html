@@ -61,7 +61,7 @@
     .recent-orders { background: #fff; padding: 16px; margin-bottom: 8px; }
     .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
     .section-title a { font-size: 12px; color: #1a73e8; text-decoration: underline; font-weight: normal; }
-    .order-row { padding: 12px 0; border-bottom: 1px solid #eee; }
+    .order-row { display: block; padding: 12px 0; border-bottom: 1px solid #eee; text-decoration: none; color: #333; min-height: 44px; }
     .order-row:last-child { border-bottom: none; }
     .order-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .order-row-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; }
@@ -87,9 +87,9 @@
     <div class="header-top">
       <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><i data-lucide="log-in" style="width:20px;height:20px;"></i><span>ログイン</span></a>
-        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:20px;height:20px;"></i><span>カート</span></a>
-        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:20px;height:20px;"></i><span>メニュー</span></a>
+        <a href="#"><i data-lucide="user" style="width:22px;height:22px;"></i><span>マイページ</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:22px;height:22px;"></i><span>カート</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:22px;height:22px;"></i><span>メニュー</span></a>
       </div>
     </div>
     <div class="header-search">
@@ -101,14 +101,14 @@
   <!-- ===== WELCOME ===== -->
   <div class="welcome">
     <div class="welcome-name">yusuke@holospace.jp</div>
-    <div class="welcome-company" style="color:#999;">会社情報未登録</div>
-    <div class="welcome-warning">会社情報が未登録です。入稿・注文確定には登録が必要です。<a href="#" style="color:#1a73e8;margin-left:8px;">登録する</a></div>
+    <div class="welcome-company" style="color:#999;">お客様情報未登録</div>
+    <div class="welcome-warning">お客様情報が未登録です。入稿・注文確定には登録が必要です。<a href="#" style="color:#1a73e8;margin-left:8px;">登録する</a></div>
   </div>
 
   <!-- ===== MENU CARDS ===== -->
   <div class="menu-cards">
     <a class="menu-card" href="#">
-      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-icon"><i data-lucide="package" style="width:18px;height:18px;color:#666;"></i></div>
       <div class="menu-card-body">
         <div class="menu-card-title">注文履歴</div>
         <div class="menu-card-desc">注文状況の確認・再入稿・リピート注文</div>
@@ -117,15 +117,15 @@
       <span class="menu-card-arrow">></span>
     </a>
     <a class="menu-card" href="#">
-      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-icon"><i data-lucide="user-cog" style="width:18px;height:18px;color:#666;"></i></div>
       <div class="menu-card-body">
         <div class="menu-card-title">会員情報</div>
-        <div class="menu-card-desc">会社名・住所・電話番号の確認・変更</div>
+        <div class="menu-card-desc">お名前・住所・電話番号の確認・変更</div>
       </div>
       <span class="menu-card-arrow">></span>
     </a>
     <a class="menu-card" href="#">
-      <div class="menu-card-icon">icon</div>
+      <div class="menu-card-icon"><i data-lucide="log-out" style="width:18px;height:18px;color:#666;"></i></div>
       <div class="menu-card-body">
         <div class="menu-card-title">ログアウト</div>
       </div>
@@ -136,7 +136,7 @@
   <!-- ===== RECENT ORDERS ===== -->
   <div class="recent-orders">
     <div class="section-title">最近の注文 <a href="#">すべて見る</a></div>
-    <div class="order-row">
+    <a class="order-row" href="#">
       <div class="order-row-top">
         <span class="order-row-badge badge-progress">入稿確認中</span>
         <span class="order-row-id">ORD-20260414-0023</span>
@@ -145,8 +145,8 @@
         <span class="order-row-date">2026/04/14</span>
         <span class="order-row-price">37,400円</span>
       </div>
-    </div>
-    <div class="order-row">
+    </a>
+    <a class="order-row" href="#">
       <div class="order-row-top">
         <span class="order-row-badge badge-complete">完了</span>
         <span class="order-row-id">ORD-20260401-0018</span>
@@ -155,8 +155,8 @@
         <span class="order-row-date">2026/04/01</span>
         <span class="order-row-price">15,200円</span>
       </div>
-    </div>
-    <div class="order-row">
+    </a>
+    <a class="order-row" href="#">
       <div class="order-row-top">
         <span class="order-row-badge badge-complete">完了</span>
         <span class="order-row-id">ORD-20260315-0012</span>
@@ -165,7 +165,7 @@
         <span class="order-row-date">2026/03/15</span>
         <span class="order-row-price">8,800円</span>
       </div>
-    </div>
+    </a>
   </div>
 
   <!-- ===== FOOTER ===== -->

@@ -78,7 +78,8 @@
     .recent-orders { background: #fff; border-radius: 8px; padding: 24px; margin-top: 16px; }
     .section-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
     .section-title a { font-size: 13px; color: #1a73e8; text-decoration: underline; font-weight: normal; }
-    .order-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+    .order-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; cursor: pointer; text-decoration: none; color: #333; }
+    .order-row:hover { background: #f8f8f8; margin: 0 -12px; padding: 12px 12px; border-radius: 6px; }
     .order-row:last-child { border-bottom: none; }
     .order-row-left { display: flex; align-items: center; gap: 12px; }
     .order-row-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; }
@@ -176,8 +177,8 @@
         <!-- 会社情報未登録の場合 -->
         <div class="welcome">
           <div class="welcome-name">yusuke@holospace.jp</div>
-          <div class="welcome-company" style="color:#999;">会社情報未登録</div>
-          <div class="welcome-warning">会社情報が未登録です。入稿・注文確定には登録が必要です。<a href="#" style="color:#1a73e8;margin-left:8px;">登録する</a></div>
+          <div class="welcome-company" style="color:#999;">お客様情報未登録</div>
+          <div class="welcome-warning">お客様情報が未登録です。入稿・注文確定には登録が必要です。<a href="#" style="color:#1a73e8;margin-left:8px;">登録する</a></div>
         </div>
 
         <!-- 会社情報登録済みの場合（参考）
@@ -190,14 +191,14 @@
         <!-- Menu Cards -->
         <div class="menu-cards">
           <a class="menu-card" href="#">
-            <div class="menu-card-icon">icon</div>
+            <div class="menu-card-icon"><i data-lucide="package" style="width:20px;height:20px;color:#666;"></i></div>
             <div class="menu-card-title">注文履歴 <span class="menu-card-badge">2</span></div>
             <div class="menu-card-desc">注文状況の確認・再入稿・リピート注文</div>
           </a>
           <a class="menu-card" href="#">
-            <div class="menu-card-icon">icon</div>
+            <div class="menu-card-icon"><i data-lucide="user-cog" style="width:20px;height:20px;color:#666;"></i></div>
             <div class="menu-card-title">会員情報</div>
-            <div class="menu-card-desc">会社名・住所・電話番号の確認・変更</div>
+            <div class="menu-card-desc">お名前・住所・電話番号の確認・変更</div>
           </a>
         </div>
 
@@ -207,7 +208,7 @@
             最近の注文
             <a href="#">すべて見る</a>
           </div>
-          <div class="order-row">
+          <a class="order-row" href="#">
             <div class="order-row-left">
               <span class="order-row-badge badge-progress">入稿確認中</span>
               <span class="order-row-id">ORD-20260414-0023</span>
@@ -216,8 +217,8 @@
             <div class="order-row-right">
               <div class="order-row-price">37,400円</div>
             </div>
-          </div>
-          <div class="order-row">
+          </a>
+          <a class="order-row" href="#">
             <div class="order-row-left">
               <span class="order-row-badge badge-complete">完了</span>
               <span class="order-row-id">ORD-20260401-0018</span>
@@ -226,8 +227,8 @@
             <div class="order-row-right">
               <div class="order-row-price">15,200円</div>
             </div>
-          </div>
-          <div class="order-row">
+          </a>
+          <a class="order-row" href="#">
             <div class="order-row-left">
               <span class="order-row-badge badge-complete">完了</span>
               <span class="order-row-id">ORD-20260315-0012</span>
@@ -236,7 +237,7 @@
             <div class="order-row-right">
               <div class="order-row-price">8,800円</div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
