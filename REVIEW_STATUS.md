@@ -32,11 +32,11 @@
 | C-13 注文詳細 | done | done | done | **完了** | 未 |
 | C-14 問い合わせ | done | done | done | **完了** | 未 |
 | C-15 FAQ | done | done | done | **完了** | 未 |
-| C-16 ご利用ガイド | done | done | done | 未 | — |
-| C-17 利用規約 | done | done | done | 未 | — |
-| C-18 プライバシーポリシー | done | done | done | 未 | — |
-| C-19 特商法表記 | done | done | done | 未 | — |
-| C-20 404 | done | done | done | 未 | — |
+| C-16 ご利用ガイド | done | done | done | **完了** | 未 |
+| C-17 利用規約 | done | done | done | **完了** | 未 |
+| C-18 プライバシーポリシー | done | done | done | **完了** | 未 |
+| C-19 特商法表記 | done | done | done | **完了** | 未 |
+| C-20 404 | done | done | done | **完了** | 未 |
 | C-21 共有ステータス | done | done | done | 未 | — |
 
 ## 管理者向け画面（A-01〜A-11）
