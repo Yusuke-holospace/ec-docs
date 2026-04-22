@@ -71,9 +71,9 @@
     <div class="header-top">
       <div class="logo">ロゴ画像</div>
       <div class="header-top-right">
-        <a href="#"><i data-lucide="log-in" style="width:20px;height:20px;"></i><span>ログイン</span></a>
-        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:20px;height:20px;"></i><span>カート</span></a>
-        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:20px;height:20px;"></i><span>メニュー</span></a>
+        <a href="#"><i data-lucide="user" style="width:22px;height:22px;"></i><span>マイページ</span></a>
+        <a href="#" class="cart-link"><i data-lucide="shopping-cart" style="width:22px;height:22px;"></i><span>カート</span></a>
+        <a href="#" onclick="openDrawer();return false;"><i data-lucide="menu" style="width:22px;height:22px;"></i><span>メニュー</span></a>
       </div>
     </div>
     <div class="header-search">
@@ -94,7 +94,7 @@
     <button class="filter-btn">完了</button>
   </div>
 
-  <div class="order-card">
+  <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260414-0023</span><span class="order-card-date" style="margin-left:8px;">2026/04/14</span></div>
       <span class="order-card-badge badge-progress">入稿確認中</span>
@@ -104,9 +104,9 @@
       <span class="order-card-type">通常＋サンプル</span>
       <span class="order-card-price">37,400円</span>
     </div>
-  </div>
+  </a>
 
-  <div class="order-card">
+  <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260401-0018</span><span class="order-card-date" style="margin-left:8px;">2026/04/01</span></div>
       <span class="order-card-badge badge-waiting">決済待ち</span>
@@ -116,9 +116,9 @@
       <span class="order-card-type">通常注文</span>
       <span class="order-card-price">15,200円</span>
     </div>
-  </div>
+  </a>
 
-  <div class="order-card">
+  <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260315-0012</span><span class="order-card-date" style="margin-left:8px;">2026/03/15</span></div>
       <span class="order-card-badge badge-complete">完了</span>
@@ -128,6 +128,11 @@
       <span class="order-card-type">通常注文</span>
       <span class="order-card-price">8,800円</span>
     </div>
+  </a>
+
+  <!-- Load More -->
+  <div style="padding:16px;text-align:center;">
+    <button style="width:100%;padding:14px;background:#fff;border:1px solid #ddd;border-radius:8px;font-size:13px;color:#333;cursor:pointer;min-height:48px;">もっと読み込む</button>
   </div>
 
   <footer class="footer">
