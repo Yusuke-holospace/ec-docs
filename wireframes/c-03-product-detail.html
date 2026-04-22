@@ -56,10 +56,13 @@
     .product-description { font-size: 14px; line-height: 1.8; color: #666; margin-bottom: 24px; }
 
     /* Right: Image + Price + Actions (sticky) */
-    .product-right { position: sticky; top: 24px; }
-    .main-image { width: 100%; aspect-ratio: 1; background: #e8e8e8; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px; margin-bottom: 12px; }
-    .thumbnail-list { display: flex; gap: 8px; margin-bottom: 20px; }
-    .thumbnail { width: 72px; height: 72px; background: #e8e8e8; border-radius: 4px; border: 2px solid transparent; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; cursor: pointer; }
+    .product-right { position: sticky; top: 24px; min-width: 0; }
+    .main-image { width: 80%; aspect-ratio: 1; background: #e8e8e8; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px; margin: 0 auto 12px; }
+    .thumbnail-list { display: flex; gap: 8px; margin-bottom: 20px; align-items: center; justify-content: center; }
+    .thumbnail-arrow { width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+    .thumbnail-arrow:hover { border-color: #333; }
+    .thumbnail-scroll { display: flex; gap: 8px; }
+    .thumbnail { width: 72px; height: 72px; min-width: 72px; background: #e8e8e8; border-radius: 4px; border: 2px solid transparent; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; cursor: pointer; flex-shrink: 0; }
     .thumbnail.active { border-color: #333; }
     .price-display { background: #f8f8f8; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
     .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -75,7 +78,7 @@
     .sub-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .sub-links a { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; color: #333; text-decoration: none; cursor: pointer; padding: 14px 8px; border: 1px solid #ddd; border-radius: 6px; text-align: center; line-height: 1.4; }
     .sub-links a:hover { background: #f5f5f5; }
-    .sub-links .sub-icon { font-size: 14px; font-weight: bold; color: #666; width: 28px; height: 28px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .sub-links .sub-icon { color: #666; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
 
     /* ===== Options ===== */
     .option-group { margin-bottom: 20px; }
@@ -231,15 +234,37 @@
         <div class="product-category">缶バッジ</div>
         <h1 class="product-name">オリジナル缶バッジ 44mm</h1>
         <p class="product-description">高品質なオリジナル缶バッジを小ロットから製造。推し活イベントやグッズ販売に最適です。</p>
+        <div style="display:flex;gap:24px;margin-bottom:16px;padding:12px 0;border-top:1px solid #eee;border-bottom:1px solid #eee;">
+          <div><span style="font-size:13px;color:#666;">単価</span><div style="font-size:18px;font-weight:bold;">@88円（税込）〜</div></div>
+          <div><span style="font-size:13px;color:#666;">最小ロット</span><div style="font-size:18px;font-weight:bold;">100個〜</div></div>
+        </div>
+
+        <div class="quantity-group">
+          <div class="option-label">数量</div>
+          <div class="quantity-input">
+            <input type="number" value="100" min="100" step="1">
+            <span>個</span>
+          </div>
+          <div class="quantity-note">最小ロット: 100個</div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=100">100</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=300">300</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=500">500</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=1000">1,000</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=3000">3,000</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=5000">5,000</button>
+            <button style="padding:4px 12px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;" onclick="document.querySelector('.quantity-input input').value=10000">10,000</button>
+          </div>
+        </div>
 
         <!-- Pattern A: 必須 / テキストのみ / 追加価格なし -->
         <div class="option-group">
           <div class="option-label">サイズ <span class="help-wrap" onclick="this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">缶バッジのサイズは外径の直径です。32mmは名刺サイズ、44mmは一般的、56mm以上は大きめです。</span></span></div>
           <div class="option-buttons">
-            <button class="option-btn">32mm</button>
-            <button class="option-btn selected">44mm</button>
-            <button class="option-btn">56mm</button>
-            <button class="option-btn">76mm</button>
+            <button class="option-btn">32mm <span class="help-wrap" onclick="event.stopPropagation();this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">名刺サイズ。小さめで控えめな印象。</span></span></button>
+            <button class="option-btn selected">44mm <span class="help-wrap" onclick="event.stopPropagation();this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">最も一般的なサイズ。イベント物販の定番。</span></span></button>
+            <button class="option-btn">56mm <span class="help-wrap" onclick="event.stopPropagation();this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">やや大きめ。デザインが映える。</span></span></button>
+            <button class="option-btn">76mm <span class="help-wrap" onclick="event.stopPropagation();this.classList.toggle('open')"><span class="help-icon">?</span><span class="help-bubble">大型サイズ。インパクト重視。</span></span></button>
           </div>
         </div>
 
@@ -293,24 +318,45 @@
           </div>
         </div>
 
-        <div class="quantity-group">
-          <div class="option-label">数量</div>
-          <div class="quantity-input">
-            <input type="number" value="100" min="100" step="1">
-            <span>個</span>
+        <div class="option-group">
+          <div class="option-label">裏面デザイン</div>
+          <div class="option-buttons">
+            <button class="option-btn selected">なし (+0円)</button>
+            <button class="option-btn">あり (+20円)</button>
           </div>
-          <div class="quantity-note">最小ロット: 100個</div>
         </div>
+
+        <div class="option-group">
+          <div class="option-label">納期</div>
+          <div class="option-buttons">
+            <button class="option-btn selected">通常（約2週間）</button>
+            <button class="option-btn">特急（約1週間）(+30%)</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <div class="option-label">納品先</div>
+          <div class="option-buttons">
+            <button class="option-btn selected">登録住所</button>
+            <button class="option-btn">別の住所を指定</button>
+          </div>
+        </div>
+
       </div>
 
       <!-- RIGHT: Image + Price + Actions (sticky) -->
       <div class="product-right">
         <div class="main-image">商品画像<br>(オプション選択で切替)</div>
         <div class="thumbnail-list">
-          <div class="thumbnail active">正面</div>
-          <div class="thumbnail">裏面</div>
-          <div class="thumbnail">使用例</div>
-          <div class="thumbnail">印刷範囲</div>
+          <button class="thumbnail-arrow"><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+          <div class="thumbnail-scroll">
+            <div class="thumbnail active">正面</div>
+            <div class="thumbnail">裏面</div>
+            <div class="thumbnail">使用例</div>
+            <div class="thumbnail">印刷範囲</div>
+            <div class="thumbnail">サイズ感</div>
+          </div>
+          <button class="thumbnail-arrow"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
         </div>
 
         <div class="price-display">
@@ -343,13 +389,13 @@
 
         <div class="action-buttons">
           <button class="btn-primary" onclick="openCartModal()">カートに追加</button>
-          <button class="btn-secondary" onclick="openCartModal()">サンプル制作をカートに追加</button>
+          <button class="btn-secondary" onclick="openSampleModal()">サンプル制作をカートに追加</button>
         </div>
 
         <div class="sub-links">
-          <a href="#"><span class="sub-icon">icon</span>見積書を<br>ダウンロード</a>
-          <a href="#"><span class="sub-icon">icon</span>入稿テンプレートを<br>ダウンロード</a>
-          <a href="#"><span class="sub-icon">icon</span>この商品について<br>問い合わせる</a>
+          <a href="#"><span class="sub-icon"><i data-lucide="file-down" style="width:20px;height:20px;"></i></span>見積書を<br>ダウンロード</a>
+          <a href="#"><span class="sub-icon"><i data-lucide="download" style="width:20px;height:20px;"></i></span>入稿テンプレートを<br>ダウンロード</a>
+          <a href="#"><span class="sub-icon"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></span>この商品について<br>問い合わせる</a>
         </div>
       </div>
     </div>
@@ -403,10 +449,10 @@
     <div class="section section-padded">
       <h2 class="section-title">関連商品</h2>
       <div class="related-grid">
-        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルスタンド</div><div class="related-card-price">@120円〜（税込）</div></div></div>
-        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルキーホルダー</div><div class="related-card-price">@95円〜（税込）</div></div></div>
-        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">ラバーストラップ</div><div class="related-card-price">@110円〜（税込）</div></div></div>
-        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">トレーディングカード</div><div class="related-card-price">@30円〜（税込）</div></div></div>
+        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルスタンド</div><div class="related-card-price">@120円（税込）〜</div></div></div>
+        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">アクリルキーホルダー</div><div class="related-card-price">@95円（税込）〜</div></div></div>
+        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">ラバーストラップ</div><div class="related-card-price">@110円（税込）〜</div></div></div>
+        <div class="related-card"><div class="related-card-image">商品画像</div><div class="related-card-body"><div class="related-card-name">トレーディングカード</div><div class="related-card-price">@30円（税込）〜</div></div></div>
       </div>
     </div>
 
@@ -436,6 +482,28 @@
   <!-- Cart Modal -->
   <div class="modal-overlay" id="cartModal"><div class="modal"><button class="modal-close" onclick="closeCartModal()">&times;</button><div class="modal-title">商品をカートに入れました</div><div class="modal-info"><span>合計点数: <strong>2点</strong></span><span>合計金額（税込）: <strong>9,550円</strong></span></div><div class="modal-buttons"><button class="modal-btn-outline" onclick="closeCartModal()">買い物を続ける</button><button class="modal-btn-primary" onclick="location.href='#'">カートを見る</button></div></div></div>
 
+  <!-- Sample Confirm Modal -->
+  <div class="modal-overlay" id="sampleModal"><div class="modal" style="max-width:440px;">
+    <button class="modal-close" onclick="closeSampleModal()">&times;</button>
+    <div class="modal-title">サンプル制作をカートに追加</div>
+    <div style="margin:16px 0;padding:16px;background:#f8f8f8;border-radius:8px;">
+      <div style="font-size:14px;font-weight:bold;margin-bottom:8px;">注意事項</div>
+      <ul style="font-size:13px;color:#666;line-height:1.8;padding-left:20px;">
+        <li>サンプル制作は1式（10個）です</li>
+        <li>数量の変更はできません</li>
+        <li>通常注文と同じく入稿が必要です</li>
+      </ul>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px;">
+      <div><span style="font-size:13px;color:#666;">価格</span><div style="font-size:18px;font-weight:bold;">1,900円（税込）</div></div>
+      <div><span style="font-size:13px;color:#666;">概算納期</span><div style="font-size:18px;font-weight:bold;">約2週間</div></div>
+    </div>
+    <div class="modal-buttons">
+      <button class="modal-btn-outline" onclick="closeSampleModal()">キャンセル</button>
+      <button class="modal-btn-primary" onclick="closeSampleModal();openCartModal();">カートに追加</button>
+    </div>
+  </div></div>
+
   <script>
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -445,6 +513,8 @@
     }
     function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
     function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
+    function openSampleModal() { document.getElementById('sampleModal').classList.add('show'); }
+    function closeSampleModal() { document.getElementById('sampleModal').classList.remove('show'); }
     lucide.createIcons();
   </script>
 </body>
