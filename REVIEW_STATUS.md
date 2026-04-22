@@ -37,7 +37,7 @@
 | C-18 プライバシーポリシー | done | done | done | **完了** | 未 |
 | C-19 特商法表記 | done | done | done | **完了** | 未 |
 | C-20 404 | done | done | done | **完了** | 未 |
-| C-21 共有ステータス | done | done | done | 未 | — |
+| C-21 共有ステータス | done | done | done | **完了** | 未 |
 
 ## 管理者向け画面（A-01〜A-11）
 
