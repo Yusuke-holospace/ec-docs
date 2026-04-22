@@ -170,11 +170,9 @@
             <div class="form-label">建物名・部屋番号</div>
             <input class="form-input" type="text" value="ABCビル 5F">
           </div>
-        </div>
 
-        <!-- ===== 配送先住所（編集モード例） ===== -->
-        <div class="form-section">
-          <div class="form-section-title">配送先住所</div>
+          <!-- 配送先住所 -->
+          <div style="font-size:15px;font-weight:bold;margin:24px 0 12px;padding-top:16px;border-top:1px solid #eee;">配送先住所</div>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:16px;">
             <input type="checkbox" checked style="width:18px;height:18px;" onchange="document.getElementById('shippingFields').style.display=this.checked?'none':'block'">
             上記住所と同じ
@@ -200,6 +198,7 @@
               <input class="form-input" type="text" placeholder="例: ABCビル 5F">
             </div>
           </div>
+
           <div class="actions" style="margin-top:16px;">
             <a href="#" class="btn-outline">キャンセル</a>
             <button class="btn-primary">変更を保存</button>
