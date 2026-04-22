@@ -30,7 +30,7 @@
 | C-11 会員情報 | done | done | done | **完了** | 未 |
 | C-12 注文履歴 | done | done | done | **完了** | 未 |
 | C-13 注文詳細 | done | done | done | **完了** | 未 |
-| C-14 問い合わせ | done | done | done | 未 | — |
+| C-14 問い合わせ | done | done | done | **完了** | 未 |
 | C-15 FAQ | done | done | done | 未 | — |
 | C-16 ご利用ガイド | done | done | done | 未 | — |
 | C-17 利用規約 | done | done | done | 未 | — |
