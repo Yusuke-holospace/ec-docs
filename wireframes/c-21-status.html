@@ -66,7 +66,11 @@
     .contact-box { background: #f8f8f8; border-radius: 6px; padding: 16px; font-size: 13px; line-height: 1.8; color: #666; }
 
     /* ===== Footer (Minimal) ===== */
-    .footer { background: #333; color: #fff; padding: 24px; margin-top: 32px; text-align: center; font-size: 12px; color: #999; }
+    .footer { background: #333; color: #fff; padding: 40px 24px; margin-top: 32px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-section h4 { font-size: 14px; margin-bottom: 12px; }
+    .footer-section a { display: block; color: #ccc; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+    .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 24px; border-top: 1px solid #555; text-align: center; font-size: 12px; color: #999; }
   </style>
 </head>
 <body>
@@ -188,10 +192,15 @@
     </div>
   </div>
 
-  <!-- ===== FOOTER (Minimal) ===== -->
-  <div class="footer">
-    &copy; 2026 Company Name. All rights reserved.
-  </div>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-section"><div style="width:240px;height:72px;background:#555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">ロゴ画像</div></div>
+      <div class="footer-section"><h4>サポート</h4><a href="#">FAQ</a><a href="#">ご利用ガイド</a><a href="#">お問い合わせ</a></div>
+      <div class="footer-section"><h4>サイト情報</h4><a href="#">運営会社</a><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Company Name. All rights reserved.</div>
+  </footer>
 
 </body>
 </html>
