@@ -178,6 +178,18 @@
           <div class="image-slot filled">画像 3</div>
           <div class="image-slot"><i data-lucide="plus" style="width:20px;height:20px;color:#ccc;"></i>追加</div>
         </div>
+        <div style="margin-top:16px;">
+          <div class="form-label">オプション連動設定 <span class="hint">オプション選択時にメイン画像を切り替える</span></div>
+          <table class="price-table" style="margin-top:8px;">
+            <thead><tr><th>画像</th><th>連動オプション</th><th>連動値</th></tr></thead>
+            <tbody>
+              <tr><td>画像 1（メイン）</td><td><select class="form-select" style="width:100%;"><option selected>サイズ</option><option>仕上げ</option><option>付属</option></select></td><td><select class="form-select" style="width:100%;"><option selected>44mm</option><option>56mm</option><option>76mm</option></select></td></tr>
+              <tr><td>画像 2</td><td><select class="form-select" style="width:100%;"><option selected>サイズ</option><option>仕上げ</option><option>付属</option></select></td><td><select class="form-select" style="width:100%;"><option>44mm</option><option selected>56mm</option><option>76mm</option></select></td></tr>
+              <tr><td>画像 3</td><td><select class="form-select" style="width:100%;"><option>サイズ</option><option>仕上げ</option><option selected>付属</option></select></td><td><select class="form-select" style="width:100%;"><option>安全ピン</option><option selected>マグネット</option></select></td></tr>
+            </tbody>
+          </table>
+          <div class="form-hint">設定しない画像はオプション切替の影響を受けません</div>
+        </div>
       </div>
 
       <!-- ===== オプション設定 ===== -->
