@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-04 商品登録 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    /* ===== Admin Header ===== */
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    /* ===== Layout ===== */
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    /* ===== Sidebar ===== */
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    /* ===== Content ===== */
+    .content { padding: 32px; max-width: 900px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .page-back { font-size: 13px; color: #1a73e8; text-decoration: underline; }
+
+    /* ===== Section ===== */
+    .section { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+
+    /* ===== Form ===== */
+    .form-group { margin-bottom: 20px; }
+    .form-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .form-label .required { color: #e53e3e; font-size: 11px; font-weight: normal; }
+    .form-label .hint { color: #999; font-size: 11px; font-weight: normal; }
+    .form-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+    .form-input:focus { outline: none; border-color: #1a1a2e; }
+    .form-textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-height: 100px; resize: vertical; }
+    .form-select { padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #fff; }
+    .form-row { display: flex; gap: 16px; }
+    .form-row .form-group { flex: 1; }
+    .form-hint { font-size: 11px; color: #999; margin-top: 4px; }
+
+    /* ===== Image Upload ===== */
+    .image-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+    .image-slot { width: 120px; height: 120px; background: #f8f8f8; border: 2px dashed #ddd; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: #999; gap: 4px; }
+    .image-slot.filled { border-style: solid; border-color: #e8e8e8; background: #e8e8e8; }
+
+    /* ===== Dynamic List ===== */
+    .dynamic-list { margin-bottom: 12px; }
+    .dynamic-item { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; padding: 12px; background: #f8f8f8; border-radius: 6px; }
+    .dynamic-item input, .dynamic-item select { flex: 1; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+    .dynamic-item .remove-btn { background: none; border: none; color: #e53e3e; cursor: pointer; font-size: 18px; padding: 0 4px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: #1a73e8; cursor: pointer; padding: 8px 0; border: none; background: none; text-decoration: underline; }
+
+    /* ===== Price Table ===== */
+    .price-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+    .price-table th { text-align: left; font-size: 12px; color: #666; padding: 8px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .price-table td { padding: 6px 8px; }
+    .price-table input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-align: right; }
+
+    /* ===== Upload Slot ===== */
+    .slot-card { border: 1px solid #eee; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .slot-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .slot-title { font-size: 14px; font-weight: bold; }
+
+    /* ===== Actions ===== */
+    .form-actions { display: flex; gap: 12px; justify-content: flex-end; padding: 24px 0; }
+    .btn-primary { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 12px 32px; font-size: 14px; font-weight: bold; cursor: pointer; }
+    .btn-outline { background: #fff; color: #333; border: 1px solid #ddd; border-radius: 6px; padding: 12px 24px; font-size: 14px; cursor: pointer; text-decoration: none; }
+
+    /* ===== Rating ===== */
+    .rating { display: flex; gap: 4px; }
+    .rating-star { width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+    .rating-star.active { background: #fff8e1; border-color: #ffc107; color: #f57f17; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ADMIN HEADER ===== -->
+  <div class="admin-header">
+    <div class="admin-logo">ロゴ画像</div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">商品登録</div>
+        <a class="page-back" href="#">商品一覧に戻る</a>
+      </div>
+
+      <!-- ===== 基本情報 ===== -->
+      <div class="section">
+        <div class="section-title">基本情報</div>
+        <div class="form-group">
+          <div class="form-label">商品名 <span class="required">必須</span></div>
+          <input class="form-input" type="text" placeholder="例: オリジナル缶バッジ 44mm">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">カテゴリ <span class="required">必須</span></div>
+            <select class="form-select" style="width:100%;">
+              <option>選択してください</option>
+              <option>缶バッジ</option>
+              <option>アクリルスタンド</option>
+              <option>キーホルダー</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">おすすめ度</div>
+            <div class="rating">
+              <div class="rating-star active">★</div>
+              <div class="rating-star active">★</div>
+              <div class="rating-star active">★</div>
+              <div class="rating-star">★</div>
+              <div class="rating-star">★</div>
+            </div>
+            <div class="form-hint">C-01トップページの表示順に影響</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">商品説明 <span class="required">必須</span></div>
+          <textarea class="form-textarea" placeholder="商品の特徴、素材、用途等を記載"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="form-label">公開ステータス</div>
+          <select class="form-select">
+            <option>非公開（下書き）</option>
+            <option>公開</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ===== 商品画像 ===== -->
+      <div class="section">
+        <div class="section-title">商品画像</div>
+        <div class="form-hint" style="margin-bottom:12px;">最初の画像がメイン画像になります。ドラッグで並び替え可能。ホバー時に2枚目の画像に切り替わります。</div>
+        <div class="image-grid">
+          <div class="image-slot filled">画像 1<br>(メイン)</div>
+          <div class="image-slot filled">画像 2</div>
+          <div class="image-slot filled">画像 3</div>
+          <div class="image-slot"><i data-lucide="plus" style="width:20px;height:20px;color:#ccc;"></i>追加</div>
+        </div>
+      </div>
+
+      <!-- ===== オプション設定 ===== -->
+      <div class="section">
+        <div class="section-title">オプション設定</div>
+        <div class="form-hint" style="margin-bottom:16px;">商品ごとに異なるオプション項目を定義できます。</div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <div class="slot-title">オプション 1: サイズ</div>
+            <button class="dynamic-item remove-btn">&times;</button>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <div class="form-label">項目名</div>
+              <input class="form-input" value="サイズ">
+            </div>
+            <div class="form-group">
+              <div class="form-label">選択肢（カンマ区切り）</div>
+              <input class="form-input" value="44mm, 56mm, 76mm">
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <div class="slot-title">オプション 2: 仕上げ</div>
+            <button class="dynamic-item remove-btn">&times;</button>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <div class="form-label">項目名</div>
+              <input class="form-input" value="仕上げ">
+            </div>
+            <div class="form-group">
+              <div class="form-label">選択肢（カンマ区切り）</div>
+              <input class="form-input" value="マット, グロス">
+            </div>
+          </div>
+        </div>
+
+        <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>オプションを追加</button>
+      </div>
+
+      <!-- ===== 価格テーブル ===== -->
+      <div class="section">
+        <div class="section-title">価格テーブル</div>
+        <div class="form-hint" style="margin-bottom:12px;">数量帯ごとの単価を設定します。最小ロットの単価が定価としてカートに表示されます。</div>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th style="width:30%;">数量（個）</th>
+              <th style="width:30%;">単価（税込）</th>
+              <th style="width:30%;">納期（営業日）</th>
+              <th style="width:10%;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input value="100" placeholder="最小ロット"></td>
+              <td><input value="100" placeholder="円"></td>
+              <td><input value="14" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+            <tr>
+              <td><input value="500" placeholder="数量"></td>
+              <td><input value="85" placeholder="円"></td>
+              <td><input value="14" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+            <tr>
+              <td><input value="1000" placeholder="数量"></td>
+              <td><input value="75" placeholder="円"></td>
+              <td><input value="21" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+            <tr>
+              <td><input value="5000" placeholder="数量"></td>
+              <td><input value="65" placeholder="円"></td>
+              <td><input value="28" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+            <tr>
+              <td><input value="10000" placeholder="数量"></td>
+              <td><input value="55" placeholder="円"></td>
+              <td><input value="35" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>数量帯を追加</button>
+      </div>
+
+      <!-- ===== 固定費・送料 ===== -->
+      <div class="section">
+        <div class="section-title">固定費・送料</div>
+        <div class="form-group">
+          <div class="form-label">固定費オプション <span class="hint">（任意。色校正等）</span></div>
+          <div class="dynamic-list">
+            <div class="dynamic-item">
+              <input placeholder="費目名" value="色校正">
+              <input placeholder="金額" value="3000" style="max-width:120px;">
+              <span style="font-size:13px;color:#666;">円</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+          </div>
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>固定費を追加</button>
+        </div>
+        <div class="form-group">
+          <div class="form-label">送料（税込）</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input class="form-input" type="text" value="800" style="max-width:120px;text-align:right;">
+            <span style="font-size:13px;color:#666;">円</span>
+          </div>
+          <div class="form-hint">サイト全体の送料無料閾値を超えた場合は自動的に無料になります</div>
+        </div>
+      </div>
+
+      <!-- ===== サンプル制作 ===== -->
+      <div class="section">
+        <div class="section-title">サンプル制作</div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">サンプル制作を受け付ける</div>
+            <select class="form-select" style="width:100%;">
+              <option>はい</option>
+              <option>いいえ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">サンプル単価（税込）</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input class="form-input" type="text" value="1900" style="text-align:right;">
+              <span style="font-size:13px;color:#666;">円</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 入稿設定 ===== -->
+      <div class="section">
+        <div class="section-title">入稿設定</div>
+
+        <div class="form-group">
+          <div class="form-label">入稿データの要件</div>
+          <div class="form-row">
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">対応形式</div>
+              <input class="form-input" value="AI, PSD, PDF">
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">カラーモード</div>
+              <input class="form-input" value="CMYK">
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">推奨解像度</div>
+              <input class="form-input" value="350dpi以上">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label" style="font-weight:normal;">注意事項</div>
+            <input class="form-input" value="文字にはアウトラインをかけてください">
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <div class="form-label" style="margin-bottom:12px;">入稿スロット</div>
+          <div class="form-hint" style="margin-bottom:12px;">商品ごとに必要なファイルの種類を定義します。1スロット＝1ファイル。</div>
+
+          <div class="slot-card">
+            <div class="slot-header">
+              <div class="slot-title">スロット 1</div>
+              <button class="dynamic-item remove-btn">&times;</button>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">ラベル</div>
+                <input class="form-input" value="表面デザイン">
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">必須/任意</div>
+                <select class="form-select" style="width:100%;"><option selected>必須</option><option>任意</option></select>
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">表示条件</div>
+                <select class="form-select" style="width:100%;"><option selected>常に表示</option><option>特定オプション選択時</option></select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">テンプレートファイル</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:13px;color:#666;background:#f8f8f8;padding:6px 12px;border-radius:4px;">template_front_44mm.ai</span>
+                <button class="add-btn">変更</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="slot-card">
+            <div class="slot-header">
+              <div class="slot-title">スロット 2</div>
+              <button class="dynamic-item remove-btn">&times;</button>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">ラベル</div>
+                <input class="form-input" value="裏面デザイン">
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">必須/任意</div>
+                <select class="form-select" style="width:100%;"><option>必須</option><option selected>任意</option></select>
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">表示条件</div>
+                <select class="form-select" style="width:100%;"><option selected>常に表示</option><option>特定オプション選択時</option></select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">テンプレートファイル</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:13px;color:#999;">未アップロード</span>
+                <button class="add-btn">アップロード</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>スロットを追加</button>
+        </div>
+      </div>
+
+      <!-- ===== 商品FAQ ===== -->
+      <div class="section">
+        <div class="section-title">商品FAQ</div>
+        <div class="form-hint" style="margin-bottom:12px;">この商品の詳細ページに表示されるFAQ。グローバルFAQ（全商品共通）とは別管理です。</div>
+        <div class="dynamic-list">
+          <div class="slot-card">
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">質問</div>
+              <input class="form-input" value="入稿データの形式は何に対応していますか？">
+            </div>
+            <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">回答</div>
+              <textarea class="form-textarea" style="min-height:60px;">AI, PSD, PDF形式に対応しています。入稿テンプレートをダウンロードしてご利用ください。</textarea>
+            </div>
+            <div style="text-align:right;"><button class="dynamic-item remove-btn">&times; 削除</button></div>
+          </div>
+        </div>
+        <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>FAQを追加</button>
+      </div>
+
+      <!-- ===== Actions ===== -->
+      <div class="form-actions">
+        <a href="#" class="btn-outline">キャンセル</a>
+        <button class="btn-primary">商品を登録する</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
