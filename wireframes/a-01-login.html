@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-01 管理者ログイン - ワイヤーフレーム</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f5f5f5; color: #333; }
+
+    /* ===== Header (Minimal) ===== */
+    .header { background: #1a1a2e; padding: 16px 24px; display: flex; align-items: center; justify-content: center; }
+    .logo { width: 120px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(255,255,255,0.6); }
+
+    /* ===== Main ===== */
+    .main { max-width: 400px; margin: 80px auto; padding: 0 24px; }
+
+    /* ===== Login Box ===== */
+    .login-box { background: #fff; border-radius: 8px; padding: 40px 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .login-title { font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 8px; }
+    .login-desc { font-size: 13px; color: #666; text-align: center; margin-bottom: 32px; }
+
+    /* ===== Form ===== */
+    .form-group { margin-bottom: 20px; }
+    .form-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; display: block; }
+    .form-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+    .form-input:focus { outline: none; border-color: #1a1a2e; }
+    .form-error { font-size: 12px; color: #e53e3e; margin-top: 4px; display: none; }
+
+    /* ===== Button ===== */
+    .btn-primary { display: block; width: 100%; background: #1a1a2e; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 24px; }
+    .btn-primary:hover { background: #16213e; }
+
+    /* ===== Footer ===== */
+    .login-footer { text-align: center; margin-top: 24px; font-size: 12px; color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="logo">ロゴ画像</div>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+    <div class="login-box">
+      <div class="login-title">管理者ログイン</div>
+      <div class="login-desc">管理画面にアクセスするにはログインしてください。</div>
+
+      <div class="form-group">
+        <label class="form-label">メールアドレス</label>
+        <input class="form-input" type="email" placeholder="admin@holospace.jp">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">パスワード</label>
+        <input class="form-input" type="password" placeholder="パスワードを入力">
+      </div>
+
+      <!-- エラー例 -->
+      <!--
+      <div class="form-error" style="display:block;">メールアドレスまたはパスワードが正しくありません。</div>
+      -->
+
+      <button class="btn-primary">ログイン</button>
+    </div>
+
+    <div class="login-footer">
+      &copy; 2026 Company Name. All rights reserved.
+    </div>
+  </div>
+
+</body>
+</html>
