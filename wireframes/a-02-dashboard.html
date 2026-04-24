@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-02 ダッシュボード - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    /* ===== Admin Header ===== */
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    /* ===== Layout ===== */
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    /* ===== Sidebar ===== */
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+    .sidebar-link .badge { background: #e53e3e; color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-left: auto; }
+
+    /* ===== Content ===== */
+    .content { padding: 32px; }
+    .page-title { font-size: 22px; font-weight: bold; margin-bottom: 24px; }
+
+    /* ===== Notification Cards ===== */
+    .notif-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .notif-card { background: #fff; border-radius: 8px; padding: 20px; border: 1px solid #e8e8e8; cursor: pointer; transition: border-color 0.2s; }
+    .notif-card:hover { border-color: #1a1a2e; }
+    .notif-card-label { font-size: 13px; color: #666; margin-bottom: 8px; }
+    .notif-card-value { font-size: 28px; font-weight: bold; }
+    .notif-card-value.alert { color: #e53e3e; }
+
+    /* ===== Recent Orders ===== */
+    .section { background: #fff; border-radius: 8px; padding: 24px; border: 1px solid #e8e8e8; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-title { font-size: 16px; font-weight: bold; }
+    .section-link { font-size: 13px; color: #1a73e8; text-decoration: underline; }
+
+    .order-table { width: 100%; border-collapse: collapse; }
+    .order-table th { text-align: left; font-size: 12px; color: #999; font-weight: normal; padding: 8px 12px; border-bottom: 1px solid #eee; }
+    .order-table td { font-size: 13px; padding: 12px; border-bottom: 1px solid #f5f5f5; }
+    .order-table tr:hover { background: #f8f8f8; cursor: pointer; }
+    .status-badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+    .badge-new { background: #e8f4fd; color: #1a73e8; }
+    .badge-review { background: #fff3e0; color: #e65100; }
+    .badge-rejected { background: #fde8e8; color: #e53e3e; }
+    .badge-approved { background: #e8f5e9; color: #2e7d32; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ADMIN HEADER ===== -->
+  <div class="admin-header">
+    <div class="admin-header-left">
+      <div class="admin-logo">ロゴ画像</div>
+    </div>
+    <div class="admin-header-right">
+      <span class="admin-user">鬼柳 裕介</span>
+      <span class="admin-logout">ログアウト</span>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link active" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧 <span class="badge">5</span></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+      <div class="page-title">ダッシュボード</div>
+
+      <!-- Notification Cards -->
+      <div class="notif-grid">
+        <div class="notif-card">
+          <div class="notif-card-label">新規注文（未確認）</div>
+          <div class="notif-card-value alert">3</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card-label">入稿確認待ち</div>
+          <div class="notif-card-value">2</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card-label">決済案内未送信</div>
+          <div class="notif-card-value">1</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card-label">差し戻し（再入稿待ち）</div>
+          <div class="notif-card-value">0</div>
+        </div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-title">最近の注文</div>
+          <a class="section-link" href="#">すべて見る</a>
+        </div>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>注文番号</th>
+              <th>顧客名</th>
+              <th>商品</th>
+              <th>金額</th>
+              <th>ステータス</th>
+              <th>チャネル</th>
+              <th>日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260423-0025</td>
+              <td>山田商事</td>
+              <td>缶バッジ 44mm x500</td>
+              <td>42,500円</td>
+              <td><span class="status-badge badge-new">入稿受付</span></td>
+              <td>EC</td>
+              <td>04/23 14:30</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260423-0024</td>
+              <td>佐藤エンタメ</td>
+              <td>アクスタ 100mm x200 他1点</td>
+              <td>28,900円</td>
+              <td><span class="status-badge badge-new">入稿受付</span></td>
+              <td>EC</td>
+              <td>04/23 11:15</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260422-0023</td>
+              <td>鬼柳 裕介</td>
+              <td>缶バッジ 44mm x100 他2点</td>
+              <td>37,400円</td>
+              <td><span class="status-badge badge-review">入稿確認中</span></td>
+              <td>EC</td>
+              <td>04/22 15:30</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260421-0022</td>
+              <td>田中プロモーション</td>
+              <td>キーホルダー x1000</td>
+              <td>95,000円</td>
+              <td><span class="status-badge badge-approved">承認済み</span></td>
+              <td>電話</td>
+              <td>04/21 09:00</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260420-0021</td>
+              <td>渡辺クリエイティブ</td>
+              <td>ラバーストラップ x300</td>
+              <td>33,000円</td>
+              <td><span class="status-badge badge-rejected">差し戻し</span></td>
+              <td>メール</td>
+              <td>04/20 16:45</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
