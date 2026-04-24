@@ -190,16 +190,38 @@
             <div class="slot-title">オプション 1: サイズ</div>
             <button class="dynamic-item remove-btn">&times;</button>
           </div>
-          <div class="form-row">
+          <div class="form-row" style="margin-bottom:12px;">
             <div class="form-group">
               <div class="form-label">項目名</div>
               <input class="form-input" value="サイズ">
             </div>
             <div class="form-group">
-              <div class="form-label">選択肢（カンマ区切り）</div>
-              <input class="form-input" value="44mm, 56mm, 76mm">
+              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
+              <input class="form-input" value="用途に合わせてお選びください" placeholder="アイコンクリック時に表示">
             </div>
           </div>
+          <div class="form-label" style="margin-bottom:8px;">選択肢</div>
+          <div class="dynamic-list">
+            <div class="dynamic-item">
+              <input value="44mm" style="max-width:120px;" placeholder="値">
+              <input value="最も人気のサイズです" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 1枚目</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+            <div class="dynamic-item">
+              <input value="56mm" style="max-width:120px;" placeholder="値">
+              <input value="存在感のあるサイズです" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+            <div class="dynamic-item">
+              <input value="76mm" style="max-width:120px;" placeholder="値">
+              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+          </div>
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
         </div>
 
         <div class="slot-card">
@@ -207,16 +229,65 @@
             <div class="slot-title">オプション 2: 仕上げ</div>
             <button class="dynamic-item remove-btn">&times;</button>
           </div>
-          <div class="form-row">
+          <div class="form-row" style="margin-bottom:12px;">
             <div class="form-group">
               <div class="form-label">項目名</div>
               <input class="form-input" value="仕上げ">
             </div>
             <div class="form-group">
-              <div class="form-label">選択肢（カンマ区切り）</div>
-              <input class="form-input" value="マット, グロス">
+              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
+              <input class="form-input" value="" placeholder="アイコンクリック時に表示">
             </div>
           </div>
+          <div class="form-label" style="margin-bottom:8px;">選択肢</div>
+          <div class="dynamic-list">
+            <div class="dynamic-item">
+              <input value="マット" style="max-width:120px;" placeholder="値">
+              <input value="落ち着いた質感" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+            <div class="dynamic-item">
+              <input value="グロス" style="max-width:120px;" placeholder="値">
+              <input value="光沢のある仕上がり" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+          </div>
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <div class="slot-title">オプション 3: 付属</div>
+            <button class="dynamic-item remove-btn">&times;</button>
+          </div>
+          <div class="form-row" style="margin-bottom:12px;">
+            <div class="form-group">
+              <div class="form-label">項目名</div>
+              <input class="form-input" value="付属">
+            </div>
+            <div class="form-group">
+              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
+              <input class="form-input" value="" placeholder="アイコンクリック時に表示">
+            </div>
+          </div>
+          <div class="form-label" style="margin-bottom:8px;">選択肢</div>
+          <div class="dynamic-list">
+            <div class="dynamic-item">
+              <input value="安全ピン" style="max-width:120px;" placeholder="値">
+              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+            <div class="dynamic-item">
+              <input value="マグネット" style="max-width:120px;" placeholder="値">
+              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
+              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
+              <button class="remove-btn">&times;</button>
+            </div>
+          </div>
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
         </div>
 
         <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>オプションを追加</button>
@@ -237,32 +308,32 @@
           </thead>
           <tbody>
             <tr>
-              <td><input value="100" placeholder="最小ロット"></td>
+              <td><input value="50" placeholder="最小ロット"></td>
               <td><input value="100" placeholder="円"></td>
-              <td><input value="14" placeholder="営業日"></td>
+              <td><input value="10" placeholder="営業日"></td>
               <td><button class="dynamic-item remove-btn">&times;</button></td>
             </tr>
             <tr>
-              <td><input value="500" placeholder="数量"></td>
+              <td><input value="100" placeholder="数量"></td>
               <td><input value="85" placeholder="円"></td>
               <td><input value="14" placeholder="営業日"></td>
               <td><button class="dynamic-item remove-btn">&times;</button></td>
             </tr>
             <tr>
+              <td><input value="500" placeholder="数量"></td>
+              <td><input value="80" placeholder="円"></td>
+              <td><input value="14" placeholder="営業日"></td>
+              <td><button class="dynamic-item remove-btn">&times;</button></td>
+            </tr>
+            <tr>
               <td><input value="1000" placeholder="数量"></td>
-              <td><input value="75" placeholder="円"></td>
+              <td><input value="78" placeholder="円"></td>
               <td><input value="21" placeholder="営業日"></td>
               <td><button class="dynamic-item remove-btn">&times;</button></td>
             </tr>
             <tr>
-              <td><input value="5000" placeholder="数量"></td>
-              <td><input value="65" placeholder="円"></td>
-              <td><input value="28" placeholder="営業日"></td>
-              <td><button class="dynamic-item remove-btn">&times;</button></td>
-            </tr>
-            <tr>
               <td><input value="10000" placeholder="数量"></td>
-              <td><input value="55" placeholder="円"></td>
+              <td><input value="88" placeholder="円"></td>
               <td><input value="35" placeholder="営業日"></td>
               <td><button class="dynamic-item remove-btn">&times;</button></td>
             </tr>
