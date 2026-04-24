@@ -185,108 +185,144 @@
         <div class="section-title">オプション設定</div>
         <div class="form-hint" style="margin-bottom:16px;">商品ごとに異なるオプション項目を定義できます。</div>
 
+        <!-- パターンA: サイズ（画像なし・価格なし） -->
         <div class="slot-card">
           <div class="slot-header">
             <div class="slot-title">オプション 1: サイズ</div>
             <button class="dynamic-item remove-btn">&times;</button>
           </div>
-          <div class="form-row" style="margin-bottom:12px;">
+          <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">項目名</div>
+              <div class="form-label">グループ名</div>
               <input class="form-input" value="サイズ">
             </div>
             <div class="form-group">
-              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
-              <input class="form-input" value="用途に合わせてお選びください" placeholder="アイコンクリック時に表示">
+              <div class="form-label">画像の有無</div>
+              <select class="form-select" style="width:100%;"><option selected>なし</option><option>あり</option></select>
             </div>
+            <div class="form-group">
+              <div class="form-label">価格タイプ</div>
+              <select class="form-select" style="width:100%;"><option selected>なし</option><option>単価系（数量に比例）</option><option>固定費（一律）</option></select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <input class="form-input" value="用途に合わせてお選びください" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
-          <div class="dynamic-list">
-            <div class="dynamic-item">
-              <input value="44mm" style="max-width:120px;" placeholder="値">
-              <input value="最も人気のサイズです" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 1枚目</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-            <div class="dynamic-item">
-              <input value="56mm" style="max-width:120px;" placeholder="値">
-              <input value="存在感のあるサイズです" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-            <div class="dynamic-item">
-              <input value="76mm" style="max-width:120px;" placeholder="値">
-              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-          </div>
+          <table class="price-table" style="margin-bottom:8px;">
+            <thead><tr><th>値</th><th>ヘルプ</th><th>バッジ</th><th>デフォルト</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><input value="44mm"></td><td><input value="最も人気のサイズです" placeholder="任意"></td><td><input value="人気" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt1default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="56mm"></td><td><input value="存在感のあるサイズです" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt1default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="76mm"></td><td><input value="" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt1default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            </tbody>
+          </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
         </div>
 
+        <!-- パターンB: 仕上げ（画像あり・価格なし） -->
         <div class="slot-card">
           <div class="slot-header">
             <div class="slot-title">オプション 2: 仕上げ</div>
             <button class="dynamic-item remove-btn">&times;</button>
           </div>
-          <div class="form-row" style="margin-bottom:12px;">
+          <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">項目名</div>
+              <div class="form-label">グループ名</div>
               <input class="form-input" value="仕上げ">
             </div>
             <div class="form-group">
-              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
-              <input class="form-input" value="" placeholder="アイコンクリック時に表示">
+              <div class="form-label">画像の有無</div>
+              <select class="form-select" style="width:100%;"><option>なし</option><option selected>あり</option></select>
             </div>
+            <div class="form-group">
+              <div class="form-label">価格タイプ</div>
+              <select class="form-select" style="width:100%;"><option selected>なし</option><option>単価系（数量に比例）</option><option>固定費（一律）</option></select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <input class="form-input" value="" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
-          <div class="dynamic-list">
-            <div class="dynamic-item">
-              <input value="マット" style="max-width:120px;" placeholder="値">
-              <input value="落ち着いた質感" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-            <div class="dynamic-item">
-              <input value="グロス" style="max-width:120px;" placeholder="値">
-              <input value="光沢のある仕上がり" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-          </div>
+          <table class="price-table" style="margin-bottom:8px;">
+            <thead><tr><th>値</th><th>画像</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><input value="マット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="落ち着いた質感" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt2default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="グロス"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="光沢のある仕上がり" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt2default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            </tbody>
+          </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
         </div>
 
+        <!-- パターンC: 付属（画像あり・単価系） -->
         <div class="slot-card">
           <div class="slot-header">
             <div class="slot-title">オプション 3: 付属</div>
             <button class="dynamic-item remove-btn">&times;</button>
           </div>
-          <div class="form-row" style="margin-bottom:12px;">
+          <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">項目名</div>
+              <div class="form-label">グループ名</div>
               <input class="form-input" value="付属">
             </div>
             <div class="form-group">
-              <div class="form-label">ヘルプテキスト（グループ） <span class="hint">任意</span></div>
-              <input class="form-input" value="" placeholder="アイコンクリック時に表示">
+              <div class="form-label">画像の有無</div>
+              <select class="form-select" style="width:100%;"><option>なし</option><option selected>あり</option></select>
             </div>
+            <div class="form-group">
+              <div class="form-label">価格タイプ</div>
+              <select class="form-select" style="width:100%;"><option>なし</option><option selected>単価系（数量に比例）</option><option>固定費（一律）</option></select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <input class="form-input" value="" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
-          <div class="dynamic-list">
-            <div class="dynamic-item">
-              <input value="安全ピン" style="max-width:120px;" placeholder="値">
-              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
+          <table class="price-table" style="margin-bottom:8px;">
+            <thead><tr><th>値</th><th>画像</th><th>追加価格</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><input value="安全ピン"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt3default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="マグネット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="10" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt3default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            </tbody>
+          </table>
+          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
+        </div>
+
+        <!-- パターンE: 色校正（テキストのみ・固定費） -->
+        <div class="slot-card">
+          <div class="slot-header">
+            <div class="slot-title">オプション 4: 色校正</div>
+            <button class="dynamic-item remove-btn">&times;</button>
+          </div>
+          <div class="form-row" style="margin-bottom:8px;">
+            <div class="form-group">
+              <div class="form-label">グループ名</div>
+              <input class="form-input" value="色校正">
             </div>
-            <div class="dynamic-item">
-              <input value="マグネット" style="max-width:120px;" placeholder="値">
-              <input value="" placeholder="ヘルプテキスト（任意）" style="flex:2;">
-              <span style="font-size:11px;color:#999;white-space:nowrap;">画像: 未設定</span>
-              <button class="remove-btn">&times;</button>
+            <div class="form-group">
+              <div class="form-label">画像の有無</div>
+              <select class="form-select" style="width:100%;"><option selected>なし</option><option>あり</option></select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">価格タイプ</div>
+              <select class="form-select" style="width:100%;"><option>なし</option><option>単価系（数量に比例）</option><option selected>固定費（一律）</option></select>
             </div>
           </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <input class="form-input" value="色味を事前に確認できます" placeholder="?アイコンクリック時に表示">
+          </div>
+          <div class="form-label" style="margin-bottom:8px;">選択肢</div>
+          <table class="price-table" style="margin-bottom:8px;">
+            <thead><tr><th>値</th><th>追加価格</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><input value="なし"></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt4default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="あり"></td><td><input value="3000" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt4default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            </tbody>
+          </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
         </div>
 
@@ -342,21 +378,9 @@
         <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>数量帯を追加</button>
       </div>
 
-      <!-- ===== 固定費・送料 ===== -->
+      <!-- ===== 送料 ===== -->
       <div class="section">
-        <div class="section-title">固定費・送料</div>
-        <div class="form-group">
-          <div class="form-label">固定費オプション <span class="hint">（任意。色校正等）</span></div>
-          <div class="dynamic-list">
-            <div class="dynamic-item">
-              <input placeholder="費目名" value="色校正">
-              <input placeholder="金額" value="3000" style="max-width:120px;">
-              <span style="font-size:13px;color:#666;">円</span>
-              <button class="remove-btn">&times;</button>
-            </div>
-          </div>
-          <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>固定費を追加</button>
-        </div>
+        <div class="section-title">送料</div>
         <div class="form-group">
           <div class="form-label">送料（税込）</div>
           <div style="display:flex;align-items:center;gap:8px;">
@@ -385,6 +409,14 @@
               <span style="font-size:13px;color:#666;">円</span>
             </div>
           </div>
+          <div class="form-group">
+            <div class="form-label">概算納期（営業日）</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input class="form-input" type="text" value="7" style="max-width:80px;text-align:right;">
+              <span style="font-size:13px;color:#666;">営業日</span>
+            </div>
+            <div class="form-hint">C-03のサンプル確認モーダルに表示</div>
+          </div>
         </div>
       </div>
 
@@ -393,24 +425,21 @@
         <div class="section-title">入稿設定</div>
 
         <div class="form-group">
-          <div class="form-label">入稿データの要件</div>
-          <div class="form-row">
-            <div class="form-group">
-              <div class="form-label" style="font-weight:normal;">対応形式</div>
-              <input class="form-input" value="AI, PSD, PDF">
+          <div class="form-label">入稿仕様 <span class="hint">C-03「入稿仕様」タブに表示</span></div>
+          <div style="border:1px solid #ddd;border-radius:6px;overflow:hidden;">
+            <div style="background:#fafafa;border-bottom:1px solid #ddd;padding:6px 10px;display:flex;gap:8px;font-size:12px;color:#666;">
+              <span style="cursor:pointer;font-weight:bold;">B</span>
+              <span style="cursor:pointer;font-style:italic;">I</span>
+              <span style="cursor:pointer;">H2</span>
+              <span style="cursor:pointer;">H3</span>
+              <span style="cursor:pointer;">箇条書き</span>
             </div>
-            <div class="form-group">
-              <div class="form-label" style="font-weight:normal;">カラーモード</div>
-              <input class="form-input" value="CMYK">
+            <div style="padding:12px;min-height:120px;font-size:13px;color:#666;">
+              <b>対応形式:</b> AI, PSD, PDF<br>
+              <b>カラーモード:</b> CMYK<br>
+              <b>推奨解像度:</b> 350dpi以上<br><br>
+              文字にはアウトラインをかけてください。
             </div>
-            <div class="form-group">
-              <div class="form-label" style="font-weight:normal;">推奨解像度</div>
-              <input class="form-input" value="350dpi以上">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="form-label" style="font-weight:normal;">注意事項</div>
-            <input class="form-input" value="文字にはアウトラインをかけてください">
           </div>
         </div>
 
@@ -470,6 +499,45 @@
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="font-size:13px;color:#999;">未アップロード</span>
                 <button class="add-btn">アップロード</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- スロット3: 条件付き表示の例 -->
+          <div class="slot-card" style="border-color:#ffe082;">
+            <div class="slot-header">
+              <div class="slot-title">スロット 3</div>
+              <button class="dynamic-item remove-btn">&times;</button>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">ラベル</div>
+                <input class="form-input" value="台紙デザイン">
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">必須/任意</div>
+                <select class="form-select" style="width:100%;"><option selected>必須</option><option>任意</option></select>
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">表示条件</div>
+                <select class="form-select" style="width:100%;"><option>常に表示</option><option selected>特定オプション選択時</option></select>
+              </div>
+            </div>
+            <div class="form-row" style="margin-top:8px;background:#fff8e1;padding:8px;border-radius:4px;">
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">対象オプション</div>
+                <select class="form-select" style="width:100%;"><option>サイズ</option><option>仕上げ</option><option selected>付属</option><option>色校正</option></select>
+              </div>
+              <div class="form-group">
+                <div class="form-label" style="font-weight:normal;">対象の値</div>
+                <select class="form-select" style="width:100%;"><option>安全ピン</option><option selected>マグネット</option></select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:12px;">
+              <div class="form-label" style="font-weight:normal;">テンプレートファイル</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:13px;color:#666;background:#f8f8f8;padding:6px 12px;border-radius:4px;">template_daishi.ai</span>
+                <button class="add-btn">変更</button>
               </div>
             </div>
           </div>
