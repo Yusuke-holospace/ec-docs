@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-03 商品一覧 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    /* ===== Admin Header ===== */
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    /* ===== Layout ===== */
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    /* ===== Sidebar ===== */
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    /* ===== Content ===== */
+    .content { padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .btn-primary { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    /* ===== Toolbar ===== */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .toolbar-left { display: flex; gap: 8px; }
+    .toolbar-search { display: flex; align-items: center; gap: 8px; }
+    .toolbar-search input { border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 13px; width: 240px; }
+    .filter-select { border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 13px; background: #fff; }
+    .toolbar-right { font-size: 13px; color: #666; }
+
+    /* ===== Table ===== */
+    .data-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #e8e8e8; }
+    .data-table th { text-align: left; font-size: 12px; color: #999; font-weight: normal; padding: 12px 16px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .data-table td { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid #f5f5f5; }
+    .data-table tr:hover { background: #f8f8f8; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .product-cell { display: flex; align-items: center; gap: 12px; }
+    .product-thumb { width: 48px; height: 48px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .product-name { font-weight: bold; }
+    .product-category { font-size: 11px; color: #999; margin-top: 2px; }
+
+    .status-toggle { display: flex; align-items: center; gap: 8px; }
+    .toggle { width: 36px; height: 20px; border-radius: 10px; position: relative; cursor: pointer; }
+    .toggle.on { background: #2e7d32; }
+    .toggle.off { background: #ccc; }
+    .toggle::after { content: ""; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #fff; top: 2px; transition: left 0.2s; }
+    .toggle.on::after { left: 18px; }
+    .toggle.off::after { left: 2px; }
+    .toggle-label { font-size: 12px; }
+    .toggle-label.on { color: #2e7d32; }
+    .toggle-label.off { color: #999; }
+
+    .action-links { display: flex; gap: 12px; }
+    .action-links a { font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
+    .action-links a.danger { color: #e53e3e; }
+
+    /* ===== Pagination ===== */
+    .pagination { display: flex; justify-content: center; gap: 4px; margin-top: 24px; }
+    .pagination a, .pagination span { padding: 8px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; color: #333; text-decoration: none; }
+    .pagination span.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ADMIN HEADER ===== -->
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">商品一覧</div>
+        <button class="btn-primary"><i data-lucide="plus" style="width:16px;height:16px;"></i>新規登録</button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="toolbar-search">
+            <input type="text" placeholder="商品名で検索...">
+          </div>
+          <select class="filter-select">
+            <option>すべてのカテゴリ</option>
+            <option>缶バッジ</option>
+            <option>アクリルスタンド</option>
+            <option>キーホルダー</option>
+          </select>
+          <select class="filter-select">
+            <option>すべてのステータス</option>
+            <option>公開中</option>
+            <option>非公開</option>
+          </select>
+        </div>
+        <div class="toolbar-right">12件表示中</div>
+      </div>
+
+      <!-- Table -->
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>商品</th>
+            <th>カテゴリ</th>
+            <th>最小ロット</th>
+            <th>単価（最小ロット時）</th>
+            <th>公開/非公開</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">画像</div><div><div class="product-name">オリジナル缶バッジ 44mm</div><div class="product-category">缶バッジ</div></div></div></td>
+            <td>缶バッジ</td>
+            <td>100個</td>
+            <td>@100円</td>
+            <td><div class="status-toggle"><div class="toggle on"></div><span class="toggle-label on">公開</span></div></td>
+            <td><div class="action-links"><a href="#">編集</a><a class="danger" href="#">削除</a></div></td>
+          </tr>
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">画像</div><div><div class="product-name">オリジナル缶バッジ 56mm</div><div class="product-category">缶バッジ</div></div></div></td>
+            <td>缶バッジ</td>
+            <td>100個</td>
+            <td>@120円</td>
+            <td><div class="status-toggle"><div class="toggle on"></div><span class="toggle-label on">公開</span></div></td>
+            <td><div class="action-links"><a href="#">編集</a><a class="danger" href="#">削除</a></div></td>
+          </tr>
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">画像</div><div><div class="product-name">アクリルスタンド 100mm</div><div class="product-category">アクリルスタンド</div></div></div></td>
+            <td>アクリルスタンド</td>
+            <td>100個</td>
+            <td>@150円</td>
+            <td><div class="status-toggle"><div class="toggle on"></div><span class="toggle-label on">公開</span></div></td>
+            <td><div class="action-links"><a href="#">編集</a><a class="danger" href="#">削除</a></div></td>
+          </tr>
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">画像</div><div><div class="product-name">ラバーストラップ 50mm</div><div class="product-category">ストラップ</div></div></div></td>
+            <td>ストラップ</td>
+            <td>200個</td>
+            <td>@110円</td>
+            <td><div class="status-toggle"><div class="toggle off"></div><span class="toggle-label off">非公開</span></div></td>
+            <td><div class="action-links"><a href="#">編集</a><a class="danger" href="#">削除</a></div></td>
+          </tr>
+          <tr>
+            <td><div class="product-cell"><div class="product-thumb">画像</div><div><div class="product-name">トレーディングカード</div><div class="product-category">トレーディングカード</div></div></div></td>
+            <td>トレーディングカード</td>
+            <td>500個</td>
+            <td>@30円</td>
+            <td><div class="status-toggle"><div class="toggle on"></div><span class="toggle-label on">公開</span></div></td>
+            <td><div class="action-links"><a href="#">編集</a><a class="danger" href="#">削除</a></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <span class="active">1</span>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">次へ &gt;</a>
+      </div>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
