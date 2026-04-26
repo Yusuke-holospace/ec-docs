@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-07 注文詳細 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+    .sidebar-link .badge { background: #e53e3e; color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-left: auto; }
+
+    .content { padding: 32px; max-width: 960px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .page-back { font-size: 13px; color: #1a73e8; text-decoration: underline; }
+
+    .section { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+
+    /* Order Header */
+    .order-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .order-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #666; margin-top: 8px; }
+    .status-badge { display: inline-block; font-size: 13px; padding: 4px 14px; border-radius: 20px; font-weight: bold; }
+    .badge-review { background: #e8f4fd; color: #1a73e8; }
+    .badge-rejected { background: #fde8e8; color: #e53e3e; }
+    .channel-badge { font-size: 11px; padding: 2px 8px; border-radius: 3px; }
+    .channel-ec { background: #f0f0f0; color: #666; }
+
+    /* Action Buttons */
+    .action-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-action { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px; }
+    .btn-approve { background: #2e7d32; color: #fff; }
+    .btn-reject { background: #fff; color: #e53e3e; border: 1px solid #e53e3e; }
+    .btn-payment { background: #1a1a2e; color: #fff; }
+    .btn-status { background: #fff; color: #333; border: 1px solid #ddd; }
+
+    /* Info Table */
+    .info-table { width: 100%; }
+    .info-table td { padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f5f5f5; }
+    .info-table td:first-child { color: #666; width: 140px; }
+
+    /* Order Items */
+    .order-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid #eee; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-image { width: 56px; height: 56px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-bottom: 4px; }
+    .badge-normal { background: #e8f4fd; color: #1a73e8; }
+    .badge-sample { background: #fef3e2; color: #e67e22; }
+    .order-item-name { font-size: 14px; font-weight: bold; margin-bottom: 2px; }
+    .order-item-options { font-size: 12px; color: #999; }
+    .order-item-price { text-align: right; flex-shrink: 0; }
+    .order-item-price-value { font-size: 15px; font-weight: bold; }
+    .order-item-price-unit { font-size: 11px; color: #999; }
+
+    /* Upload Preview */
+    .upload-preview { margin-top: 8px; display: flex; gap: 8px; align-items: center; }
+    .upload-file { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: #f8f8f8; border-radius: 4px; font-size: 12px; }
+    .upload-file-icon { width: 24px; height: 24px; background: #e8e8e8; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #999; }
+    .upload-status { font-size: 12px; font-weight: bold; }
+    .upload-status.done { color: #2e7d32; }
+    .upload-status.rejected { color: #e53e3e; }
+
+    /* Summary */
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+    .summary-row .label { color: #666; }
+    .summary-row .value { font-weight: bold; }
+    .summary-total { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid #eee; font-size: 18px; font-weight: bold; margin-top: 12px; }
+
+    /* Mockup Upload */
+    .mockup-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .mockup-slot { width: 100px; height: 100px; background: #e8e8e8; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999; }
+    .mockup-slot.add { background: #f8f8f8; border: 2px dashed #ddd; cursor: pointer; flex-direction: column; gap: 4px; }
+
+    /* Staff */
+    .staff-select { display: flex; gap: 12px; align-items: center; }
+    .staff-select select { padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-width: 200px; }
+
+    /* Share URL */
+    .share-url { display: flex; gap: 8px; align-items: center; }
+    .share-url input { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; background: #f8f8f8; }
+    .share-url button { padding: 10px 16px; background: #1a1a2e; color: #fff; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+
+    /* Timeline */
+    .timeline { margin-top: 16px; }
+    .timeline-item { display: flex; gap: 12px; padding-bottom: 16px; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: #ddd; flex-shrink: 0; margin-top: 4px; }
+    .timeline-dot.done { background: #2e7d32; }
+    .timeline-dot.active { background: #1a73e8; }
+    .timeline-dot.rejected { background: #e53e3e; }
+    .timeline-item:not(:last-child)::before { content: ""; position: absolute; left: 5px; top: 16px; width: 2px; height: calc(100% - 16px); background: #eee; }
+    .timeline-label { font-size: 13px; font-weight: bold; }
+    .timeline-date { font-size: 12px; color: #999; margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-logo">ロゴ画像</div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧 <span class="badge">5</span></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">注文詳細</div>
+        <a class="page-back" href="#">注文一覧に戻る</a>
+      </div>
+
+      <!-- ===== Order Header + Actions ===== -->
+      <div class="section">
+        <div class="order-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:18px;font-weight:bold;">ORD-20260422-0023</span>
+              <span class="status-badge badge-review">入稿確認中</span>
+              <span class="channel-badge channel-ec">EC</span>
+            </div>
+            <div class="order-meta">
+              <span>注文日: 2026/04/22 15:30</span>
+              <span>顧客: 鬼柳 裕介（株式会社ホロスペース）</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-bar" style="margin-top:16px;">
+          <button class="btn-action btn-approve"><i data-lucide="check" style="width:14px;height:14px;"></i>承認</button>
+          <button class="btn-action btn-reject"><i data-lucide="x" style="width:14px;height:14px;"></i>差し戻し</button>
+          <button class="btn-action btn-payment"><i data-lucide="send" style="width:14px;height:14px;"></i>決済案内を送信</button>
+          <button class="btn-action btn-status"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i>ステータス変更</button>
+        </div>
+      </div>
+
+      <!-- ===== Status Timeline ===== -->
+      <div class="section">
+        <div class="section-title">ステータス履歴</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿受付</div><div class="timeline-date">2026/04/22 15:30</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/22 16:00</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">承認済み</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">決済待ち</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">入金確認</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">製造中</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">発送済み</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">完了</div></div></div>
+        </div>
+      </div>
+
+      <!-- ===== Contact Info ===== -->
+      <div class="section">
+        <div class="section-title">連絡先</div>
+        <table class="info-table">
+          <tr><td>メールアドレス</td><td>onyanagi@holospace.jp</td></tr>
+          <tr><td>電話番号</td><td>03-1234-5678</td></tr>
+        </table>
+        <div style="font-size:11px;color:#999;margin-top:8px;">※ 注文時に指定された連絡先（会員登録情報と異なる場合があります）</div>
+      </div>
+
+      <!-- ===== Order Items + Upload Data ===== -->
+      <div class="section">
+        <div class="section-title">注文商品（3点）</div>
+
+        <div class="order-item">
+          <div class="order-item-image">画像</div>
+          <div class="order-item-info">
+            <span class="order-item-badge badge-normal">通常注文</span>
+            <div class="order-item-name">オリジナル缶バッジ 44mm</div>
+            <div class="order-item-options">サイズ: 44mm / 仕上げ: マット / 付属: 安全ピン / 100個</div>
+            <div class="upload-preview">
+              <span class="upload-status done">入稿済み</span>
+              <div class="upload-file"><div class="upload-file-icon">AI</div>design_front_44mm.ai（12.4MB）</div>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
+            </div>
+          </div>
+          <div class="order-item-price">
+            <div class="order-item-price-value">8,500円</div>
+            <div class="order-item-price-unit">@85円 x 100</div>
+          </div>
+        </div>
+
+        <div class="order-item" style="background:#fff8f8;margin:0 -24px;padding:16px 24px;">
+          <div class="order-item-image">画像</div>
+          <div class="order-item-info">
+            <span class="order-item-badge badge-normal">通常注文</span>
+            <div class="order-item-name">アクリルスタンド 100mm</div>
+            <div class="order-item-options">サイズ: 100mm / 仕上げ: クリア / 200個</div>
+            <div class="upload-preview">
+              <span class="upload-status rejected">要確認</span>
+              <div class="upload-file"><div class="upload-file-icon">PSD</div>acrylic_design.psd（45.2MB）</div>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
+            </div>
+          </div>
+          <div class="order-item-price">
+            <div class="order-item-price-value">27,000円</div>
+            <div class="order-item-price-unit">@120円 x 200</div>
+            <div class="order-item-price-unit">+色校正 3,000円</div>
+          </div>
+        </div>
+
+        <div class="order-item">
+          <div class="order-item-image">画像</div>
+          <div class="order-item-info">
+            <span class="order-item-badge badge-sample">サンプル制作</span>
+            <div class="order-item-name">オリジナル缶バッジ 56mm</div>
+            <div class="order-item-options">サイズ: 56mm / 仕上げ: グロス / 付属: マグネット / 1個</div>
+            <div class="upload-preview">
+              <span class="upload-status done">入稿済み</span>
+              <div class="upload-file"><div class="upload-file-icon">AI</div>sample_56mm.ai（8.1MB）</div>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
+              <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
+            </div>
+          </div>
+          <div class="order-item-price">
+            <div class="order-item-price-value">1,900円</div>
+            <div class="order-item-price-unit">サンプル1個</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Payment & Summary ===== -->
+      <div class="section">
+        <div class="section-title">お支払い</div>
+        <div class="summary-row"><span class="label">お支払い方法</span><span class="value">クレジットカード</span></div>
+        <div class="summary-row"><span class="label">商品合計（3点）</span><span class="value">37,400円</span></div>
+        <div class="summary-row"><span class="label">送料</span><span class="value">無料</span></div>
+        <div class="summary-row"><span class="label">納期目安</span><span class="value">約14営業日</span></div>
+        <div class="summary-total"><span>合計（税込）</span><span>37,400円</span></div>
+      </div>
+
+      <!-- ===== Shipping ===== -->
+      <div class="section">
+        <div class="section-title">配送先</div>
+        <table class="info-table">
+          <tr><td>会社名</td><td>株式会社ホロスペース</td></tr>
+          <tr><td>お名前</td><td>鬼柳 裕介</td></tr>
+          <tr><td>住所</td><td>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F</td></tr>
+          <tr><td>電話番号</td><td>03-1234-5678</td></tr>
+        </table>
+      </div>
+
+      <!-- ===== Staff Assignment ===== -->
+      <div class="section">
+        <div class="section-title">担当スタッフ</div>
+        <div class="staff-select">
+          <select>
+            <option value="">未割り当て</option>
+            <option>鬼柳 裕介</option>
+            <option selected>田中 太郎</option>
+            <option>八木 花子</option>
+          </select>
+          <button class="btn-action btn-status">保存</button>
+        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px;">C-13（注文詳細）に担当者名として表示されます</div>
+      </div>
+
+      <!-- ===== Mockup Images ===== -->
+      <div class="section">
+        <div class="section-title">仕上がりイメージ</div>
+        <div style="font-size:12px;color:#666;margin-bottom:12px;">アップロードすると顧客にメール通知（NTF-012）が自動送信されます。C-13・C-21からダウンロード可能になります。</div>
+        <div class="mockup-grid">
+          <div class="mockup-slot">画像 1</div>
+          <div class="mockup-slot">画像 2</div>
+          <div class="mockup-slot add"><i data-lucide="plus" style="width:20px;height:20px;color:#ccc;"></i><span>追加</span></div>
+        </div>
+        <div style="font-size:11px;color:#999;">背景透過PNG等にも対応。販促素材として顧客が利用可能。</div>
+      </div>
+
+      <!-- ===== Shared Status URL ===== -->
+      <div class="section">
+        <div class="section-title">共有ステータスURL</div>
+        <div class="share-url">
+          <input type="text" value="https://example.com/orders/status/abc123-def456" readonly>
+          <button><i data-lucide="copy" style="width:14px;height:14px;"></i>コピー</button>
+        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px;">ログイン不要でステータスを確認できるURL（C-21）。EC注文・代理注文共通。</div>
+      </div>
+
+      <!-- ===== Agreement Record ===== -->
+      <div class="section">
+        <div class="section-title">同意記録</div>
+        <table class="info-table">
+          <tr><td>同意日時</td><td>2026/04/22 15:28</td></tr>
+          <tr><td>同意項目</td><td>ライセンスに関する同意</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
