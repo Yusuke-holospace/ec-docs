@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-13 おすすめ商品管理 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    .content { padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+
+    /* ===== Search & Add ===== */
+    .search-section { background: #fff; border-radius: 8px; padding: 20px 24px; border: 1px solid #e8e8e8; margin-bottom: 24px; }
+    .search-section-title { font-size: 14px; font-weight: bold; margin-bottom: 12px; }
+    .search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+    .search-bar input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 13px; }
+    .search-bar select { border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 13px; background: #fff; }
+
+    .search-results { border: 1px solid #eee; border-radius: 6px; max-height: 200px; overflow-y: auto; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background 0.1s; }
+    .search-result-item:hover { background: #e8f4fd; }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-thumb { width: 36px; height: 36px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #999; flex-shrink: 0; }
+    .search-result-name { font-size: 13px; font-weight: bold; }
+    .search-result-category { font-size: 11px; color: #999; }
+    .btn-add-small { background: #1a1a2e; color: #fff; border: none; border-radius: 4px; padding: 4px 12px; font-size: 12px; cursor: pointer; margin-left: auto; flex-shrink: 0; }
+
+    /* ===== Recommended Products List ===== */
+    .section-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-title-bar h2 { font-size: 16px; font-weight: bold; }
+    .product-count { font-size: 13px; color: #666; }
+
+    .recommended-list { display: flex; flex-direction: column; gap: 8px; }
+    .recommended-item { background: #fff; border-radius: 8px; border: 1px solid #e8e8e8; padding: 14px 20px; display: flex; align-items: center; gap: 16px; transition: background 0.15s; }
+    .recommended-item:hover { background: #f8f8f8; }
+
+    .drag-handle { cursor: grab; color: #ccc; display: flex; align-items: center; }
+    .drag-handle:hover { color: #666; }
+
+    .rec-order { width: 28px; height: 28px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #666; flex-shrink: 0; }
+
+    .rec-thumb { width: 48px; height: 48px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+
+    .rec-info { flex: 1; }
+    .rec-name { font-size: 14px; font-weight: bold; }
+    .rec-category { font-size: 12px; color: #999; margin-top: 2px; }
+
+    .rec-score { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .rec-score-label { font-size: 12px; color: #666; }
+    .rec-stars { display: flex; gap: 2px; }
+    .rec-star { color: #f59e0b; }
+    .rec-star.off { color: #ddd; }
+
+    .btn-remove { background: none; border: none; color: #e53e3e; font-size: 12px; text-decoration: underline; cursor: pointer; flex-shrink: 0; }
+
+    .drag-hint { font-size: 12px; color: #999; margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link active" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">おすすめ商品管理</div>
+      </div>
+
+      <div style="font-size:13px;color:#666;margin-bottom:20px;">C-01 トップページの「おすすめ商品」セクションに表示される商品を管理します。</div>
+
+      <!-- ===== Search & Add Products ===== -->
+      <div class="search-section">
+        <div class="search-section-title">商品を追加</div>
+        <div class="search-bar">
+          <input type="text" placeholder="商品名で検索..." value="缶バッジ">
+          <select>
+            <option>すべてのカテゴリ</option>
+            <option selected>缶バッジ</option>
+            <option>アクリルスタンド</option>
+          </select>
+        </div>
+        <div class="search-results">
+          <div class="search-result-item">
+            <div class="search-thumb">画像</div>
+            <div>
+              <div class="search-result-name">オリジナル缶バッジ 76mm</div>
+              <div class="search-result-category">缶バッジ</div>
+            </div>
+            <button class="btn-add-small">追加</button>
+          </div>
+          <div class="search-result-item">
+            <div class="search-thumb">画像</div>
+            <div>
+              <div class="search-result-name">ホログラム缶バッジ 56mm</div>
+              <div class="search-result-category">缶バッジ</div>
+            </div>
+            <button class="btn-add-small">追加</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Current Recommended Products ===== -->
+      <div class="section-title-bar">
+        <h2>現在のおすすめ商品（6件）</h2>
+      </div>
+
+      <div class="recommended-list">
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">1</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">オリジナル缶バッジ 44mm</div>
+            <div class="rec-category">缶バッジ</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">2</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">アクリルスタンド 100mm</div>
+            <div class="rec-category">アクリルスタンド</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">3</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">オリジナル缶バッジ 56mm</div>
+            <div class="rec-category">缶バッジ</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">4</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">ラバーストラップ 50mm</div>
+            <div class="rec-category">ストラップ</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">5</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">トレーディングカード</div>
+            <div class="rec-category">トレーディングカード</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+
+        <div class="recommended-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="rec-order">6</div>
+          <div class="rec-thumb">画像</div>
+          <div class="rec-info">
+            <div class="rec-name">キーホルダー アクリル</div>
+            <div class="rec-category">キーホルダー</div>
+          </div>
+          <div class="rec-score">
+            <span class="rec-score-label">おすすめ度:</span>
+            <div class="rec-stars">
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+              <i data-lucide="star" style="width:14px;height:14px;" class="rec-star off"></i>
+            </div>
+          </div>
+          <button class="btn-remove">削除</button>
+        </div>
+      </div>
+
+      <div class="drag-hint">
+        <i data-lucide="info" style="width:14px;height:14px;"></i>
+        ドラッグ&ドロップで表示順を変更できます。変更は自動保存されます。
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

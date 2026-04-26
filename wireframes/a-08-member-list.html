@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-08 会員一覧 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    /* ===== Admin Header ===== */
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    /* ===== Layout ===== */
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    /* ===== Sidebar ===== */
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    /* ===== Content ===== */
+    .content { padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+
+    /* ===== Toolbar ===== */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .toolbar-left { display: flex; gap: 8px; }
+    .toolbar-search { display: flex; align-items: center; gap: 8px; }
+    .toolbar-search input { border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 13px; width: 280px; }
+    .filter-select { border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 13px; background: #fff; }
+    .toolbar-right { font-size: 13px; color: #666; }
+
+    /* ===== Table ===== */
+    .data-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #e8e8e8; }
+    .data-table th { text-align: left; font-size: 12px; color: #999; font-weight: normal; padding: 12px 16px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .data-table td { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid #f5f5f5; }
+    .data-table tr:hover { background: #f8f8f8; cursor: pointer; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .member-name { font-weight: bold; }
+    .member-type { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-left: 8px; }
+    .type-corporate { background: #e8f4fd; color: #1a73e8; }
+    .type-individual { background: #f0f0f0; color: #666; }
+
+    /* ===== Pagination ===== */
+    .pagination { display: flex; justify-content: center; gap: 4px; margin-top: 24px; }
+    .pagination a, .pagination span { padding: 8px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; color: #333; text-decoration: none; }
+    .pagination span.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ADMIN HEADER ===== -->
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">会員一覧</div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="toolbar-search">
+            <input type="text" placeholder="名前・会社名・メールで検索...">
+          </div>
+          <select class="filter-select">
+            <option>すべて</option>
+            <option>法人</option>
+            <option>個人</option>
+          </select>
+        </div>
+        <div class="toolbar-right">48件表示中</div>
+      </div>
+
+      <!-- Table -->
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>お名前</th>
+            <th>会社名</th>
+            <th>メール</th>
+            <th>電話番号</th>
+            <th>注文数</th>
+            <th>登録日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="member-name">鬼柳 裕介</span><span class="member-type type-corporate">法人</span></td>
+            <td>株式会社ホロスペース</td>
+            <td>onyanagi@holospace.jp</td>
+            <td>03-1234-5678</td>
+            <td>12</td>
+            <td>2026/01/15</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">田中 花子</span><span class="member-type type-corporate">法人</span></td>
+            <td>合同会社グッズワークス</td>
+            <td>tanaka@goodsworks.co.jp</td>
+            <td>06-9876-5432</td>
+            <td>8</td>
+            <td>2026/02/03</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">佐藤 太郎</span><span class="member-type type-individual">個人</span></td>
+            <td>—</td>
+            <td>sato.taro@gmail.com</td>
+            <td>090-1234-5678</td>
+            <td>3</td>
+            <td>2026/02/20</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">山田 美咲</span><span class="member-type type-corporate">法人</span></td>
+            <td>株式会社アニメプロモ</td>
+            <td>yamada@animepromo.jp</td>
+            <td>03-5555-1234</td>
+            <td>21</td>
+            <td>2026/01/08</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">鈴木 一郎</span><span class="member-type type-individual">個人</span></td>
+            <td>—</td>
+            <td>suzuki.ichiro@outlook.com</td>
+            <td>080-9876-1234</td>
+            <td>1</td>
+            <td>2026/03/12</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">中村 恵</span><span class="member-type type-corporate">法人</span></td>
+            <td>有限会社ファンクリエイト</td>
+            <td>nakamura@fancreate.co.jp</td>
+            <td>052-333-4444</td>
+            <td>6</td>
+            <td>2026/02/28</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">高橋 翔</span><span class="member-type type-individual">個人</span></td>
+            <td>—</td>
+            <td>takahashi.sho@yahoo.co.jp</td>
+            <td>070-5678-9012</td>
+            <td>2</td>
+            <td>2026/04/01</td>
+          </tr>
+          <tr>
+            <td><span class="member-name">伊藤 さくら</span><span class="member-type type-corporate">法人</span></td>
+            <td>株式会社オタクマーケット</td>
+            <td>ito@otakumarket.jp</td>
+            <td>03-7777-8888</td>
+            <td>15</td>
+            <td>2026/01/22</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <span class="active">1</span>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">次へ &gt;</a>
+      </div>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

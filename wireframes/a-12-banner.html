@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-12 ヒーローバナー管理 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    .content { padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .btn-primary { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    /* ===== Banner List ===== */
+    .banner-list { display: flex; flex-direction: column; gap: 12px; }
+    .banner-item { background: #fff; border-radius: 8px; border: 1px solid #e8e8e8; padding: 16px 20px; display: flex; align-items: center; gap: 20px; transition: background 0.15s; }
+    .banner-item:hover { background: #f8f8f8; }
+
+    .drag-handle { cursor: grab; color: #ccc; display: flex; align-items: center; }
+    .drag-handle:hover { color: #666; }
+
+    .banner-order { width: 28px; height: 28px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #666; flex-shrink: 0; }
+
+    .banner-preview { width: 200px; height: 80px; background: #e8e8e8; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; flex-shrink: 0; overflow: hidden; }
+
+    .banner-info { flex: 1; }
+    .banner-alt { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .banner-url { font-size: 12px; color: #1a73e8; word-break: break-all; }
+
+    .banner-actions { display: flex; gap: 12px; flex-shrink: 0; }
+    .banner-actions a { font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
+    .banner-actions a.danger { color: #e53e3e; }
+
+    /* ===== Edit Form ===== */
+    .edit-form { background: #fff; border-radius: 8px; border: 2px solid #1a1a2e; padding: 24px; margin-top: 24px; }
+    .edit-form-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+    .form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+    .form-group { flex: 1; }
+    .form-group label { font-size: 13px; color: #666; margin-bottom: 6px; display: block; }
+    .form-group input { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+
+    .image-upload { width: 100%; height: 160px; background: #f8f8f8; border: 2px dashed #ddd; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; gap: 8px; }
+    .image-upload:hover { border-color: #aaa; }
+    .image-upload span { font-size: 12px; color: #999; }
+    .image-upload .size-hint { font-size: 11px; color: #bbb; }
+
+    .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+    .btn-save { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: 13px; font-weight: bold; cursor: pointer; }
+    .btn-cancel { background: #fff; color: #666; border: 1px solid #ddd; border-radius: 6px; padding: 10px 20px; font-size: 13px; cursor: pointer; }
+
+    .drag-hint { font-size: 12px; color: #999; margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">ヒーローバナー管理</div>
+        <button class="btn-primary"><i data-lucide="plus" style="width:16px;height:16px;"></i>新規追加</button>
+      </div>
+
+      <div style="font-size:13px;color:#666;margin-bottom:16px;">C-01 トップページのカルーセルに表示されるバナーを管理します。</div>
+
+      <!-- Banner List -->
+      <div class="banner-list">
+        <div class="banner-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="banner-order">1</div>
+          <div class="banner-preview">バナー画像 1<br>1200 x 400</div>
+          <div class="banner-info">
+            <div class="banner-alt">春の推し活キャンペーン</div>
+            <div class="banner-url">/products?campaign=spring2026</div>
+          </div>
+          <div class="banner-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="banner-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="banner-order">2</div>
+          <div class="banner-preview">バナー画像 2<br>1200 x 400</div>
+          <div class="banner-info">
+            <div class="banner-alt">缶バッジ特集 - 100個から制作OK</div>
+            <div class="banner-url">/products?category=can-badge</div>
+          </div>
+          <div class="banner-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="banner-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="banner-order">3</div>
+          <div class="banner-preview">バナー画像 3<br>1200 x 400</div>
+          <div class="banner-info">
+            <div class="banner-alt">アクリルスタンド新商品追加</div>
+            <div class="banner-url">/products?category=acrylic-stand</div>
+          </div>
+          <div class="banner-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="banner-item">
+          <div class="drag-handle"><i data-lucide="grip-vertical" style="width:16px;height:16px;"></i></div>
+          <div class="banner-order">4</div>
+          <div class="banner-preview">バナー画像 4<br>1200 x 400</div>
+          <div class="banner-info">
+            <div class="banner-alt">初回注文10%OFFクーポン</div>
+            <div class="banner-url">/guide</div>
+          </div>
+          <div class="banner-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="drag-hint">
+        <i data-lucide="info" style="width:14px;height:14px;"></i>
+        ドラッグ&ドロップで表示順を変更できます。変更は自動保存されます。
+      </div>
+
+      <!-- ===== Edit Form (example) ===== -->
+      <div class="edit-form">
+        <div class="edit-form-title">バナー編集</div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>バナー画像</label>
+          <div class="image-upload">
+            <i data-lucide="upload" style="width:24px;height:24px;color:#ccc;"></i>
+            <span>クリックまたはドラッグ&ドロップで画像をアップロード</span>
+            <span class="size-hint">推奨サイズ: 1200 x 400px（JPG / PNG）</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>リンクURL</label>
+            <input type="text" value="/products?campaign=spring2026" placeholder="リンク先URLを入力">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>alt テキスト</label>
+            <input type="text" value="春の推し活キャンペーン" placeholder="画像の代替テキストを入力">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-cancel">キャンセル</button>
+          <button class="btn-save">保存</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-10 FAQ管理 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    .content { padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+
+    /* ===== Tabs ===== */
+    .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid #eee; }
+    .tab { padding: 12px 24px; font-size: 14px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+    .tab:hover { color: #333; }
+    .tab.active { color: #1a1a2e; font-weight: bold; border-bottom-color: #1a1a2e; }
+    .tab-desc { font-size: 11px; color: #999; margin-left: 6px; }
+
+    /* ===== FAQ Category Group ===== */
+    .faq-category { background: #fff; border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
+    .faq-category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+    .faq-category-title { font-size: 15px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+    .faq-count { font-size: 12px; color: #999; font-weight: normal; }
+
+    .faq-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-order { width: 28px; height: 28px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; flex-shrink: 0; }
+    .faq-content { flex: 1; }
+    .faq-question { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .faq-answer { font-size: 13px; color: #666; line-height: 1.6; }
+    .faq-actions { display: flex; gap: 10px; flex-shrink: 0; align-items: flex-start; padding-top: 2px; }
+    .faq-actions a { font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
+    .faq-actions a.danger { color: #e53e3e; }
+
+    /* ===== Add FAQ Form ===== */
+    .add-faq-form { background: #f8f9fa; border: 2px dashed #ddd; border-radius: 8px; padding: 20px; margin-top: 12px; }
+    .add-faq-form .form-row { display: flex; gap: 12px; margin-bottom: 12px; }
+    .add-faq-form label { font-size: 12px; color: #666; margin-bottom: 4px; display: block; }
+    .add-faq-form input, .add-faq-form textarea, .add-faq-form select { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 13px; }
+    .add-faq-form textarea { resize: vertical; min-height: 60px; }
+    .form-field { flex: 1; }
+    .form-field-sm { width: 80px; flex-shrink: 0; }
+
+    .btn-primary { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .btn-add { background: #fff; color: #1a1a2e; border: 1px solid #ddd; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .btn-add:hover { background: #f8f8f8; }
+
+    .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+    .btn-save { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; }
+    .btn-cancel { background: #fff; color: #666; border: 1px solid #ddd; border-radius: 6px; padding: 8px 16px; font-size: 13px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link active" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">FAQ管理</div>
+      </div>
+
+      <!-- ===== Tabs ===== -->
+      <div class="tabs">
+        <div class="tab active">サイトFAQ <span class="tab-desc">（C-15に表示）</span></div>
+        <div class="tab">グローバル商品FAQ <span class="tab-desc">（全商品のC-03に表示）</span></div>
+      </div>
+
+      <!-- ===== Site FAQ Tab Content ===== -->
+
+      <!-- Category: 注文について -->
+      <div class="faq-category">
+        <div class="faq-category-header">
+          <div class="faq-category-title">
+            <i data-lucide="shopping-cart" style="width:16px;height:16px;color:#666;"></i>
+            注文について
+            <span class="faq-count">3件</span>
+          </div>
+          <button class="btn-add"><i data-lucide="plus" style="width:14px;height:14px;"></i>FAQ追加</button>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">1</div>
+          <div class="faq-content">
+            <div class="faq-question">最小注文数はありますか？</div>
+            <div class="faq-answer">はい、商品ごとに最小ロット数が設定されています。詳しくは各商品ページをご覧ください。缶バッジの場合は100個からご注文いただけます。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">2</div>
+          <div class="faq-content">
+            <div class="faq-question">注文後のキャンセルは可能ですか？</div>
+            <div class="faq-answer">入稿データの承認前であればキャンセル可能です。承認後は製造工程に入るため、キャンセルをお受けできません。お問い合わせフォームよりご連絡ください。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">3</div>
+          <div class="faq-content">
+            <div class="faq-question">サンプル制作は可能ですか？</div>
+            <div class="faq-answer">はい、1個からサンプル制作が可能です。商品詳細ページから「サンプル制作」をカートに追加してください。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: 入稿について -->
+      <div class="faq-category">
+        <div class="faq-category-header">
+          <div class="faq-category-title">
+            <i data-lucide="upload" style="width:16px;height:16px;color:#666;"></i>
+            入稿について
+            <span class="faq-count">2件</span>
+          </div>
+          <button class="btn-add"><i data-lucide="plus" style="width:14px;height:14px;"></i>FAQ追加</button>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">1</div>
+          <div class="faq-content">
+            <div class="faq-question">対応しているファイル形式は何ですか？</div>
+            <div class="faq-answer">AI（Adobe Illustrator）、PSD（Adobe Photoshop）、PDF、PNG、JPEGに対応しています。推奨はAI形式で、解像度は350dpi以上をお願いしています。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">2</div>
+          <div class="faq-content">
+            <div class="faq-question">入稿テンプレートはありますか？</div>
+            <div class="faq-answer">はい、各商品詳細ページからダウンロードいただけます。テンプレートに沿ってデザインを配置してください。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: 配送・お支払い -->
+      <div class="faq-category">
+        <div class="faq-category-header">
+          <div class="faq-category-title">
+            <i data-lucide="truck" style="width:16px;height:16px;color:#666;"></i>
+            配送・お支払い
+            <span class="faq-count">2件</span>
+          </div>
+          <button class="btn-add"><i data-lucide="plus" style="width:14px;height:14px;"></i>FAQ追加</button>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">1</div>
+          <div class="faq-content">
+            <div class="faq-question">納期はどれくらいですか？</div>
+            <div class="faq-answer">ご入金確認後、約10〜14営業日で発送いたします。商品や数量により前後する場合があります。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-order">2</div>
+          <div class="faq-content">
+            <div class="faq-question">どのような支払い方法がありますか？</div>
+            <div class="faq-answer">クレジットカード、銀行振込、請求書払い（法人のみ）に対応しています。</div>
+          </div>
+          <div class="faq-actions">
+            <a href="#">編集</a>
+            <a class="danger" href="#">削除</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add FAQ Form (shown as example) -->
+      <div class="add-faq-form">
+        <div style="font-size:14px;font-weight:bold;margin-bottom:12px;">新規FAQ追加</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>カテゴリ</label>
+            <select>
+              <option>注文について</option>
+              <option>入稿について</option>
+              <option>配送・お支払い</option>
+              <option>＋新規カテゴリ</option>
+            </select>
+          </div>
+          <div class="form-field-sm">
+            <label>並び順</label>
+            <input type="number" value="4">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>質問</label>
+            <input type="text" placeholder="質問を入力...">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>回答</label>
+            <textarea placeholder="回答を入力..."></textarea>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-save">保存</button>
+          <button class="btn-cancel">キャンセル</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-14 代理注文作成 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    .content { padding: 32px; max-width: 960px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .page-back { font-size: 13px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
+
+    .section { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+    .section-desc { font-size: 12px; color: #999; margin-top: -8px; margin-bottom: 16px; }
+
+    .form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+    .form-group { flex: 1; }
+    .form-group label { font-size: 13px; color: #666; margin-bottom: 6px; display: block; }
+    .form-group label .optional { font-size: 11px; color: #bbb; margin-left: 4px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    /* ===== Customer Search ===== */
+    .customer-search { display: flex; gap: 8px; margin-bottom: 12px; }
+    .customer-search input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 13px; }
+    .btn-search { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 10px 16px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+
+    .customer-results { border: 1px solid #eee; border-radius: 6px; max-height: 160px; overflow-y: auto; margin-bottom: 12px; }
+    .customer-result-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; cursor: pointer; font-size: 13px; }
+    .customer-result-item:hover { background: #e8f4fd; }
+    .customer-result-item:last-child { border-bottom: none; }
+    .customer-result-item .name { font-weight: bold; }
+    .customer-result-item .company { color: #666; }
+    .customer-result-item .email { color: #999; margin-left: auto; }
+
+    .selected-customer { background: #e8f4fd; border: 1px solid #1a73e8; border-radius: 6px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .selected-customer-info { font-size: 13px; }
+    .selected-customer-info strong { font-size: 14px; }
+    .selected-customer-info .detail { color: #666; margin-top: 4px; }
+    .btn-change { font-size: 12px; color: #1a73e8; text-decoration: underline; cursor: pointer; background: none; border: none; }
+
+    .or-divider { text-align: center; font-size: 12px; color: #999; padding: 12px 0; }
+
+    .new-customer-form { border: 1px solid #eee; border-radius: 6px; padding: 16px; background: #fafafa; }
+    .new-customer-form .form-title { font-size: 13px; font-weight: bold; margin-bottom: 12px; }
+
+    /* ===== Product Add ===== */
+    .product-search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+    .product-search-bar input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; font-size: 13px; }
+
+    .added-products { border: 1px solid #eee; border-radius: 6px; overflow: hidden; }
+    .added-product { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border-bottom: 1px solid #f5f5f5; }
+    .added-product:last-child { border-bottom: none; }
+    .added-product-thumb { width: 48px; height: 48px; background: #e8e8e8; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #999; flex-shrink: 0; }
+    .added-product-info { flex: 1; }
+    .added-product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+    .added-product-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .added-product-options select { border: 1px solid #ddd; border-radius: 4px; padding: 4px 8px; font-size: 12px; }
+    .added-product-options input { border: 1px solid #ddd; border-radius: 4px; padding: 4px 8px; font-size: 12px; width: 80px; }
+    .added-product-price { font-size: 14px; font-weight: bold; text-align: right; flex-shrink: 0; }
+    .btn-remove-product { background: none; border: none; color: #e53e3e; cursor: pointer; margin-left: 8px; }
+
+    /* ===== File Upload ===== */
+    .upload-area { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8f8f8; border: 1px dashed #ddd; border-radius: 6px; margin-top: 8px; }
+    .upload-area-icon { color: #ccc; }
+    .upload-area span { font-size: 12px; color: #999; }
+    .upload-area .btn-upload { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 4px 12px; font-size: 12px; cursor: pointer; margin-left: auto; }
+
+    /* ===== Submit ===== */
+    .submit-bar { background: #fff; border-radius: 8px; padding: 24px; border: 1px solid #e8e8e8; display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+    .btn-primary { background: #1a1a2e; color: #fff; border: none; border-radius: 6px; padding: 12px 28px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .btn-secondary { background: #fff; color: #666; border: 1px solid #ddd; border-radius: 6px; padding: 12px 20px; font-size: 14px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">代理注文作成</div>
+        <a class="page-back" href="#">注文一覧に戻る</a>
+      </div>
+
+      <!-- ===== 1. Customer Selection ===== -->
+      <div class="section">
+        <div class="section-title">1. 顧客選択</div>
+
+        <div class="customer-search">
+          <input type="text" placeholder="名前・会社名・メールで顧客を検索..." value="鬼柳">
+          <button class="btn-search">検索</button>
+        </div>
+
+        <!-- Selected Customer -->
+        <div class="selected-customer">
+          <div class="selected-customer-info">
+            <strong>鬼柳 裕介</strong>（株式会社ホロスペース）
+            <div class="detail">onyanagi@holospace.jp / 03-1234-5678</div>
+          </div>
+          <button class="btn-change">変更</button>
+        </div>
+
+        <div class="or-divider">── または ──</div>
+
+        <div class="new-customer-form">
+          <div class="form-title">新規顧客として登録</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>お名前</label>
+              <input type="text" placeholder="山田 太郎">
+            </div>
+            <div class="form-group">
+              <label>会社名 <span class="optional">（任意）</span></label>
+              <input type="text" placeholder="株式会社〇〇">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>メールアドレス</label>
+              <input type="email" placeholder="example@example.com">
+            </div>
+            <div class="form-group">
+              <label>電話番号</label>
+              <input type="tel" placeholder="03-1234-5678">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 2. Product Selection ===== -->
+      <div class="section">
+        <div class="section-title">2. 商品追加</div>
+
+        <div class="product-search-bar">
+          <input type="text" placeholder="商品名で検索...">
+          <button class="btn-search">検索</button>
+        </div>
+
+        <div class="added-products">
+          <div class="added-product">
+            <div class="added-product-thumb">画像</div>
+            <div class="added-product-info">
+              <div class="added-product-name">オリジナル缶バッジ 44mm</div>
+              <div class="added-product-options">
+                <select><option>サイズ: 44mm</option></select>
+                <select><option>仕上げ: マット</option><option>仕上げ: グロス</option></select>
+                <select><option>付属: 安全ピン</option><option>付属: マグネット</option></select>
+                <span style="font-size:12px;color:#666;">数量:</span>
+                <input type="number" value="200">
+              </div>
+              <div class="upload-area">
+                <i data-lucide="paperclip" style="width:16px;height:16px;" class="upload-area-icon"></i>
+                <span>入稿データ（任意）</span>
+                <button class="btn-upload">ファイル選択</button>
+              </div>
+            </div>
+            <div>
+              <div class="added-product-price">17,000円</div>
+              <div style="font-size:11px;color:#999;text-align:right;">@85円 x 200</div>
+            </div>
+            <button class="btn-remove-product"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+          </div>
+
+          <div class="added-product">
+            <div class="added-product-thumb">画像</div>
+            <div class="added-product-info">
+              <div class="added-product-name">アクリルスタンド 100mm</div>
+              <div class="added-product-options">
+                <select><option>サイズ: 100mm</option></select>
+                <select><option>仕上げ: クリア</option></select>
+                <span style="font-size:12px;color:#666;">数量:</span>
+                <input type="number" value="100">
+              </div>
+              <div class="upload-area">
+                <i data-lucide="paperclip" style="width:16px;height:16px;" class="upload-area-icon"></i>
+                <span>design_acrylic.ai（8.2MB）がアップロード済み</span>
+                <button class="btn-upload" style="color:#e53e3e;border-color:#e53e3e;">削除</button>
+              </div>
+            </div>
+            <div>
+              <div class="added-product-price">15,000円</div>
+              <div style="font-size:11px;color:#999;text-align:right;">@150円 x 100</div>
+            </div>
+            <button class="btn-remove-product"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 3. Contact Info ===== -->
+      <div class="section">
+        <div class="section-title">3. 連絡先</div>
+        <div class="section-desc">この注文に関する連絡先を指定します（顧客の登録情報と異なる場合）</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="email" value="onyanagi@holospace.jp">
+          </div>
+          <div class="form-group">
+            <label>電話番号</label>
+            <input type="tel" value="03-1234-5678">
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 4. Channel ===== -->
+      <div class="section">
+        <div class="section-title">4. チャネル</div>
+        <div class="form-row">
+          <div class="form-group" style="max-width:240px;">
+            <label>注文チャネル</label>
+            <select>
+              <option>電話</option>
+              <option>メール</option>
+              <option>営業</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 5. Remarks ===== -->
+      <div class="section">
+        <div class="section-title">5. 備考</div>
+        <div class="form-group">
+          <textarea placeholder="社内メモ、特記事項など...">電話にて受注。缶バッジの入稿データは後日メールで送付予定。</textarea>
+        </div>
+      </div>
+
+      <!-- ===== Submit ===== -->
+      <div class="submit-bar">
+        <div style="flex:1;font-size:14px;">
+          <span style="color:#666;">商品合計（2点）:</span>
+          <span style="font-size:18px;font-weight:bold;margin-left:8px;">32,000円</span>
+        </div>
+        <button class="btn-secondary">下書き保存</button>
+        <button class="btn-primary"><i data-lucide="check" style="width:16px;height:16px;"></i>注文を作成</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

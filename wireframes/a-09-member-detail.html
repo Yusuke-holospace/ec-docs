@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-09 会員詳細 - ワイヤーフレーム</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f1f3; color: #333; }
+
+    .admin-header { background: #1a1a2e; color: #fff; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .admin-header-left { display: flex; align-items: center; gap: 24px; }
+    .admin-logo { width: 100px; height: 30px; background: rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.6); }
+    .admin-header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-user { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .admin-logout { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; }
+
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
+
+    .sidebar { background: #1a1a2e; padding: 16px 0; }
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-section-title { font-size: 11px; color: rgba(255,255,255,0.4); padding: 8px 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.15s; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: bold; }
+
+    .content { padding: 32px; max-width: 960px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-title { font-size: 22px; font-weight: bold; }
+    .page-back { font-size: 13px; color: #1a73e8; text-decoration: underline; cursor: pointer; }
+
+    .section { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+
+    .info-table { width: 100%; }
+    .info-table td { padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f5f5f5; }
+    .info-table td:first-child { color: #666; width: 160px; }
+
+    .member-type { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .type-corporate { background: #e8f4fd; color: #1a73e8; }
+
+    .login-method { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 10px; background: #f0f0f0; border-radius: 4px; }
+
+    /* Order History Table */
+    .data-table { width: 100%; border-collapse: collapse; border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden; }
+    .data-table th { text-align: left; font-size: 12px; color: #999; font-weight: normal; padding: 12px 16px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .data-table td { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid #f5f5f5; }
+    .data-table tr:hover { background: #f8f8f8; cursor: pointer; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .status-badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: bold; }
+    .badge-complete { background: #e8f5e9; color: #2e7d32; }
+    .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .badge-review { background: #fef3e2; color: #e67e22; }
+    .badge-cancelled { background: #f0f0f0; color: #999; }
+
+    .channel-badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; background: #f0f0f0; color: #666; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-left"><div class="admin-logo">ロゴ画像</div></div>
+    <div class="admin-header-right"><span class="admin-user">鬼柳 裕介</span><span class="admin-logout">ログアウト</span></div>
+  </div>
+
+  <div class="admin-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <a class="sidebar-link" href="#"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>ダッシュボード</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">商品管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="package" style="width:16px;height:16px;"></i>商品一覧</a>
+        <a class="sidebar-link" href="#"><i data-lucide="grid-2x2" style="width:16px;height:16px;"></i>カテゴリ管理</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">注文管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="clipboard-list" style="width:16px;height:16px;"></i>注文一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">会員管理</div>
+        <a class="sidebar-link active" href="#"><i data-lucide="users" style="width:16px;height:16px;"></i>会員一覧</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">コンテンツ管理</div>
+        <a class="sidebar-link" href="#"><i data-lucide="image" style="width:16px;height:16px;"></i>ヒーローバナー</a>
+        <a class="sidebar-link" href="#"><i data-lucide="star" style="width:16px;height:16px;"></i>おすすめ商品</a>
+        <a class="sidebar-link" href="#"><i data-lucide="help-circle" style="width:16px;height:16px;"></i>FAQ管理</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-header">
+        <div class="page-title">会員詳細</div>
+        <a class="page-back" href="#">会員一覧に戻る</a>
+      </div>
+
+      <!-- ===== Customer Info ===== -->
+      <div class="section">
+        <div class="section-title">お客様情報</div>
+        <table class="info-table">
+          <tr><td>会社名</td><td>株式会社ホロスペース <span class="member-type type-corporate">法人</span></td></tr>
+          <tr><td>お名前</td><td>鬼柳 裕介</td></tr>
+          <tr><td>メールアドレス</td><td>onyanagi@holospace.jp</td></tr>
+          <tr><td>電話番号</td><td>03-1234-5678</td></tr>
+          <tr><td>ログイン方法</td><td><span class="login-method"><i data-lucide="mail" style="width:14px;height:14px;"></i>マジックリンク</span></td></tr>
+          <tr><td>登録日</td><td>2026/01/15</td></tr>
+        </table>
+      </div>
+
+      <!-- ===== Address ===== -->
+      <div class="section">
+        <div class="section-title">住所</div>
+        <table class="info-table">
+          <tr><td>住所</td><td>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F</td></tr>
+        </table>
+      </div>
+
+      <!-- ===== Shipping Address ===== -->
+      <div class="section">
+        <div class="section-title">配送先住所</div>
+        <table class="info-table">
+          <tr><td>会社名</td><td>株式会社ホロスペース</td></tr>
+          <tr><td>お名前</td><td>鬼柳 裕介</td></tr>
+          <tr><td>住所</td><td>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F</td></tr>
+          <tr><td>電話番号</td><td>03-1234-5678</td></tr>
+        </table>
+      </div>
+
+      <!-- ===== Order History ===== -->
+      <div class="section">
+        <div class="section-title">注文履歴（12件）</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>注文番号</th>
+              <th>チャネル</th>
+              <th>ステータス</th>
+              <th>商品数</th>
+              <th>合計金額</th>
+              <th>注文日</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260420-0045</td>
+              <td><span class="channel-badge">EC</span></td>
+              <td><span class="status-badge badge-review">入稿確認中</span></td>
+              <td>2点</td>
+              <td>35,500円</td>
+              <td>2026/04/20</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260405-0032</td>
+              <td><span class="channel-badge">EC</span></td>
+              <td><span class="status-badge badge-progress">製造中</span></td>
+              <td>3点</td>
+              <td>87,200円</td>
+              <td>2026/04/05</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260320-0021</td>
+              <td><span class="channel-badge">電話</span></td>
+              <td><span class="status-badge badge-complete">完了</span></td>
+              <td>1点</td>
+              <td>12,000円</td>
+              <td>2026/03/20</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260301-0015</td>
+              <td><span class="channel-badge">EC</span></td>
+              <td><span class="status-badge badge-complete">完了</span></td>
+              <td>4点</td>
+              <td>156,800円</td>
+              <td>2026/03/01</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold;">ORD-20260215-0008</td>
+              <td><span class="channel-badge">メール</span></td>
+              <td><span class="status-badge badge-complete">完了</span></td>
+              <td>2点</td>
+              <td>24,300円</td>
+              <td>2026/02/15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
