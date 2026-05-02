@@ -155,7 +155,16 @@
           <div>
             <div style="display:flex;align-items:center;gap:12px;">
               <span style="font-size:18px;font-weight:bold;">ORD-20260422-0023</span>
-              <span class="status-badge badge-review">入稿確認中</span>
+              <select style="padding:6px 12px;border:2px solid #1a73e8;border-radius:20px;font-size:13px;font-weight:bold;color:#1a73e8;background:#e8f4fd;cursor:pointer;">
+                <option>入稿受付</option>
+                <option selected>入稿確認中</option>
+                <option>承認済み</option>
+                <option>決済待ち</option>
+                <option>入金確認</option>
+                <option>製造中</option>
+                <option>発送済み</option>
+                <option>完了</option>
+              </select>
               <span class="channel-badge channel-ec">EC</span>
             </div>
             <div class="order-meta">
@@ -164,9 +173,7 @@
             </div>
           </div>
         </div>
-        <div class="action-bar" style="margin-top:16px;">
-          <button class="btn-action btn-status"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i>ステータス変更</button>
-        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px;">※ ステータスを変更すると購入者にメール通知（NTF-011）が自動送信されます</div>
       </div>
 
       <!-- ===== Status Timeline ===== -->
@@ -309,8 +316,14 @@
         <div class="section-title">仕上がりイメージ</div>
         <div style="font-size:12px;color:#666;margin-bottom:12px;">アップロードすると顧客にメール通知（NTF-012）が自動送信されます。C-13・C-21からダウンロード可能になります。</div>
         <div class="mockup-grid">
-          <div class="mockup-slot">画像 1</div>
-          <div class="mockup-slot">画像 2</div>
+          <div style="position:relative;">
+            <div class="mockup-slot">画像 1</div>
+            <button style="position:absolute;top:4px;right:4px;background:#e53e3e;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">&times;</button>
+          </div>
+          <div style="position:relative;">
+            <div class="mockup-slot">画像 2</div>
+            <button style="position:absolute;top:4px;right:4px;background:#e53e3e;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">&times;</button>
+          </div>
           <div class="mockup-slot add"><i data-lucide="plus" style="width:20px;height:20px;color:#ccc;"></i><span>追加</span></div>
         </div>
         <div style="font-size:11px;color:#999;">背景透過PNG等にも対応。販促素材として顧客が利用可能。</div>
