@@ -198,6 +198,23 @@
             <a class="danger" href="#">削除</a>
           </div>
         </div>
+
+        <!-- インラインFAQ追加フォーム（FAQ追加ボタン押下時に表示） -->
+        <div style="background:#f0f7ff;border:1px solid #d0e3f7;border-radius:8px;padding:16px;margin-top:8px;">
+          <div style="font-size:13px;font-weight:bold;margin-bottom:10px;">新規FAQ追加（入稿について）</div>
+          <div style="margin-bottom:8px;">
+            <label style="font-size:12px;font-weight:bold;display:block;margin-bottom:4px;">質問</label>
+            <input type="text" placeholder="質問を入力..." style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:4px;font-size:13px;">
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:12px;font-weight:bold;display:block;margin-bottom:4px;">回答</label>
+            <textarea placeholder="回答を入力..." style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:4px;font-size:13px;min-height:60px;resize:vertical;"></textarea>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;">キャンセル</button>
+            <button style="padding:6px 14px;border:none;border-radius:4px;background:#1a1a2e;color:#fff;font-size:12px;cursor:pointer;">保存</button>
+          </div>
+        </div>
       </div>
 
       <!-- Category: 配送・お支払い -->
@@ -236,7 +253,6 @@
         </div>
       </div>
 
-      <!-- Add FAQ Form (FAQ追加ボタン押下時に表示) -->
       <!--
       <div class="add-faq-form">
         <div style="font-size:14px;font-weight:bold;margin-bottom:12px;">新規FAQ追加</div>
