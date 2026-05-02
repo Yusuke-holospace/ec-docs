@@ -383,6 +383,10 @@
           </tbody>
         </table>
         <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>数量帯を追加</button>
+        <div class="form-group" style="margin-top:16px;">
+          <div class="form-label">注記テキスト <span class="hint">任意</span></div>
+          <input class="form-input" value="" placeholder="価格テーブル下に表示する注意事項（C-03の価格テーブルタブ）">
+        </div>
       </div>
 
       <!-- ===== 送料 ===== -->
@@ -395,6 +399,26 @@
             <span style="font-size:13px;color:#666;">円</span>
           </div>
           <div class="form-hint">サイト全体の送料無料閾値を超えた場合は自動的に無料になります</div>
+        </div>
+      </div>
+
+      <!-- ===== 商品詳細情報 ===== -->
+      <div class="section">
+        <div class="section-title">商品詳細情報</div>
+        <div class="form-hint" style="margin-bottom:12px;">C-03の「商品詳細」タブに表示される仕様テーブルです。</div>
+        <table class="price-table" style="margin-bottom:8px;">
+          <thead><tr><th style="width:30%;">項目名</th><th>値</th><th style="width:10%;"></th></tr></thead>
+          <tbody>
+            <tr><td><input value="素材"></td><td><input value="アクリル"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            <tr><td><input value="サイズ展開"></td><td><input value="44mm / 56mm / 76mm"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            <tr><td><input value="重量"></td><td><input value="約5g"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+            <tr><td><input value="仕上げ"></td><td><input value="マット / グロス"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+          </tbody>
+        </table>
+        <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>項目を追加</button>
+        <div class="form-group" style="margin-top:16px;">
+          <div class="form-label">注記テキスト <span class="hint">任意</span></div>
+          <input class="form-input" value="※ サイズ・重量は実測値のため多少の誤差がございます。" placeholder="テーブル下に表示する注意事項">
         </div>
       </div>
 
@@ -474,6 +498,10 @@
               </div>
             </div>
             <div class="form-group">
+              <div class="form-label" style="font-weight:normal;">受付ファイル形式</div>
+              <input class="form-input" value="AI, PSD, PDF" placeholder="例: AI, PSD, PDF">
+            </div>
+            <div class="form-group">
               <div class="form-label" style="font-weight:normal;">テンプレートファイル</div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="font-size:13px;color:#666;background:#f8f8f8;padding:6px 12px;border-radius:4px;">template_front_44mm.ai</span>
@@ -551,6 +579,31 @@
 
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>スロットを追加</button>
         </div>
+      </div>
+
+      <!-- ===== 関連商品 ===== -->
+      <div class="section">
+        <div class="section-title">関連商品</div>
+        <div class="form-hint" style="margin-bottom:12px;">C-03の「関連商品」セクションに表示されます。最大4件。</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <input class="form-input" placeholder="商品名で検索..." style="max-width:300px;">
+          <button class="add-btn" style="padding:8px 16px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;">検索</button>
+        </div>
+        <div class="dynamic-list">
+          <div class="dynamic-item">
+            <div style="width:36px;height:36px;background:#e8e8e8;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#999;flex-shrink:0;">画像</div>
+            <span style="font-size:13px;font-weight:bold;">アクリルスタンド 100mm</span>
+            <span style="font-size:11px;color:#999;">アクリルスタンド</span>
+            <button class="remove-btn" style="margin-left:auto;">&times;</button>
+          </div>
+          <div class="dynamic-item">
+            <div style="width:36px;height:36px;background:#e8e8e8;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#999;flex-shrink:0;">画像</div>
+            <span style="font-size:13px;font-weight:bold;">アクリルキーホルダー</span>
+            <span style="font-size:11px;color:#999;">キーホルダー</span>
+            <button class="remove-btn" style="margin-left:auto;">&times;</button>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#999;">あと2件追加できます</div>
       </div>
 
       <!-- ===== 商品FAQ ===== -->
