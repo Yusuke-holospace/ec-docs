@@ -28,17 +28,6 @@
     .badge-progress { background: #e8f4fd; color: #1a73e8; }
     .status-info { font-size: 12px; color: #999; }
 
-    /* Timeline */
-    .timeline { margin-top: 12px; }
-    .timeline-item { display: flex; gap: 10px; padding-bottom: 14px; position: relative; }
-    .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; flex-shrink: 0; margin-top: 4px; }
-    .timeline-dot.active { background: #333; }
-    .timeline-dot.done { background: #2e7d32; }
-    .timeline-item:not(:last-child)::before { content: ""; position: absolute; left: 4px; top: 14px; width: 2px; height: calc(100% - 14px); background: #eee; }
-    .timeline-label { font-size: 12px; font-weight: bold; }
-    .timeline-date { font-size: 11px; color: #999; margin-top: 1px; }
-
     /* Order Items */
     .order-item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eee; }
     .order-item:last-child { border-bottom: none; }
@@ -96,25 +85,13 @@
     <button style="background:none;border:1px solid #ddd;border-radius:6px;padding:6px 12px;font-size:11px;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;min-height:44px;" title="共有URLをコピー"><i data-lucide="share-2" style="width:14px;height:14px;"></i>共有</button>
   </div>
 
-  <!-- Status: 差し戻し状態 -->
+  <!-- Order Header -->
   <div class="section">
     <div class="status-bar">
-      <span class="status-badge" style="background:#fde8e8;color:#e53e3e;">差し戻し</span>
-      <span class="status-info">ORD-20260414-0023 / 2026/04/14</span>
+      <span class="status-info"><strong style="color:#333;">ORD-20260414-0023</strong> / 2026/04/14</span>
     </div>
-    <div style="background:#fde8e8;border-radius:6px;padding:12px;margin-bottom:12px;font-size:12px;color:#e53e3e;">
+    <div style="background:#fde8e8;border-radius:6px;padding:12px;font-size:12px;color:#e53e3e;">
       入稿データに不備があります。該当商品の「再入稿する」ボタンから修正データをアップロードしてください。
-    </div>
-    <div class="timeline">
-      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿受付</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/14 16:00</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot active" style="background:#e53e3e;"></div><div><div class="timeline-label" style="color:#e53e3e;">差し戻し</div><div class="timeline-date">2026/04/15 10:00</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">承認済み</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">決済待ち</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">入金確認</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">製造中</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">発送済み</div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">完了</div></div></div>
     </div>
   </div>
 
@@ -125,7 +102,8 @@
       <div class="order-item-image">画像</div>
       <div class="order-item-info">
         <span class="order-item-badge badge-normal">通常</span>
-        <div class="order-item-name">缶バッジ 44mm</div>
+        <span class="status-badge" style="background:#e8f4fd;color:#1a73e8;font-size:10px;padding:2px 8px;margin-left:4px;">入稿確認中</span>
+        <div class="order-item-name" style="margin-top:4px;">缶バッジ 44mm</div>
         <div class="order-item-options">44mm / マット / 安全ピン / 100個</div>
       </div>
       <div class="order-item-price">8,500円<div class="order-item-price-unit">@85 x 100</div></div>
@@ -134,9 +112,10 @@
       <div class="order-item-image">画像</div>
       <div class="order-item-info">
         <span class="order-item-badge badge-normal">通常</span>
-        <div class="order-item-name">アクスタ 100mm</div>
+        <span class="status-badge" style="background:#fde8e8;color:#e53e3e;font-size:10px;padding:2px 8px;margin-left:4px;">差し戻し</span>
+        <div class="order-item-name" style="margin-top:4px;">アクスタ 100mm</div>
         <div class="order-item-options">100mm / クリア / 200個</div>
-        <div style="color:#e53e3e;font-size:11px;margin-top:2px;">差し戻し</div>
+        <div style="margin-top:6px;padding:8px 10px;background:#fde8e8;border-radius:4px;font-size:11px;color:#e53e3e;">差し戻し理由: 解像度が不足しています。350dpi以上で再入稿をお願いします。</div>
         <a href="#" style="display:inline-block;margin-top:6px;background:#e53e3e;color:#fff;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:bold;text-decoration:none;min-height:44px;line-height:28px;">再入稿する</a>
       </div>
       <div class="order-item-price">27,000円<div class="order-item-price-unit">@120 x 200</div><div class="order-item-price-unit">+色校正 3,000</div></div>
@@ -145,10 +124,11 @@
       <div class="order-item-image">画像</div>
       <div class="order-item-info">
         <span class="order-item-badge badge-sample">サンプル</span>
-        <div class="order-item-name">缶バッジ 56mm</div>
-        <div class="order-item-options">56mm / グロス / マグネット / 1式</div>
+        <span class="status-badge" style="background:#e8f4fd;color:#1a73e8;font-size:10px;padding:2px 8px;margin-left:4px;">入稿確認中</span>
+        <div class="order-item-name" style="margin-top:4px;">缶バッジ 56mm</div>
+        <div class="order-item-options">56mm / グロス / マグネット / 1個</div>
       </div>
-      <div class="order-item-price">1,900円<div class="order-item-price-unit">1式</div></div>
+      <div class="order-item-price">1,900円<div class="order-item-price-unit">1個</div></div>
     </div>
   </div>
 

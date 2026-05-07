@@ -49,10 +49,11 @@
     .data-table tr:hover { background: #f8f8f8; cursor: pointer; }
     .data-table tr:last-child td { border-bottom: none; }
 
-    .status-badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: bold; }
+    .status-badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: bold; margin-right: 4px; }
     .badge-complete { background: #e8f5e9; color: #2e7d32; }
     .badge-progress { background: #e8f4fd; color: #1a73e8; }
     .badge-review { background: #fef3e2; color: #e67e22; }
+    .badge-rejected { background: #fde8e8; color: #e53e3e; }
     .badge-cancelled { background: #f0f0f0; color: #999; }
 
     .channel-badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; background: #f0f0f0; color: #666; }
@@ -110,9 +111,9 @@
         </table>
       </div>
 
-      <!-- ===== Address ===== -->
+      <!-- ===== Billing Address ===== -->
       <div class="section">
-        <div class="section-title">住所</div>
+        <div class="section-title">請求先住所</div>
         <table class="info-table">
           <tr><td>住所</td><td>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F</td></tr>
         </table>
@@ -127,6 +128,38 @@
           <tr><td>住所</td><td>〒150-0001 東京都渋谷区神宮前1-2-3 ABCビル 5F</td></tr>
           <tr><td>電話番号</td><td>03-1234-5678</td></tr>
         </table>
+      </div>
+
+      <!-- ===== Admin Comments ===== -->
+      <div class="section">
+        <div class="section-title">管理者コメント</div>
+        <div style="font-size:12px;color:#666;margin-bottom:12px;">社内用のコメントです。顧客には表示されません。投稿時に日付・記入者が自動記録されます。</div>
+
+        <!-- 新規投稿 -->
+        <div style="margin-bottom:16px;">
+          <textarea style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;min-height:60px;resize:vertical;" placeholder="コメントを入力..."></textarea>
+          <div style="margin-top:8px;text-align:right;">
+            <button style="background:#fff;color:#333;border:1px solid #ddd;border-radius:6px;padding:6px 16px;font-size:12px;cursor:pointer;">投稿</button>
+          </div>
+        </div>
+
+        <!-- コメント履歴（新しい順） -->
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="border:1px solid #eee;border-radius:6px;padding:12px;background:#fafafa;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-size:12px;color:#666;"><strong style="color:#333;">鬼柳 裕介</strong> ・ 2026/04/22 11:00</div>
+              <a href="#" style="font-size:11px;color:#e53e3e;text-decoration:underline;">削除</a>
+            </div>
+            <div style="font-size:13px;line-height:1.5;">VIP取引先。納期はできるだけ前倒しで対応する方針。</div>
+          </div>
+          <div style="border:1px solid #eee;border-radius:6px;padding:12px;background:#fafafa;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-size:12px;color:#666;"><strong style="color:#333;">田中 太郎</strong> ・ 2026/03/15 16:42</div>
+              <span style="font-size:11px;color:#999;">（自分以外のコメントは削除不可）</span>
+            </div>
+            <div style="font-size:13px;line-height:1.5;">請求書払いを希望。月末締め翌月末払いで合意済み。</div>
+          </div>
+        </div>
       </div>
 
       <!-- ===== Order History ===== -->
@@ -147,7 +180,10 @@
             <tr>
               <td style="font-weight:bold;">ORD-20260420-0045</td>
               <td><span class="channel-badge">EC</span></td>
-              <td><span class="status-badge badge-review">入稿確認中</span></td>
+              <td>
+                <span class="status-badge badge-review">入稿確認中 ×1</span>
+                <span class="status-badge badge-rejected">差し戻し ×1</span>
+              </td>
               <td>2点</td>
               <td>35,500円</td>
               <td>2026/04/20</td>
@@ -155,7 +191,10 @@
             <tr>
               <td style="font-weight:bold;">ORD-20260405-0032</td>
               <td><span class="channel-badge">EC</span></td>
-              <td><span class="status-badge badge-progress">製造中</span></td>
+              <td>
+                <span class="status-badge badge-progress">製造中 ×2</span>
+                <span class="status-badge badge-progress">発送済み ×1</span>
+              </td>
               <td>3点</td>
               <td>87,200円</td>
               <td>2026/04/05</td>
@@ -171,7 +210,7 @@
             <tr>
               <td style="font-weight:bold;">ORD-20260301-0015</td>
               <td><span class="channel-badge">EC</span></td>
-              <td><span class="status-badge badge-complete">完了</span></td>
+              <td><span class="status-badge badge-complete">完了 ×4</span></td>
               <td>4点</td>
               <td>156,800円</td>
               <td>2026/03/01</td>
@@ -179,7 +218,7 @@
             <tr>
               <td style="font-weight:bold;">ORD-20260215-0008</td>
               <td><span class="channel-badge">メール</span></td>
-              <td><span class="status-badge badge-complete">完了</span></td>
+              <td><span class="status-badge badge-complete">完了 ×2</span></td>
               <td>2点</td>
               <td>24,300円</td>
               <td>2026/02/15</td>

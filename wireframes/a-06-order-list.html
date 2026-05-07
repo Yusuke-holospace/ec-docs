@@ -151,6 +151,11 @@
         <div class="toolbar-right">全58件</div>
       </div>
 
+      <div style="font-size:11px;color:#666;background:#f8f8f8;border:1px solid #eee;border-radius:4px;padding:8px 12px;margin-bottom:12px;">
+        <i data-lucide="info" style="width:12px;height:12px;vertical-align:-2px;"></i>
+        ステータスは商品ごとに管理されます。一覧の「ステータス」列は注文内の**各商品ステータスをバッジ並列**で表示（例: `[入稿確認中 ×2] [差し戻し ×1]`）。
+      </div>
+
       <!-- Table -->
       <table class="data-table">
         <thead>
@@ -183,7 +188,9 @@
             <td>佐藤エンタメ</td>
             <td>アクスタ 100mm x200 他1点</td>
             <td>28,900円</td>
-            <td><span class="status-badge badge-new">入稿受付</span></td>
+            <td>
+              <span class="status-badge badge-new">入稿受付 ×2</span>
+            </td>
             <td><span class="type-label">通常+サンプル</span></td>
             <td><span class="channel-badge">EC</span></td>
             <td>—</td>
@@ -194,7 +201,10 @@
             <td>鬼柳 裕介</td>
             <td>缶バッジ 44mm x100 他2点</td>
             <td>37,400円</td>
-            <td><span class="status-badge badge-review">入稿確認中</span></td>
+            <td>
+              <span class="status-badge badge-review">入稿確認中 ×2</span>
+              <span class="status-badge badge-rejected" style="margin-left:4px;">差し戻し ×1</span>
+            </td>
             <td><span class="type-label">通常+サンプル</span></td>
             <td><span class="channel-badge">EC</span></td>
             <td>田中</td>

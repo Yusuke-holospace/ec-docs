@@ -49,10 +49,12 @@
     .order-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .order-card-id { font-size: 13px; font-weight: bold; }
     .order-card-date { font-size: 11px; color: #999; }
-    .order-card-badge { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 12px; }
+    .order-card-badge { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 12px; margin-left: 4px; }
     .badge-progress { background: #e8f4fd; color: #1a73e8; }
+    .badge-rejected { background: #fde8e8; color: #e53e3e; }
     .badge-waiting { background: #fff3e0; color: #e65100; }
     .badge-complete { background: #e8f5e9; color: #2e7d32; }
+    .order-card-status { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
     .order-card-items { font-size: 12px; color: #666; margin-bottom: 8px; }
     .order-card-footer { display: flex; justify-content: space-between; align-items: center; }
     .order-card-type { font-size: 11px; color: #999; }
@@ -97,7 +99,10 @@
   <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260414-0023</span><span class="order-card-date" style="margin-left:8px;">2026/04/14</span></div>
-      <span class="order-card-badge badge-progress">入稿確認中</span>
+    </div>
+    <div class="order-card-status">
+      <span class="order-card-badge badge-progress">入稿確認中 ×2</span>
+      <span class="order-card-badge badge-rejected">差し戻し ×1</span>
     </div>
     <div class="order-card-items">缶バッジ 44mm x100 / アクスタ 100mm x200 / 他1点</div>
     <div class="order-card-footer">
@@ -109,6 +114,8 @@
   <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260401-0018</span><span class="order-card-date" style="margin-left:8px;">2026/04/01</span></div>
+    </div>
+    <div class="order-card-status">
       <span class="order-card-badge badge-waiting">決済待ち</span>
     </div>
     <div class="order-card-items">ラバーストラップ 50mm x500</div>
@@ -121,6 +128,8 @@
   <a class="order-card" href="#" style="display:block;text-decoration:none;color:#333;">
     <div class="order-card-header">
       <div><span class="order-card-id">ORD-20260315-0012</span><span class="order-card-date" style="margin-left:8px;">2026/03/15</span></div>
+    </div>
+    <div class="order-card-status">
       <span class="order-card-badge badge-complete">完了</span>
     </div>
     <div class="order-card-items">缶バッジ 44mm x200</div>

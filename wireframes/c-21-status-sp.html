@@ -28,17 +28,6 @@
     .badge-manufacturing { background: #e8f4fd; color: #1a73e8; }
     .status-meta { font-size: 12px; color: #999; display: flex; flex-direction: column; gap: 2px; }
 
-    /* ===== Timeline ===== */
-    .timeline { margin-top: 12px; }
-    .timeline-item { display: flex; gap: 10px; padding-bottom: 14px; position: relative; }
-    .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; flex-shrink: 0; margin-top: 4px; }
-    .timeline-dot.active { background: #333; }
-    .timeline-dot.done { background: #2e7d32; }
-    .timeline-item:not(:last-child)::before { content: ""; position: absolute; left: 4px; top: 14px; width: 2px; height: calc(100% - 14px); background: #eee; }
-    .timeline-label { font-size: 12px; font-weight: bold; }
-    .timeline-date { font-size: 11px; color: #999; margin-top: 1px; }
-
     /* ===== Order Items ===== */
     .order-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
     .order-item:last-child { border-bottom: none; }
@@ -87,25 +76,13 @@
   <div class="main">
     <div class="page-title">注文ステータス</div>
 
-    <!-- Status -->
+    <!-- Order Header -->
     <div class="section">
       <div class="status-bar">
-        <span class="status-badge badge-manufacturing">製造中</span>
         <div class="status-meta">
+          <span>注文番号: <strong style="color:#333;">ORD-20260414-0023</strong></span>
           <span>注文日: 2026/04/14</span>
-          <span>注文番号: ORD-20260414-0023</span>
         </div>
-      </div>
-
-      <div class="timeline">
-        <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="timeline-label">入稿受付</div><div class="timeline-date">2026/04/14 15:30</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/14 16:00</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="timeline-label">承認済み</div><div class="timeline-date">2026/04/15 10:00</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="timeline-label">決済待ち</div><div class="timeline-date">2026/04/16 09:00</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="timeline-label">入金確認</div><div class="timeline-date">2026/04/16 14:00</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot active"></div><div class="timeline-content"><div class="timeline-label">製造中</div><div class="timeline-date">2026/04/17 09:00</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-label">発送済み</div></div></div>
-        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-label">完了</div></div></div>
       </div>
     </div>
 
@@ -116,7 +93,8 @@
         <div class="order-item-image">画像</div>
         <div class="order-item-info">
           <span class="order-item-badge badge-normal">通常注文</span>
-          <div class="order-item-name">オリジナル缶バッジ 44mm</div>
+          <span class="status-badge" style="background:#e8f4fd;color:#1a73e8;font-size:10px;padding:2px 8px;margin-left:4px;">製造中</span>
+          <div class="order-item-name" style="margin-top:4px;">オリジナル缶バッジ 44mm</div>
           <div class="order-item-options">44mm / マット / 安全ピン / 100個</div>
         </div>
         <div class="order-item-price">
@@ -128,7 +106,8 @@
         <div class="order-item-image">画像</div>
         <div class="order-item-info">
           <span class="order-item-badge badge-normal">通常注文</span>
-          <div class="order-item-name">アクリルスタンド 100mm</div>
+          <span class="status-badge" style="background:#e8f4fd;color:#1a73e8;font-size:10px;padding:2px 8px;margin-left:4px;">発送済み</span>
+          <div class="order-item-name" style="margin-top:4px;">アクリルスタンド 100mm</div>
           <div class="order-item-options">100mm / クリア / 200個</div>
         </div>
         <div class="order-item-price">
@@ -141,12 +120,13 @@
         <div class="order-item-image">画像</div>
         <div class="order-item-info">
           <span class="order-item-badge badge-sample">サンプル制作</span>
-          <div class="order-item-name">オリジナル缶バッジ 56mm</div>
-          <div class="order-item-options">56mm / グロス / マグネット / 1式</div>
+          <span class="status-badge" style="background:#e8f5e9;color:#2e7d32;font-size:10px;padding:2px 8px;margin-left:4px;">完了</span>
+          <div class="order-item-name" style="margin-top:4px;">オリジナル缶バッジ 56mm</div>
+          <div class="order-item-options">56mm / グロス / マグネット / 1個</div>
         </div>
         <div class="order-item-price">
           <div class="order-item-price-value">1,900円</div>
-          <div class="order-item-price-unit">サンプル1式</div>
+          <div class="order-item-price-unit">サンプル1個</div>
         </div>
       </div>
     </div>

@@ -189,9 +189,10 @@
       <!-- ===== 商品画像（ギャラリー） ===== -->
       <div class="section">
         <div class="section-title">商品画像（ギャラリー）</div>
-        <div class="form-hint" style="margin-bottom:12px;">C-03の商品詳細ページに表示される画像です。番号順に表示されます。</div>
+        <div class="form-hint" style="margin-bottom:12px;">C-03の商品詳細ページに表示される画像です。<strong>最低1枚・最大20枚</strong>。並び順はドラッグで変更可能。</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;align-items:center;gap:12px;">
+            <i data-lucide="grip-vertical" style="width:14px;height:14px;color:#bbb;cursor:grab;"></i>
             <span style="font-size:13px;font-weight:bold;color:#666;width:20px;">1</span>
             <div class="image-slot filled" style="width:80px;height:80px;">画像</div>
             <span style="font-size:12px;color:#666;">正面写真.jpg</span>
@@ -199,6 +200,7 @@
             <a href="#" style="font-size:12px;color:#e53e3e;text-decoration:underline;">削除</a>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
+            <i data-lucide="grip-vertical" style="width:14px;height:14px;color:#bbb;cursor:grab;"></i>
             <span style="font-size:13px;font-weight:bold;color:#666;width:20px;">2</span>
             <div class="image-slot filled" style="width:80px;height:80px;">画像</div>
             <span style="font-size:12px;color:#666;">裏面写真.jpg</span>
@@ -206,23 +208,15 @@
             <a href="#" style="font-size:12px;color:#e53e3e;text-decoration:underline;">削除</a>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
+            <i data-lucide="grip-vertical" style="width:14px;height:14px;color:#bbb;cursor:grab;"></i>
             <span style="font-size:13px;font-weight:bold;color:#666;width:20px;">3</span>
             <div class="image-slot filled" style="width:80px;height:80px;">画像</div>
             <span style="font-size:12px;color:#666;">使用例.jpg</span>
             <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;margin-left:auto;">変更</a>
             <a href="#" style="font-size:12px;color:#e53e3e;text-decoration:underline;">削除</a>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:13px;font-weight:bold;color:#666;width:20px;">4</span>
-            <div class="image-slot" style="width:80px;height:80px;"><i data-lucide="plus" style="width:16px;height:16px;color:#ccc;"></i></div>
-            <span style="font-size:12px;color:#999;">未アップロード</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:13px;font-weight:bold;color:#666;width:20px;">5</span>
-            <div class="image-slot" style="width:80px;height:80px;"><i data-lucide="plus" style="width:16px;height:16px;color:#ccc;"></i></div>
-            <span style="font-size:12px;color:#999;">未アップロード</span>
-          </div>
         </div>
+        <button class="add-btn" style="margin-top:12px;"><i data-lucide="plus" style="width:14px;height:14px;"></i>画像を追加（残り17枚まで）</button>
       </div>
 
       <!-- ===== オプション設定 ===== -->
@@ -238,11 +232,11 @@
           </div>
           <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">グループ名</div>
+              <div class="form-label">オプション名</div>
               <input class="form-input" value="サイズ">
             </div>
             <div class="form-group">
-              <div class="form-label">画像の有無</div>
+              <div class="form-label">オプション画像の有無</div>
               <select class="form-select" style="width:100%;"><option selected>なし</option><option>あり</option></select>
             </div>
             <div class="form-group">
@@ -251,7 +245,7 @@
             </div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
-            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <div class="form-label">オプションサポート <span class="hint">任意</span></div>
             <input class="form-input" value="用途に合わせてお選びください" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
@@ -274,11 +268,11 @@
           </div>
           <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">グループ名</div>
+              <div class="form-label">オプション名</div>
               <input class="form-input" value="仕上げ">
             </div>
             <div class="form-group">
-              <div class="form-label">画像の有無</div>
+              <div class="form-label">オプション画像の有無</div>
               <select class="form-select" style="width:100%;"><option>なし</option><option selected>あり</option></select>
             </div>
             <div class="form-group">
@@ -287,15 +281,15 @@
             </div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
-            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <div class="form-label">オプションサポート <span class="hint">任意</span></div>
             <input class="form-input" value="" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
           <table class="price-table" style="margin-bottom:8px;">
-            <thead><tr><th>値</th><th>画像</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <thead><tr><th>値</th><th>画像</th><th>ヘルプ</th><th>バッジ</th><th>デフォルト</th><th></th></tr></thead>
             <tbody>
-              <tr><td><input value="マット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="落ち着いた質感" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt2default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
-              <tr><td><input value="グロス"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="光沢のある仕上がり" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt2default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="マット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="落ち着いた質感" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt2default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="グロス"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="光沢のある仕上がり" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt2default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
             </tbody>
           </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
@@ -309,11 +303,11 @@
           </div>
           <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">グループ名</div>
+              <div class="form-label">オプション名</div>
               <input class="form-input" value="付属">
             </div>
             <div class="form-group">
-              <div class="form-label">画像の有無</div>
+              <div class="form-label">オプション画像の有無</div>
               <select class="form-select" style="width:100%;"><option>なし</option><option selected>あり</option></select>
             </div>
             <div class="form-group">
@@ -322,15 +316,15 @@
             </div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
-            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <div class="form-label">オプションサポート <span class="hint">任意</span></div>
             <input class="form-input" value="" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
           <table class="price-table" style="margin-bottom:8px;">
-            <thead><tr><th>値</th><th>画像</th><th>追加価格</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <thead><tr><th>値</th><th>画像</th><th>追加価格</th><th>ヘルプ</th><th>バッジ</th><th>デフォルト</th><th></th></tr></thead>
             <tbody>
-              <tr><td><input value="安全ピン"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt3default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
-              <tr><td><input value="マグネット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="10" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt3default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="安全ピン"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt3default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="マグネット"></td><td><span style="font-size:11px;color:#1a73e8;text-decoration:underline;cursor:pointer;">アップロード</span></td><td><input value="10" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt3default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
             </tbody>
           </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>
@@ -344,11 +338,11 @@
           </div>
           <div class="form-row" style="margin-bottom:8px;">
             <div class="form-group">
-              <div class="form-label">グループ名</div>
+              <div class="form-label">オプション名</div>
               <input class="form-input" value="色校正">
             </div>
             <div class="form-group">
-              <div class="form-label">画像の有無</div>
+              <div class="form-label">オプション画像の有無</div>
               <select class="form-select" style="width:100%;"><option selected>なし</option><option>あり</option></select>
             </div>
             <div class="form-group">
@@ -357,15 +351,15 @@
             </div>
           </div>
           <div class="form-group" style="margin-bottom:12px;">
-            <div class="form-label">グループヘルプ <span class="hint">任意</span></div>
+            <div class="form-label">オプションサポート <span class="hint">任意</span></div>
             <input class="form-input" value="色味を事前に確認できます" placeholder="?アイコンクリック時に表示">
           </div>
           <div class="form-label" style="margin-bottom:8px;">選択肢</div>
           <table class="price-table" style="margin-bottom:8px;">
-            <thead><tr><th>値</th><th>追加価格</th><th>ヘルプ</th><th>デフォルト</th><th></th></tr></thead>
+            <thead><tr><th>値</th><th>追加価格</th><th>ヘルプ</th><th>バッジ</th><th>デフォルト</th><th></th></tr></thead>
             <tbody>
-              <tr><td><input value="なし"></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt4default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
-              <tr><td><input value="あり"></td><td><input value="3000" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td style="text-align:center;"><input type="radio" name="opt4default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="なし"></td><td><input value="0" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt4default" checked></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
+              <tr><td><input value="あり"></td><td><input value="3000" style="max-width:80px;text-align:right;">円</td><td><input value="" placeholder="任意"></td><td><input value="" placeholder="任意" style="max-width:80px;"></td><td style="text-align:center;"><input type="radio" name="opt4default"></td><td><button class="dynamic-item remove-btn">&times;</button></td></tr>
             </tbody>
           </table>
           <button class="add-btn"><i data-lucide="plus" style="width:14px;height:14px;"></i>選択肢を追加</button>

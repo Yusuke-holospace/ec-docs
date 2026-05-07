@@ -45,9 +45,6 @@
     /* Action Buttons */
     .action-bar { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn-action { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px; }
-    .btn-approve { background: #2e7d32; color: #fff; }
-    .btn-reject { background: #fff; color: #e53e3e; border: 1px solid #e53e3e; }
-    .btn-payment { background: #1a1a2e; color: #fff; }
     .btn-status { background: #fff; color: #333; border: 1px solid #ddd; }
 
     /* Info Table */
@@ -97,17 +94,6 @@
     .share-url input { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; background: #f8f8f8; }
     .share-url button { padding: 10px 16px; background: #1a1a2e; color: #fff; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; }
 
-    /* Timeline */
-    .timeline { margin-top: 16px; }
-    .timeline-item { display: flex; gap: 12px; padding-bottom: 16px; position: relative; }
-    .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: #ddd; flex-shrink: 0; margin-top: 4px; }
-    .timeline-dot.done { background: #2e7d32; }
-    .timeline-dot.active { background: #1a73e8; }
-    .timeline-dot.rejected { background: #e53e3e; }
-    .timeline-item:not(:last-child)::before { content: ""; position: absolute; left: 5px; top: 16px; width: 2px; height: calc(100% - 16px); background: #eee; }
-    .timeline-label { font-size: 13px; font-weight: bold; }
-    .timeline-date { font-size: 12px; color: #999; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -146,25 +132,18 @@
     <div class="content">
       <div class="page-header">
         <div class="page-title">注文詳細</div>
-        <a class="page-back" href="#">注文一覧に戻る</a>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button title="管理画面URLをコピー（社内共有用）" style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px 14px;font-size:12px;color:#333;cursor:pointer;display:flex;align-items:center;gap:6px;"><i data-lucide="share-2" style="width:13px;height:13px;"></i>共有</button>
+          <a class="page-back" href="#">注文一覧に戻る</a>
+        </div>
       </div>
 
-      <!-- ===== Order Header + Actions ===== -->
+      <!-- ===== Order Header ===== -->
       <div class="section">
         <div class="order-header">
           <div>
-            <div style="display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
               <span style="font-size:18px;font-weight:bold;">ORD-20260422-0023</span>
-              <select style="padding:6px 12px;border:2px solid #1a73e8;border-radius:20px;font-size:13px;font-weight:bold;color:#1a73e8;background:#e8f4fd;cursor:pointer;">
-                <option>入稿受付</option>
-                <option selected>入稿確認中</option>
-                <option>承認済み</option>
-                <option>決済待ち</option>
-                <option>入金確認</option>
-                <option>製造中</option>
-                <option>発送済み</option>
-                <option>完了</option>
-              </select>
               <span class="channel-badge channel-ec">EC</span>
             </div>
             <div class="order-meta">
@@ -173,22 +152,7 @@
             </div>
           </div>
         </div>
-        <div style="font-size:11px;color:#999;margin-top:8px;">※ ステータスを変更すると購入者にメール通知（NTF-011）が自動送信されます</div>
-      </div>
-
-      <!-- ===== Status Timeline ===== -->
-      <div class="section">
-        <div class="section-title">ステータス履歴</div>
-        <div class="timeline">
-          <div class="timeline-item"><div class="timeline-dot done"></div><div><div class="timeline-label">入稿受付</div><div class="timeline-date">2026/04/22 15:30</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot active"></div><div><div class="timeline-label">入稿確認中</div><div class="timeline-date">2026/04/22 16:00</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">承認済み</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">決済待ち</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">入金確認</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">製造中</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">発送済み</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="timeline-label">完了</div></div></div>
-        </div>
+        <div style="font-size:11px;color:#999;margin-top:8px;">※ ステータスは商品単位で管理。各商品のステータス変更は下の商品一覧から行います（変更時にNTF-011を該当商品名と共に送信）。「決済待ち」「入金確認」は全商品同期遷移のため、プルダウンには含まれず、決済案内送信・入金確認時にシステムが自動遷移します。</div>
       </div>
 
       <!-- ===== Contact Info ===== -->
@@ -211,15 +175,23 @@
             <span class="order-item-badge badge-normal">通常注文</span>
             <div class="order-item-name">オリジナル缶バッジ 44mm</div>
             <div class="order-item-options">サイズ: 44mm / 仕上げ: マット / 付属: 安全ピン / 100個</div>
-            <div class="upload-preview">
-              <span class="upload-status done">入稿済み</span>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:11px;color:#666;">商品ステータス:</span>
+              <span class="status-badge badge-review">入稿確認中</span>
+              <select style="padding:4px 10px;border:1px solid #ddd;border-radius:4px;font-size:12px;cursor:pointer;">
+                <option>入稿受付</option>
+                <option selected>入稿確認中</option>
+                <option>差し戻し</option>
+                <option>承認済み</option>
+                <option>製造中</option>
+                <option>発送済み</option>
+                <option>完了</option>
+              </select>
+            </div>
+            <div class="upload-preview" style="margin-top:8px;">
               <div class="upload-file"><div class="upload-file-icon">AI</div>design_front_44mm.ai（12.4MB）</div>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
-            </div>
-            <div style="margin-top:8px;display:flex;gap:6px;">
-              <button class="btn-action btn-approve" style="padding:4px 12px;font-size:12px;"><i data-lucide="check" style="width:12px;height:12px;"></i>承認</button>
-              <button class="btn-action btn-reject" style="padding:4px 12px;font-size:12px;"><i data-lucide="x" style="width:12px;height:12px;"></i>差し戻し</button>
             </div>
           </div>
           <div class="order-item-price">
@@ -234,8 +206,20 @@
             <span class="order-item-badge badge-normal">通常注文</span>
             <div class="order-item-name">アクリルスタンド 100mm</div>
             <div class="order-item-options">サイズ: 100mm / 仕上げ: クリア / 200個</div>
-            <div class="upload-preview">
-              <span class="upload-status rejected">差し戻し済み</span>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:11px;color:#666;">商品ステータス:</span>
+              <span class="status-badge badge-rejected">差し戻し</span>
+              <select style="padding:4px 10px;border:1px solid #ddd;border-radius:4px;font-size:12px;cursor:pointer;">
+                <option>入稿受付</option>
+                <option>入稿確認中</option>
+                <option selected>差し戻し</option>
+                <option>承認済み</option>
+                <option>製造中</option>
+                <option>発送済み</option>
+                <option>完了</option>
+              </select>
+            </div>
+            <div class="upload-preview" style="margin-top:8px;">
               <div class="upload-file"><div class="upload-file-icon">PSD</div>acrylic_design.psd（45.2MB）</div>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
@@ -257,15 +241,23 @@
             <span class="order-item-badge badge-sample">サンプル制作</span>
             <div class="order-item-name">オリジナル缶バッジ 56mm</div>
             <div class="order-item-options">サイズ: 56mm / 仕上げ: グロス / 付属: マグネット / 1個</div>
-            <div class="upload-preview">
-              <span class="upload-status done">入稿済み</span>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:11px;color:#666;">商品ステータス:</span>
+              <span class="status-badge badge-review">入稿確認中</span>
+              <select style="padding:4px 10px;border:1px solid #ddd;border-radius:4px;font-size:12px;cursor:pointer;">
+                <option>サンプル受付</option>
+                <option selected>入稿確認中</option>
+                <option>差し戻し</option>
+                <option>承認済み</option>
+                <option>製造中</option>
+                <option>発送済み</option>
+                <option>完了</option>
+              </select>
+            </div>
+            <div class="upload-preview" style="margin-top:8px;">
               <div class="upload-file"><div class="upload-file-icon">AI</div>sample_56mm.ai（8.1MB）</div>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">プレビュー</a>
               <a href="#" style="font-size:12px;color:#1a73e8;text-decoration:underline;">ダウンロード</a>
-            </div>
-            <div style="margin-top:8px;display:flex;gap:6px;">
-              <button class="btn-action btn-approve" style="padding:4px 12px;font-size:12px;"><i data-lucide="check" style="width:12px;height:12px;"></i>承認</button>
-              <button class="btn-action btn-reject" style="padding:4px 12px;font-size:12px;"><i data-lucide="x" style="width:12px;height:12px;"></i>差し戻し</button>
             </div>
           </div>
           <div class="order-item-price">
@@ -314,7 +306,7 @@
       <!-- ===== Mockup Images ===== -->
       <div class="section">
         <div class="section-title">仕上がりイメージ</div>
-        <div style="font-size:12px;color:#666;margin-bottom:12px;">アップロードすると顧客にメール通知（NTF-012）が自動送信されます。C-13・C-21からダウンロード可能になります。</div>
+        <div style="font-size:12px;color:#666;margin-bottom:12px;">アップロードすると顧客にメール通知（NTF-012）が自動送信されます。C-13・C-21・本画面（A-07）からダウンロード可能。</div>
         <div class="mockup-grid">
           <div style="position:relative;">
             <div class="mockup-slot">画像 1</div>
@@ -326,7 +318,10 @@
           </div>
           <div class="mockup-slot add"><i data-lucide="plus" style="width:20px;height:20px;color:#ccc;"></i><span>追加</span></div>
         </div>
-        <div style="font-size:11px;color:#999;">背景透過PNG等にも対応。販促素材として顧客が利用可能。</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+          <div style="font-size:11px;color:#999;">背景透過PNG等にも対応。販促素材として顧客が利用可能。</div>
+          <button style="background:#1a1a2e;color:#fff;border:none;border-radius:6px;padding:8px 14px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;"><i data-lucide="download" style="width:13px;height:13px;"></i>一括ダウンロード（ZIP）</button>
+        </div>
       </div>
 
       <!-- ===== Shared Status URL ===== -->
@@ -336,7 +331,8 @@
           <input type="text" value="https://example.com/orders/status/abc123-def456" readonly>
           <button><i data-lucide="copy" style="width:14px;height:14px;"></i>コピー</button>
         </div>
-        <div style="font-size:11px;color:#999;margin-top:8px;">ログイン不要でステータスを確認できるURL（C-21）。EC注文・代理注文共通。</div>
+        <div style="font-size:11px;color:#999;margin-top:8px;">顧客・取引先と共有してログイン不要でステータス確認できるURL（C-21）。EC注文・代理注文共通。</div>
+        <div style="font-size:11px;color:#999;margin-top:4px;">※ 運営内部で本画面を共有する場合は、ページ右上の「共有」ボタンから管理画面URLをコピー。</div>
       </div>
 
       <!-- ===== Agreement Record ===== -->
@@ -348,13 +344,35 @@
         </table>
       </div>
 
-      <!-- ===== Admin Notes ===== -->
+      <!-- ===== Admin Comments ===== -->
       <div class="section">
-        <div class="section-title">管理者メモ</div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px;">社内用のメモです。顧客には表示されません。</div>
-        <textarea style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;min-height:80px;resize:vertical;" placeholder="社内メモ、特記事項など..."></textarea>
-        <div style="margin-top:8px;text-align:right;">
-          <button class="btn-action btn-status" style="padding:6px 16px;font-size:12px;">保存</button>
+        <div class="section-title">管理者コメント</div>
+        <div style="font-size:12px;color:#666;margin-bottom:12px;">社内用のコメントです。顧客には表示されません。投稿時に日付・記入者が自動記録されます。</div>
+
+        <!-- 新規投稿 -->
+        <div style="margin-bottom:16px;">
+          <textarea style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;min-height:60px;resize:vertical;" placeholder="コメントを入力..."></textarea>
+          <div style="margin-top:8px;text-align:right;">
+            <button class="btn-action btn-status" style="padding:6px 16px;font-size:12px;">投稿</button>
+          </div>
+        </div>
+
+        <!-- コメント履歴（新しい順） -->
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="border:1px solid #eee;border-radius:6px;padding:12px;background:#fafafa;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-size:12px;color:#666;"><strong style="color:#333;">田中 太郎</strong> ・ 2026/04/24 10:30</div>
+              <a href="#" style="font-size:11px;color:#e53e3e;text-decoration:underline;">削除</a>
+            </div>
+            <div style="font-size:13px;line-height:1.5;">アクスタの差し戻し理由を顧客に電話で説明済み。明日中に再入稿予定。</div>
+          </div>
+          <div style="border:1px solid #eee;border-radius:6px;padding:12px;background:#fafafa;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-size:12px;color:#666;"><strong style="color:#333;">鬼柳 裕介</strong> ・ 2026/04/22 18:15</div>
+              <span style="font-size:11px;color:#999;">（自分以外のコメントは削除不可）</span>
+            </div>
+            <div style="font-size:13px;line-height:1.5;">先方より電話あり。納期を1週間早めてほしい旨の相談。製造担当に確認中。</div>
+          </div>
         </div>
       </div>
 
